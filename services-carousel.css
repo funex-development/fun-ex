@@ -1,0 +1,151 @@
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+}
+
+:root {
+    --card-height: 400px;
+    /* Adjusted height */
+    --card-width: 300px;
+    /* Adjusted width */
+}
+
+/* Swiper Container Adjustments */
+.services-swiper {
+    width: 100%;
+    padding: 50px 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.swiper-wrapper {
+    align-items: center;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    height: auto;
+}
+
+/* User Provided Card Styles with Adjustments */
+.magic-card {
+    background: #191c29;
+    width: var(--card-width);
+    height: var(--card-height);
+    padding: 3px;
+    position: relative;
+    border-radius: 6px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    font-family: var(--font-en);
+    margin: 20px;
+    /* Spacing for rotation effect */
+}
+
+.magic-card-content {
+    height: 100%;
+    width: 100%;
+    background: #191c29;
+    border-radius: 6px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    position: relative;
+}
+
+/* Hover effects */
+.magic-card:hover:before,
+.magic-card:hover:after {
+    animation: none;
+    opacity: 0;
+}
+
+/* Making the gradient border visible */
+.magic-card::before {
+    content: "";
+    width: 104%;
+    height: 102%;
+    border-radius: 8px;
+    background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+    position: absolute;
+    z-index: -1;
+    top: -1%;
+    left: -2%;
+    animation: spin 2.5s linear infinite;
+}
+
+.magic-card::after {
+    position: absolute;
+    content: "";
+    top: calc(var(--card-height) / 6);
+    left: 0;
+    right: 0;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    transform: scale(0.8);
+    filter: blur(calc(var(--card-height) / 6));
+    background-image: linear-gradient(var(--rotate), #5ddcff, #3c67e3 43%, #4e00c2);
+    opacity: 1;
+    transition: opacity .5s;
+    animation: spin 2.5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        --rotate: 0deg;
+    }
+
+    100% {
+        --rotate: 360deg;
+    }
+}
+
+/* Inner content styling */
+.magic-card h3 {
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    color: #5ddcff;
+}
+
+.magic-card p {
+    font-size: 0.95rem;
+    color: rgb(200, 200, 200);
+    line-height: 1.6;
+}
+
+.magic-card .service-icon {
+    font-size: 3rem;
+    color: #3c67e3;
+    margin-bottom: 15px;
+}
+
+/* Swiper Navigation */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #3c67e3;
+    background: rgba(255, 255, 255, 0.8);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 20px;
+    font-weight: bold;
+}
