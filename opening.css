@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 1.0s ease-in-out, visibility 1.0s;
+    transition: opacity 0.8s ease-out, visibility 0.8s;
     overflow: hidden;
 }
 
@@ -32,8 +32,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    /* Continuous smooth zoom */
-    animation: zoomSmooth 2.2s forwards cubic-bezier(0.25, 1, 0.5, 1);
+    /* Zoom accelerates into the pop */
+    animation: zoomSmooth 1.6s forwards cubic-bezier(0.12, 0, 0.39, 0);
 }
 
 /* Dynamic Burst Particle keyframes handled here */
@@ -53,14 +53,15 @@
     opacity: 0;
     /* Uses CSS variables set by JS for direction */
     transform: translate(-50%, -50%);
-    /* Smooth fly out */
-    animation: particleSmooth 1.5s forwards cubic-bezier(0.165, 0.84, 0.44, 1);
-    animation-delay: 1.2s;
+    /* Explode out */
+    animation: particleSmooth 1.2s forwards cubic-bezier(0.22, 1, 0.36, 1);
+    animation-delay: 1.55s;
+    /* Sync exactly when logo vanishes */
 }
 
 @keyframes zoomSmooth {
     0% {
-        transform: translate(-50%, -50%) scale(0.8);
+        transform: translate(-50%, -50%) scale(0);
         opacity: 0;
     }
 
@@ -69,30 +70,37 @@
         opacity: 1;
     }
 
-    60% {
-        transform: translate(-50%, -50%) scale(1.05);
+    80% {
+        transform: translate(-50%, -50%) scale(1.1);
+        opacity: 1;
+    }
+
+    98% {
+        transform: translate(-50%, -50%) scale(1.3);
         opacity: 1;
     }
 
     100% {
         transform: translate(-50%, -50%) scale(1.4);
         opacity: 0;
+        /* Instant vanish */
     }
 }
 
 @keyframes particleSmooth {
     0% {
         opacity: 0;
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
     }
 
     10% {
-        opacity: 0.8;
-        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(0deg);
     }
 
     100% {
         opacity: 0;
-        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.5) rotate(var(--tr));
+        /* Move to tx, ty and rotate tr */
+        transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0) rotate(var(--tr));
     }
 }
