@@ -7,6 +7,37 @@
     <title>株式会社ファンエクス | 楽しい体験を創り出すエンターテインメント・テック企業</title>
     <meta name="description" content="株式会社ファンエクスのコーポレートサイトです。ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けます。">
 
+    <!-- SEO & LLMO Optimization -->
+    <meta property="og:title" content="株式会社ファンエクス | 楽しい体験を創り出すエンターテインメント・テック企業">
+    <meta property="og:description"
+        content="株式会社ファンエクスのコーポレートサイトです。ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けます。長野を拠点にVR/メタバース開発も行っています。">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://funex.co.jp"> <!-- 仮のURL -->
+    <meta property="og:image" content="https://funex.co.jp/assets/ogp.jpg"> <!-- 仮の画像 -->
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- Structured Data (JSON-LD) for LLMs -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Corporation",
+      "name": "株式会社ファンエクス",
+      "alternateName": "FunEx Inc.",
+      "url": "https://funex.co.jp",
+      "logo": "https://funex.co.jp/assets/logo.png",
+      "sameAs": [
+        "https://www.instagram.com/funex_inc", 
+        "https://twitter.com/funex_inc"
+      ],
+      "description": "ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けるエンターテインメント・テック企業です。",
+      "address": {
+        "@type": "PostalAddress",
+        "addressRegion": "長野県",
+        "addressCountry": "JP"
+      }
+    }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +48,9 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <link rel="stylesheet" href="services-carousel.css">
+
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="assets/logo.png" as="image">
 
     <!-- Styles -->
     <link rel="stylesheet" href="style.css">
