@@ -32,8 +32,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    /* Zoom accelerates into the pop */
-    animation: zoomSmooth 1.6s forwards cubic-bezier(0.12, 0, 0.39, 0);
+    /* 2-step zoom: Arrive -> Pause -> Accelerate */
+    animation: zoomTwoStep 1.8s forwards linear;
 }
 
 /* Dynamic Burst Particle keyframes handled here */
@@ -55,35 +55,36 @@
     transform: translate(-50%, -50%);
     /* Explode out */
     animation: particleSmooth 1.2s forwards cubic-bezier(0.22, 1, 0.36, 1);
-    animation-delay: 1.55s;
-    /* Sync exactly when logo vanishes */
+    animation-delay: 1.75s;
+    /* Sync with the pop at end of zoomTwoStep */
 }
 
-@keyframes zoomSmooth {
+@keyframes zoomTwoStep {
     0% {
         transform: translate(-50%, -50%) scale(0);
         opacity: 0;
+        /* Fast arrival */
+        animation-timing-function: cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    20% {
+    40% {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
+        /* Slight pause/slow movement */
+        animation-timing-function: cubic-bezier(0.33, 0, 0.67, 0);
     }
 
-    80% {
-        transform: translate(-50%, -50%) scale(1.1);
+    65% {
+        transform: translate(-50%, -50%) scale(1.05);
         opacity: 1;
-    }
-
-    98% {
-        transform: translate(-50%, -50%) scale(1.3);
-        opacity: 1;
+        /* Accelerate to pop */
+        animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
     }
 
     100% {
-        transform: translate(-50%, -50%) scale(1.4);
+        transform: translate(-50%, -50%) scale(1.8);
         opacity: 0;
-        /* Instant vanish */
+        /* Vanish instantly at max speed */
     }
 }
 
@@ -93,7 +94,7 @@
         transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
     }
 
-    10% {
+    15% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1) rotate(0deg);
     }

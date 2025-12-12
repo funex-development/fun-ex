@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             overlay.style.opacity = '0';
             overlay.style.visibility = 'hidden';
-        }, 2500); // Extended for smoother end
+        }, 3200); // Extended for smooth 2-step zoom + particle fix
     }
 
     // Initialize Swiper
