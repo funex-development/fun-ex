@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             overlay.style.opacity = '0';
             overlay.style.visibility = 'hidden';
-        }, 2200); // 1.4s (start) + 1s (fly) = ~2.4s max, but visual finish is earlier
+        }, 2500); // Extended for smoother end
     }
 
     // Initialize Swiper

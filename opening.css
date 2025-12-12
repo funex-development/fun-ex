@@ -10,7 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: opacity 0.4s ease-out, visibility 0.4s;
+    transition: opacity 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), visibility 0.8s;
     overflow: hidden;
 }
 
@@ -32,7 +32,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 10;
-    animation: zoomAndPop 1.8s forwards ease-in-out;
+    animation: zoomAndPop 2.0s forwards cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Dynamic Burst Particle keyframes handled here */
@@ -52,8 +52,8 @@
     opacity: 0;
     /* Uses CSS variables set by JS for direction */
     transform: translate(-50%, -50%);
-    animation: particleFly 1s forwards cubic-bezier(0.165, 0.84, 0.44, 1);
-    animation-delay: 1.40s;
+    animation: particleFly 1.2s forwards cubic-bezier(0.19, 1, 0.22, 1);
+    animation-delay: 1.5s;
     /* Sync with main logo disappear */
 }
 
@@ -63,28 +63,25 @@
         opacity: 0;
     }
 
-    15% {
-        transform: translate(-50%, -50%) scale(0.6);
+    40% {
+        transform: translate(-50%, -50%) scale(1);
         opacity: 1;
     }
 
     60% {
-        transform: translate(-50%, -50%) scale(1.8);
+        transform: translate(-50%, -50%) scale(1);
     }
 
-    75% {
-        transform: translate(-50%, -50%) scale(1.5);
+    70% {
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+
+    90% {
         opacity: 1;
     }
 
-    80% {
-        transform: translate(-50%, -50%) scale(2.0);
-        opacity: 0;
-        /* Disappear */
-    }
-
     100% {
-        transform: translate(-50%, -50%) scale(2.0);
+        transform: translate(-50%, -50%) scale(2.5);
         opacity: 0;
     }
 }
@@ -95,7 +92,7 @@
         transform: translate(-50%, -50%) scale(0.5) rotate(0deg);
     }
 
-    10% {
+    15% {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1) rotate(0deg);
     }
