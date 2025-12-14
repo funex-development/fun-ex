@@ -881,51 +881,86 @@ button {
 }
 
 /* Footer */
+/* Footer */
 .footer {
-    background: #fff;
     padding: 80px 0 30px;
-    border-top: 1px solid #f1f5f9;
+    background: #111111;
+    color: #ffffff;
+    margin-top: auto;
 }
 
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 50px;
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 60px;
 }
 
-.footer-left .logo {
-    font-size: 1.8rem;
-    margin-bottom: 10px;
-}
-
-.footer-left p {
-    color: var(--text-muted);
+.footer-brand p {
+    color: #a3a3a3;
     font-size: 0.9rem;
+    line-height: 1.8;
+    margin-top: 20px;
 }
 
-.footer-links {
-    display: flex;
-    gap: 40px;
+.footer-logo {
+    height: 50px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    /* Make black logo white */
+    opacity: 0.9;
 }
 
-.footer-links a {
-    color: var(--text-main);
+.footer-nav h4,
+.footer-services h4 {
+    font-size: 1.1rem;
     font-weight: 700;
-    font-size: 1rem;
+    margin-bottom: 25px;
+    color: #ffffff;
+    letter-spacing: 0.05em;
 }
 
-.footer-links a:hover {
-    color: var(--primary);
+.footer-nav ul,
+.footer-services ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-nav li,
+.footer-services li {
+    margin-bottom: 15px;
+}
+
+.footer-nav a,
+.footer-services a {
+    color: #a3a3a3;
+    text-decoration: none;
+    font-size: 0.95rem;
+    transition: 0.3s;
+    display: inline-block;
+}
+
+.footer-nav a:hover,
+.footer-services a:hover {
+    color: #ffffff;
+    transform: translateX(5px);
 }
 
 .copyright {
     text-align: center;
-    color: var(--text-muted);
+    color: #525252;
     font-size: 0.85rem;
-    border-top: 1px solid #f1f5f9;
+    border-top: 1px solid #262626;
     padding-top: 30px;
     font-family: var(--font-en);
+}
+
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
 }
 
 /* Animations */

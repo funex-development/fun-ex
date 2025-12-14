@@ -277,7 +277,7 @@
     background: transparent;
     box-shadow: none;
     border: none;
-    border-bottom: 2px solid #f0f0f0;
+    border-bottom: 1px solid #333;
     border-radius: 0;
     scroll-margin-top: 100px;
 }
@@ -303,6 +303,54 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     background: #f8fafc;
     aspect-ratio: 16/9;
+}
+
+/* Specific aspect ratio for square images */
+#service-sns .service-item-image,
+#service-line .service-item-image {
+    aspect-ratio: 1 / 1;
+    max-width: 400px;
+    /* Restrict width so it doesn't get too huge vertically */
+    margin: 0 auto;
+    /* Center if restricted */
+}
+
+/* Specific styling for poster/flyer images (side by side) */
+#service-poster .service-item-image {
+    aspect-ratio: auto;
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#service-poster .service-item-image img {
+    width: 48%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Specific styling for game images (vertical stack) */
+#service-game .service-item-image {
+    aspect-ratio: auto;
+    background: transparent;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+}
+
+#service-game .service-item-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .service-item-image img {
@@ -345,6 +393,15 @@
     line-height: 2;
     margin-bottom: 30px;
     color: var(--text-muted);
+}
+
+.service-desc a {
+    color: #0066cc;
+    text-decoration: underline;
+}
+
+.service-desc a:hover {
+    color: #004499;
 }
 
 /* List inside service (optional) */
