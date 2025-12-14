@@ -1,6 +1,6 @@
 /* Page Header (Sub-Page Hero) */
 .page-header {
-    background: var(--gradient-main);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
     padding: 180px 0 60px;
     text-align: center;
     color: var(--white);

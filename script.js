@@ -56,45 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
 
-    // Opening Animation
-    const overlay = document.getElementById('opening-overlay');
-    const wrapper = document.querySelector('.opening-wrapper');
 
-    if (overlay && wrapper) {
-        // Generate 32 particles
-        const particleCount = 32;
-
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('burst-particle');
-
-            // Random direction and distance
-            const angle = (Math.PI * 2 * i) / particleCount; // Evenly distributed angles or use random
-            // Add some randomness to angle
-            const randomAngle = angle + (Math.random() - 0.5) * 0.5;
-
-            const distance = 300 + Math.random() * 400; // Fly out 300-700px
-            const tx = Math.cos(randomAngle) * distance;
-            const ty = Math.sin(randomAngle) * distance;
-            const tr = Math.random() * 720 - 360; // Rotate up to 360deg
-
-            // Randomize size slightly
-            const scale = 0.5 + Math.random() * 1.0;
-
-            particle.style.setProperty('--tx', `${tx}px`);
-            particle.style.setProperty('--ty', `${ty}px`);
-            particle.style.setProperty('--tr', `${tr}deg`);
-            // We can also randomize current scale if we want via another var, but strictly CSS animation handles scale
-
-            wrapper.appendChild(particle);
-        }
-
-        // Animation length is 1.8s + particle fade out
-        setTimeout(() => {
-            overlay.style.opacity = '0';
-            overlay.style.visibility = 'hidden';
-        }, 3200); // Extended for smooth 2-step zoom + particle fix
-    }
 
     // Initialize Swiper
     const swiper = new Swiper('.services-swiper', {

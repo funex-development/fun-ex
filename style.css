@@ -1,26 +1,26 @@
 :root {
     /* Colors */
-    --bg-dark: #fdfbf7;
-    /* Warm white background */
-    --bg-darker: #ffffff;
-    --primary: #ff6b6b;
-    /* Playful Red/Orange */
-    --secondary: #4ecdc4;
-    /* Fresh Teal */
-    --accent: #ffd93d;
-    /* Energetic Yellow */
-    --text-main: #2d3436;
-    /* Dark Grey for text */
-    --text-muted: #636e72;
-    /* Muted Grey */
+    --bg-dark: #ffffff;
+    /* Pure white background */
+    --bg-darker: #f5f5f5;
+    --primary: #111111;
+    /* Serious Black */
+    --secondary: #333333;
+    /* Dark Grey */
+    --accent: #555555;
+    /* Medium Grey */
+    --text-main: #000000;
+    /* Pure Black for text */
+    --text-muted: #4a4a4a;
+    /* Darker Grey for muted text */
     --white: #ffffff;
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.8);
+    --glass-bg: rgba(255, 255, 255, 0.9);
+    --glass-border: rgba(0, 0, 0, 0.1);
 
-    /* Gradients */
-    --gradient-main: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
-    --gradient-text: linear-gradient(135deg, #ff6b6b 0%, #4ecdc4 100%);
-    --gradient-glow: radial-gradient(circle at center, rgba(255, 107, 107, 0.15) 0%, transparent 70%);
+    /* Gradients (Removed/Simplified) */
+    --gradient-main: #111111;
+    --gradient-text: #111111;
+    --gradient-glow: radial-gradient(circle at center, rgba(0, 0, 0, 0.05) 0%, transparent 70%);
 
     /* Fonts */
     --font-jp: 'Noto Sans JP', sans-serif;
@@ -48,9 +48,6 @@ body {
     color: var(--text-main);
     line-height: 1.6;
     overflow-x: hidden;
-    background-image:
-        radial-gradient(circle at 10% 20%, rgba(255, 217, 61, 0.1) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(78, 205, 196, 0.1) 0%, transparent 40%);
 }
 
 a {
@@ -83,10 +80,10 @@ button {
 }
 
 .text-gradient {
-    background: var(--gradient-text);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary);
+    background: none;
+    -webkit-text-fill-color: initial;
+    background-clip: border-box;
 }
 
 .center {
@@ -97,7 +94,7 @@ button {
 .btn-primary {
     display: inline-block;
     padding: 14px 40px;
-    background: var(--gradient-main);
+    background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
     color: var(--white);
     border-radius: 50px;
     font-weight: 700;
@@ -426,7 +423,7 @@ button {
     display: inline-block;
     font-family: var(--font-en);
     color: var(--primary);
-    background: rgba(255, 107, 107, 0.1);
+    background: rgba(0, 0, 0, 0.05);
     padding: 6px 16px;
     border-radius: 30px;
     font-weight: 700;
@@ -518,7 +515,7 @@ button {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    background: linear-gradient(135deg, #fff5f5 0%, #f0fffe 100%);
+    background: linear-gradient(135deg, #f5f5f5 0%, #eeeeee 100%);
 }
 
 .visual-card::before {
@@ -526,10 +523,10 @@ button {
     position: absolute;
     width: 250px;
     height: 250px;
-    background: linear-gradient(135deg, #FFD93D 0%, #FF6B6B 100%);
+    background: linear-gradient(135deg, #333333 0%, #999999 100%);
     border-radius: 50%;
     filter: blur(50px);
-    opacity: 0.3;
+    opacity: 0.1;
 }
 
 .icon-float {
@@ -543,14 +540,14 @@ button {
     top: 20%;
     left: 20%;
     animation: float 6s ease-in-out infinite;
-    color: #ff6b6b;
+    color: var(--secondary);
 }
 
 .icon-2 {
     bottom: 20%;
     right: 20%;
     animation: float 8s ease-in-out infinite reverse;
-    color: #4ecdc4;
+    color: var(--accent);
 }
 
 .icon-3 {
@@ -559,7 +556,7 @@ button {
     transform: translate(-50%, -50%);
     animation: float 7s ease-in-out infinite 1s;
     font-size: 6rem;
-    color: #ffd93d;
+    color: var(--primary);
 }
 
 @keyframes float {
@@ -610,23 +607,23 @@ button {
 }
 
 .service-card:nth-child(1) .service-icon {
-    color: #ff6b6b;
-    background: rgba(255, 107, 107, 0.1);
+    color: var(--primary);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .service-card:nth-child(2) .service-icon {
-    color: #4ecdc4;
-    background: rgba(78, 205, 196, 0.1);
+    color: var(--primary);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .service-card:nth-child(3) .service-icon {
-    color: #ffd93d;
-    background: rgba(255, 217, 61, 0.1);
+    color: var(--primary);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .service-card:nth-child(4) .service-icon {
-    color: #a29bfe;
-    background: rgba(162, 155, 254, 0.1);
+    color: var(--primary);
+    background: rgba(0, 0, 0, 0.05);
 }
 
 .service-card:hover .service-icon {
