@@ -11,6 +11,9 @@ const mouseDistance = 200;
 let mouse = { x: null, y: null };
 
 window.addEventListener('mousemove', (e) => {
+    // Disable interaction on mobile (width < 768px)
+    if (window.innerWidth < 768) return;
+
     // Adjust for canvas position if needed, but since it's full screen/absolute:
     const rect = canvas.getBoundingClientRect();
     mouse.x = e.clientX - rect.left;
