@@ -3,7 +3,7 @@ const ctx = canvas.getContext('2d');
 
 let width, height;
 let particles = [];
-const particleCount = 60;
+let particleCount = 60;
 const connectionDistance = 150;
 const mouseDistance = 200;
 
@@ -21,14 +21,6 @@ window.addEventListener('mouseleave', () => {
     mouse.x = null;
     mouse.y = null;
 });
-
-function resize() {
-    width = canvas.width = canvas.parentElement.offsetWidth;
-    height = canvas.height = canvas.parentElement.offsetHeight;
-}
-
-window.addEventListener('resize', resize);
-resize();
 
 class Particle {
     constructor() {
@@ -112,5 +104,38 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-init();
 animate();
+
+// Touch support to mimic mouse interaction
+function updateTouchPosition(e) {
+    const rect = canvas.getBoundingClientRect();
+    if (e.touches.length > 0) {
+        mouse.x = e.touches[0].clientX - rect.left;
+        mouse.y = e.touches[0].clientY - rect.top;
+    }
+}
+
+canvas.addEventListener('touchstart', updateTouchPosition, { passive: true });
+canvas.addEventListener('touchmove', updateTouchPosition, { passive: true });
+
+canvas.addEventListener('touchend', () => {
+    mouse.x = null;
+    mouse.y = null;
+});
+
+function resize() {
+    width = canvas.width = canvas.parentElement.offsetWidth;
+    height = canvas.height = canvas.parentElement.offsetHeight;
+
+    // Adjust particle count for mobile
+    if (width < 768) {
+        particleCount = 20; // Significantly reduced for mobile
+    } else {
+        particleCount = 60;
+    }
+
+    init(); // Re-initialize particles with new count and bounds
+}
+
+window.addEventListener('resize', resize);
+resize();

@@ -47,7 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 // Close mobile menu if open
-                navLinks.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                if (menuBtn) menuBtn.classList.remove('active');
+                document.body.style.overflow = '';
 
                 const headerOffset = 80;
                 const elementPosition = targetElement.getBoundingClientRect().top;
@@ -65,11 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     // Initialize Swiper
+    // Initialize Swiper
     const swiper = new Swiper('.services-swiper', {
-        slidesPerView: 'auto', // CSS controls width
-        centeredSlides: true, // Active slide in center
-        spaceBetween: 20, // Narrow gap
+        slidesPerView: 1, // Default for mobile
+        spaceBetween: 20,
         loop: true,
+        // Ensure enough loop clones are created to prevent "sticking"
+        loopAdditionalSlides: 5,
+        centeredSlides: true, // Center active slide typically looks better on mobile
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
@@ -78,7 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
             nextEl: '.swiper-button-next',
             prevEl: '.swiper-button-prev',
         },
-        // No grid breakpoints needed as 'auto' handles it via CSS width
+        breakpoints: {
+            // When window width is >= 768px (Tablet/PC)
+            768: {
+                slidesPerView: 3,
+                centeredSlides: true, // Keep centered for balanced look
+                spaceBetween: 30,
+            }
+        }
     });
+
+
 
 });

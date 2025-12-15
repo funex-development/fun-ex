@@ -26,19 +26,12 @@
 .swiper-slide {
     display: flex;
     justify-content: center;
-    height: auto;
-    width: auto;
+    align-items: center;
+    height: 100%;
     /* Allow Swiper to manage width based on content */
-    opacity: 0.4;
-    /* Default faded state */
-    transition: opacity 0.3s ease;
-}
-
-/* Highlight the active, previous, and next slides (3 visible) */
-.swiper-slide-active,
-.swiper-slide-prev,
-.swiper-slide-next {
     opacity: 1;
+    /* Remove fade logic for simplicity */
+    transition: opacity 0.3s ease;
 }
 
 /* On mobile, maybe only active is opaque? User wants 3 visible generally, but on mobile 1. */
@@ -72,8 +65,7 @@
     color: white;
     cursor: pointer;
     font-family: var(--font-en);
-    margin: 20px;
-    /* Spacing for rotation effect */
+    /* margin: 20px; Removed to prevent alignment issues */
 }
 
 .magic-card-content {

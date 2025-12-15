@@ -221,7 +221,7 @@ button {
     display: none;
     flex-direction: column;
     gap: 6px;
-    z-index: 1001;
+    z-index: 1200;
 }
 
 .bar {
@@ -259,7 +259,7 @@ button {
     justify-content: center;
     align-items: center;
     transition: right 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    z-index: 999;
+    z-index: 1100;
     /* Below toggle button */
 }
 
@@ -585,6 +585,16 @@ button {
     transition: all 0.4s ease;
     background: #ffffff;
     border: 1px solid #f0f0f0;
+}
+
+.service-item {
+    scroll-margin-top: 120px;
+    /* Header height + spacing to prevent overlap */
+    display: flex;
+    /* Ensure flex context if not already defined globally for items */
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 60px;
 }
 
 .service-card:hover {
@@ -1026,6 +1036,26 @@ button {
     #mobile-menu {
         display: flex;
         /* But kept off-screen right: -100% until active */
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .section {
+        padding: 60px 0;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 2rem;
     }
 }
 
