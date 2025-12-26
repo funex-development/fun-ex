@@ -8,9 +8,12 @@ const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_CF_SITE_KEY || "";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
+    company: "",
     name: "",
     email: "",
+    phone: "",
     message: "",
+    privacyPolicy: false,
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -62,7 +65,7 @@ export default function ContactPage() {
       }
 
       setStatus("success");
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ company: "", name: "", email: "", phone: "", message: "", privacyPolicy: false });
       turnstileRef.current = null;
 
       // Turnstileをリセット
@@ -146,9 +149,35 @@ export default function ContactPage() {
             </p>
 
             <form onSubmit={handleSubmit} style={{ maxWidth: '600px', margin: '0 auto' }}>
+              {/* 会社名 */}
+              <div style={{ marginBottom: '24px' }}>
+                <label htmlFor="company" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+                  会社名 <span style={{ color: '#ef4444' }}>*</span>
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  required
+                  value={formData.company}
+                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                  }}
+                  placeholder="株式会社〇〇"
+                />
+                <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>
+                  ※個人の方は「なし」とご記入ください
+                </p>
+              </div>
+
+              {/* 氏名 */}
               <div style={{ marginBottom: '24px' }}>
                 <label htmlFor="name" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                  お名前 <span style={{ color: '#ef4444' }}>*</span>
+                  氏名 <span style={{ color: '#ef4444' }}>*</span>
                 </label>
                 <input
                   type="text"
@@ -167,6 +196,7 @@ export default function ContactPage() {
                 />
               </div>
 
+              {/* メールアドレス */}
               <div style={{ marginBottom: '24px' }}>
                 <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
                   メールアドレス <span style={{ color: '#ef4444' }}>*</span>
@@ -188,6 +218,28 @@ export default function ContactPage() {
                 />
               </div>
 
+              {/* 電話番号（任意） */}
+              <div style={{ marginBottom: '24px' }}>
+                <label htmlFor="phone" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
+                  電話番号
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    border: '1px solid #d1d5db',
+                    borderRadius: '8px',
+                    fontSize: '16px',
+                  }}
+                  placeholder="03-1234-5678"
+                />
+              </div>
+
+              {/* お問い合わせ内容 */}
               <div style={{ marginBottom: '24px' }}>
                 <label htmlFor="message" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
                   お問い合わせ内容 <span style={{ color: '#ef4444' }}>*</span>
@@ -208,6 +260,22 @@ export default function ContactPage() {
                   }}
                   placeholder="お問い合わせ内容をご記入ください"
                 />
+              </div>
+
+              {/* プライバシーポリシー */}
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ display: 'flex', alignItems: 'flex-start', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={formData.privacyPolicy}
+                    onChange={(e) => setFormData({ ...formData, privacyPolicy: e.target.checked })}
+                    required
+                    style={{ marginTop: '4px', marginRight: '8px', width: '18px', height: '18px', cursor: 'pointer' }}
+                  />
+                  <span style={{ fontSize: '14px', lineHeight: '1.6' }}>
+                    <a href="/privacy.html" target="_blank" style={{ color: '#0066cc', textDecoration: 'underline' }}>プライバシーポリシー</a>に同意する <span style={{ color: '#ef4444' }}>*</span>
+                  </span>
+                </label>
               </div>
 
               {/* Cloudflare Turnstile */}
@@ -264,13 +332,14 @@ export default function ContactPage() {
             </a>
             <p>
               株式会社ファンエクス<br />
-              〒101-0024 東京都千代田区神田和泉町1番地6-16ヤマトビル405
+              〒101-0024<br />
+              東京都千代田区神田和泉町1番地6-16ヤマトビル405
             </p>
           </div>
           <div className="footer-nav">
             <h4>Menu</h4>
             <ul>
-              <li><a href="/">トップページ</a></li>
+              <li><a href="/">TOP</a></li>
               <li><a href="/about.html">会社概要</a></li>
               <li><a href="/services.html">事業内容</a></li>
               <li><a href="/news.html">最新情報</a></li>
@@ -334,11 +403,11 @@ export default function ContactPage() {
             // Background effect
             if (window.scrollY > 50) {
               navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-              navbar.style.padding = '15px 0';
+              navbar.style.padding = '5px 0';
               navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
             } else {
               navbar.style.background = 'rgba(15, 23, 42, 0.8)';
-              navbar.style.padding = '20px 0';
+              navbar.style.padding = '8px 0';
               navbar.style.boxShadow = 'none';
             }
           });

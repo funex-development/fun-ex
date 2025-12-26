@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 
 interface ContactFormData {
+  company: string;
   name: string;
   email: string;
+  phone?: string;
   message: string;
+  privacyPolicy: boolean;
   turnstileToken: string;
 }
 
@@ -17,12 +20,12 @@ interface TurnstileResponse {
 export async function POST(request: NextRequest) {
   try {
     const body: ContactFormData = await request.json();
-    const { name, email, message, turnstileToken } = body;
+    const { company, name, email, phone, message, privacyPolicy, turnstileToken } = body;
 
     // バリデーション
-    if (!name || !email || !message || !turnstileToken) {
+    if (!company || !name || !email || !message || !privacyPolicy || !turnstileToken) {
       return NextResponse.json(
-        { message: "すべての項目を入力してください" },
+        { message: "必須項目をすべて入力してください" },
         { status: 400 }
       );
     }
@@ -68,15 +71,25 @@ export async function POST(request: NextRequest) {
           color: 0x0066cc, // 青色
           fields: [
             {
-              name: "お名前",
+              name: "会社名",
+              value: company,
+              inline: true,
+            },
+            {
+              name: "氏名",
               value: name,
               inline: true,
             },
             {
               name: "メールアドレス",
               value: email,
-              inline: true,
+              inline: false,
             },
+            ...(phone ? [{
+              name: "電話番号",
+              value: phone,
+              inline: false,
+            }] : []),
             {
               name: "お問い合わせ内容",
               value: message,
