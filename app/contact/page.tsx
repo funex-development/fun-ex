@@ -4,6 +4,8 @@ import { useState, useRef } from "react";
 import Script from "next/script";
 import Link from "next/link";
 
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_CF_SITE_KEY || "";
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -18,8 +20,9 @@ export default function ContactPage() {
   const handleTurnstileLoad = () => {
     if (typeof window !== "undefined" && (window as any).turnstile) {
       try {
+        console.log("Turnstile site key:", TURNSTILE_SITE_KEY);
         (window as any).turnstile.render("#turnstile-widget", {
-          sitekey: process.env.NEXT_PUBLIC_CF_SITE_KEY,
+          sitekey: TURNSTILE_SITE_KEY,
           callback: (token: string) => {
             turnstileRef.current = token;
           },
