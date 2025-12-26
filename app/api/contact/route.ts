@@ -1,4 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 interface ContactFormData {
   company: string;
@@ -118,6 +121,52 @@ export async function POST(request: NextRequest) {
         { message: "送信に失敗しました。もう一度お試しください。" },
         { status: 500 }
       );
+    }
+
+    // 確認メールを送信
+    try {
+      await resend.emails.send({
+        from: "株式会社ファンエクス <noreply@funex.co.jp>",
+        to: email,
+        subject: "お問い合わせを受け付けました - 株式会社ファンエクス",
+        html: `
+          <div style="font-family: 'Hiragino Sans', 'Yu Gothic', sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #0066cc; border-bottom: 2px solid #0066cc; padding-bottom: 10px;">
+              お問い合わせありがとうございます
+            </h2>
+
+            <p>${name} 様</p>
+
+            <p>この度は株式会社ファンエクスにお問い合わせいただき、誠にありがとうございます。<br>
+            以下の内容でお問い合わせを受け付けました。</p>
+
+            <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <p style="margin: 10px 0;"><strong>会社名:</strong> ${company}</p>
+              <p style="margin: 10px 0;"><strong>お名前:</strong> ${name}</p>
+              <p style="margin: 10px 0;"><strong>メールアドレス:</strong> ${email}</p>
+              ${phone ? `<p style="margin: 10px 0;"><strong>電話番号:</strong> ${phone}</p>` : ''}
+              <p style="margin: 10px 0;"><strong>お問い合わせ内容:</strong></p>
+              <p style="margin: 10px 0; white-space: pre-wrap;">${message}</p>
+            </div>
+
+            <p>担当者より2営業日以内にご連絡させていただきます。<br>
+            今しばらくお待ちくださいますようお願い申し上げます。</p>
+
+            <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 30px 0;">
+
+            <p style="font-size: 0.9em; color: #666;">
+              株式会社ファンエクス<br>
+              〒101-0024<br>
+              東京都千代田区神田和泉町1番地6-16ヤマトビル405<br>
+              メールアドレス: info@funex.co.jp<br>
+              <a href="https://funex.co.jp" style="color: #0066cc;">https://funex.co.jp</a>
+            </p>
+          </div>
+        `,
+      });
+    } catch (emailError) {
+      // メール送信失敗してもフォーム送信自体は成功として扱う
+      console.error("Email sending failed:", emailError);
     }
 
     return NextResponse.json(
