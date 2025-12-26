@@ -51,11 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Background effect
         if (window.scrollY > 50) {
             navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-            navbar.style.padding = '15px 0';
+            navbar.style.padding = '5px 0';
             navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
         } else {
             navbar.style.background = 'rgba(15, 23, 42, 0.8)';
-            navbar.style.padding = '20px 0';
+            navbar.style.padding = '8px 0';
             navbar.style.boxShadow = 'none';
         }
     });
