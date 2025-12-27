@@ -98,6 +98,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Ensure enough loop clones are created to prevent "sticking"
         loopAdditionalSlides: 5,
         centeredSlides: true, // Center active slide typically looks better on mobile
+        autoplay: {
+            delay: 3000, // 3秒ごとに自動切り替え
+            disableOnInteraction: false, // ユーザー操作後も自動再生を継続
+        },
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
