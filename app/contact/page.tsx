@@ -12,6 +12,7 @@ export default function ContactPage() {
     name: "",
     email: "",
     phone: "",
+    inquiryType: "",
     message: "",
     privacyPolicy: false,
   });
@@ -65,7 +66,7 @@ export default function ContactPage() {
       }
 
       setStatus("success");
-      setFormData({ company: "", name: "", email: "", phone: "", message: "", privacyPolicy: false });
+      setFormData({ company: "", name: "", email: "", phone: "", inquiryType: "", message: "", privacyPolicy: false });
       turnstileRef.current = null;
 
       // Turnstileをリセット
@@ -152,12 +153,11 @@ export default function ContactPage() {
               {/* 会社名 */}
               <div style={{ marginBottom: '24px' }}>
                 <label htmlFor="company" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                  会社名 <span style={{ color: '#ef4444' }}>*</span>
+                  会社名
                 </label>
                 <input
                   type="text"
                   id="company"
-                  required
                   value={formData.company}
                   onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                   style={{
@@ -170,7 +170,7 @@ export default function ContactPage() {
                   placeholder="株式会社〇〇"
                 />
                 <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>
-                  ※個人の方は「なし」とご記入ください
+                  ※ 法人の方はご記入ください
                 </p>
               </div>
 
@@ -237,6 +237,46 @@ export default function ContactPage() {
                   }}
                   placeholder="03-1234-5678"
                 />
+                <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>
+                  ※ お電話でのご連絡を希望される場合のみご記入ください
+                </p>
+              </div>
+
+              {/* お問い合わせ種別 */}
+              <div style={{ marginBottom: '24px' }}>
+                <label style={{ display: 'block', marginBottom: '12px', fontWeight: '500' }}>
+                  お問い合わせ種別 <span style={{ color: '#ef4444' }}>*</span>
+                </label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {[
+                    { value: 'consultation', label: '相談したい（壁打ち）' },
+                    { value: 'estimate', label: '見積りが欲しい' },
+                    { value: 'request', label: '制作を依頼したい' },
+                    { value: 'hearing', label: 'まず話を聞きたい' },
+                    { value: 'other', label: 'その他' },
+                  ].map((option) => (
+                    <label
+                      key={option.value}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                      }}
+                    >
+                      <input
+                        type="radio"
+                        name="inquiryType"
+                        value={option.value}
+                        checked={formData.inquiryType === option.value}
+                        onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
+                        required
+                        style={{ marginRight: '8px', width: '18px', height: '18px', cursor: 'pointer' }}
+                      />
+                      <span>{option.label}</span>
+                    </label>
+                  ))}
+                </div>
               </div>
 
               {/* お問い合わせ内容 */}
@@ -244,6 +284,10 @@ export default function ContactPage() {
                 <label htmlFor="message" style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
                   お問い合わせ内容 <span style={{ color: '#ef4444' }}>*</span>
                 </label>
+                <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '8px', lineHeight: '1.6' }}>
+                  制作のご相談、ご依頼、壁打ちだけでも歓迎です。<br />
+                  目的／期限／ご予算感（任意）をわかる範囲で書いていただけるとスムーズです。
+                </p>
                 <textarea
                   id="message"
                   required
@@ -273,7 +317,7 @@ export default function ContactPage() {
                     style={{ marginTop: '4px', marginRight: '8px', width: '18px', height: '18px', cursor: 'pointer' }}
                   />
                   <span style={{ fontSize: '14px', lineHeight: '1.6' }}>
-                    <a href="/privacy.html" target="_blank" style={{ color: '#0066cc', textDecoration: 'underline' }}>プライバシーポリシー</a>に同意する <span style={{ color: '#ef4444' }}>*</span>
+                    <a href="/privacy.html" target="_blank" style={{ color: '#0066cc', textDecoration: 'underline' }}>プライバシーポリシー</a>を確認し、同意します <span style={{ color: '#ef4444' }}>*</span>
                   </span>
                 </label>
               </div>
@@ -314,9 +358,9 @@ export default function ContactPage() {
                 type="submit"
                 disabled={status === "loading"}
                 className="btn btn-primary btn-large"
-                style={{ width: '100%' }}
+                style={{ width: 'auto', margin: '0 auto', display: 'block', whiteSpace: 'nowrap', padding: '12px 32px' }}
               >
-                {status === "loading" ? "送信中..." : "送信する"}
+                {status === "loading" ? "送信中..." : "内容を確認して送信"}
               </button>
             </form>
           </div>
