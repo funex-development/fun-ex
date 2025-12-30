@@ -27,7 +27,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 400px !important;
     /* Allow Swiper to manage width based on content */
     opacity: 1;
     /* Remove fade logic for simplicity */
@@ -50,114 +50,134 @@
 
 /* User Provided Card Styles with Adjustments */
 .magic-card {
-    background: #191c29;
+    background: #1e293b !important;
+    border: 2px solid #334155 !important;
     width: var(--card-width);
-    height: var(--card-height);
-    padding: 3px;
+    height: 400px !important;
+    min-height: 400px !important;
+    max-height: 400px !important;
+    padding: 30px 25px !important;
     position: relative;
-    border-radius: 6px;
-    justify-content: center;
+    border-radius: 20px;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     font-size: 1rem;
-    color: white;
+    color: white !important;
     cursor: pointer;
-    font-family: var(--font-en);
-    /* margin: 20px; Removed to prevent alignment issues */
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
 }
 
 .magic-card-content {
-    height: 100%;
-    width: 100%;
-    background: #191c29;
-    border-radius: 6px;
-    padding: 20px;
-    display: flex;
+    height: 100% !important;
+    width: 100% !important;
+    background: transparent !important;
+    border-radius: 0;
+    padding: 0 !important;
+    display: flex !important;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    z-index: 2;
+    z-index: 1;
     position: relative;
 }
 
-/* Hover effects */
-.magic-card:hover:before,
-.magic-card:hover:after {
-    animation: none;
-    opacity: 0;
+/* Hover effects - simplified */
+.magic-card:hover {
+    background: #2d3748 !important;
+    border-color: #4a5568 !important;
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6) !important;
 }
 
-/* Making the gradient border visible */
-.magic-card::before {
-    content: "";
-    width: 104%;
-    height: 102%;
-    border-radius: 8px;
-    background-image: linear-gradient(var(--rotate), #ff6b6b, #ffb347 43%, #ffcc33);
-    position: absolute;
-    z-index: -1;
-    top: -1%;
-    left: -2%;
-    animation: spin 2.5s linear infinite;
-}
-
+/* Remove sparkle effects */
+.magic-card::before,
 .magic-card::after {
-    position: absolute;
-    content: "";
-    top: calc(var(--card-height) / 6);
-    left: 0;
-    right: 0;
-    z-index: -1;
-    height: 100%;
-    width: 100%;
-    margin: 0 auto;
-    transform: scale(0.8);
-    filter: blur(calc(var(--card-height) / 6));
-    background-image: linear-gradient(var(--rotate), #ff6b6b, #ffb347 43%, #ffcc33);
-    opacity: 1;
-    transition: opacity .5s;
-    animation: spin 2.5s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        --rotate: 0deg;
-    }
-
-    100% {
-        --rotate: 360deg;
-    }
+    display: none !important;
+    content: none !important;
 }
 
 /* Inner content styling */
-.magic-card h3 {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    font-size: 1.5rem;
-    color: #ffd700;
+.magic-card h3,
+.magic-card-content h3 {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    font-size: 1.3rem !important;
+    font-weight: 700 !important;
+    color: #ffffff !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
-.magic-card p {
-    font-size: 0.95rem;
-    color: rgb(200, 200, 200);
-    line-height: 1.6;
+.magic-card p,
+.magic-card-content p {
+    font-size: 0.9rem !important;
+    color: #e2e8f0 !important;
+    line-height: 1.7 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
-
 
 .magic-card .service-icon {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 80px !important;
+    height: 80px !important;
+    margin-bottom: 20px !important;
+    background: #0066cc !important;
+    border-radius: 20px !important;
+    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3) !important;
+
+    /* シンプルで確実なflexbox中央配置 */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+
+    /* 余計な要素を排除 */
+    padding: 0 !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    position: relative !important;
 }
 
 .magic-card .service-icon i {
-    font-size: 3rem;
-    color: #3c67e3;
+    /* アイコンサイズを固定 */
+    font-size: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+
+    /* 色 */
+    color: #ffffff !important;
+
+    /* シンプルな表示 */
+    display: block !important;
+    line-height: 40px !important;
+    text-align: center !important;
+
+    /* 余白削除 */
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.magic-card .service-icon i::before {
+    /* Font Awesome疑似要素の中央配置 */
+    vertical-align: middle !important;
+}
+
+/* 個別アイコンの位置調整 */
+.magic-card .service-icon .fa-gamepad {
+    transform: translate(-4px, 0px) !important;
+}
+
+.magic-card .service-icon .fa-laptop-code {
+    transform: translate(-4px, 0px) !important;
+}
+
+.magic-card .service-icon .fa-robot {
+    transform: translate(-4px, 0px) !important;
 }
 
 .magic-card .service-icon img {

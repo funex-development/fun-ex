@@ -617,6 +617,18 @@ button {
     transition: 0.4s;
 }
 
+.service-icon i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Swiper service cards styling - styles moved to services-carousel.css */
+
 .service-card:nth-child(1) .service-icon {
     color: var(--primary);
     background: rgba(0, 0, 0, 0.05);
