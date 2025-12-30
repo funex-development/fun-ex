@@ -115,9 +115,9 @@
 
 .magic-card p,
 .magic-card-content p {
-    font-size: 0.9rem !important;
+    font-size: 1.1rem !important;
     color: #e2e8f0 !important;
-    line-height: 1.7 !important;
+    line-height: 1.8 !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
