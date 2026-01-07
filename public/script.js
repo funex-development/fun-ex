@@ -89,18 +89,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Initialize Swiper
-    // Initialize Swiper
+    // Swiper disabled - now using static grid layout
+    /*
     const swiper = new Swiper('.services-swiper', {
-        slidesPerView: 1, // Default for mobile
+        slidesPerView: 1,
         spaceBetween: 20,
         loop: true,
-        // Ensure enough loop clones are created to prevent "sticking"
         loopAdditionalSlides: 5,
-        centeredSlides: true, // Center active slide typically looks better on mobile
+        centeredSlides: true,
         autoplay: {
-            delay: 3000, // 3秒ごとに自動切り替え
-            disableOnInteraction: false, // ユーザー操作後も自動再生を継続
+            delay: 3000,
+            disableOnInteraction: false,
         },
         pagination: {
             el: '.swiper-pagination',
@@ -111,14 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
             prevEl: '.swiper-button-prev',
         },
         breakpoints: {
-            // When window width is >= 768px (Tablet/PC)
             768: {
                 slidesPerView: 3,
-                centeredSlides: true, // Keep centered for balanced look
+                centeredSlides: true,
                 spaceBetween: 30,
             }
         }
     });
+    */
 
 
 

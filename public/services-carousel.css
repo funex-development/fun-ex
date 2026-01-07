@@ -11,40 +11,30 @@
     /* Adjusted width */
 }
 
-/* Swiper Container Adjustments */
-.services-swiper {
-    width: 100%;
-    padding: 50px 20px;
-    overflow: hidden;
-    position: relative;
+/* Services Grid Layout */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 0 20px;
+    justify-items: center;
 }
 
-.swiper-wrapper {
-    align-items: center;
-}
-
-.swiper-slide {
+.service-card-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 400px !important;
-    /* Allow Swiper to manage width based on content */
-    opacity: 1;
-    /* Remove fade logic for simplicity */
-    transition: opacity 0.3s ease;
+    width: 100%;
+    max-width: 320px;
 }
 
-/* On mobile, maybe only active is opaque? User wants 3 visible generally, but on mobile 1. */
+/* Mobile responsiveness */
 @media (max-width: 768px) {
-
-    .swiper-slide-prev,
-    .swiper-slide-next {
-        opacity: 0.4;
-        /* Reset neighbors to faded on small screens if we only want 1 focused */
-    }
-
-    .swiper-slide-active {
-        opacity: 1;
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 }
 
