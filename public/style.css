@@ -24,7 +24,7 @@
 
     /* Fonts */
     --font-jp: 'Noto Sans JP', sans-serif;
-    --font-en: 'Outfit', sans-serif;
+    --font-en: 'Unbounded', 'Outfit', sans-serif;
 
     /* Spacing */
     --section-padding: 100px 0;
@@ -80,10 +80,12 @@ button {
 }
 
 .text-gradient {
-    color: var(--primary);
-    background: none;
-    -webkit-text-fill-color: initial;
-    background-clip: border-box;
+    background: linear-gradient(110deg, #ff2e88 0%, #ff6b6b 35%, #ff8e53 60%, #7d3cff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    display: inline-block;
 }
 
 .center {

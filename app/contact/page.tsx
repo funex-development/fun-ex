@@ -190,7 +190,7 @@ export default function ContactPage() {
       {/* Contact Form Section */}
       <section className="section">
         <div className="container" style={{ maxWidth: '800px' }}>
-          <div className="contact-card" style={{ display: 'block', padding: '60px 40px' }}>
+          <div className="contact-card" style={{ display: 'block', padding: 'clamp(30px, 5vw, 60px) clamp(16px, 4vw, 40px)' }}>
             <h2 style={{ fontSize: '1.8rem', marginBottom: '20px', color: 'var(--text-main)', textAlign: 'center' }}>
               お問い合わせフォーム
             </h2>

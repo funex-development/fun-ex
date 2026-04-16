@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Noto_Sans_JP, Outfit } from "next/font/google";
 import "./globals.css";
 
@@ -20,6 +20,12 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "株式会社ファンエクス | FunEx Inc.",
   description: "株式会社ファンエクスの公式サイトです。",
+};
+
+// モバイル実機表示用のviewport設定（Next.js 15 App Routerではmetadataと分離）
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
