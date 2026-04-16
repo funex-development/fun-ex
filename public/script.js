@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Close menu when clicking a link
         mobileMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
+                // トランジションを一時的に無効化して即座に閉じる（ページ遷移時のカクつき防止）
+                mobileMenu.style.transition = 'none';
                 mobileMenu.classList.remove('active');
                 menuBtn.classList.remove('active');
                 document.body.style.overflow = '';

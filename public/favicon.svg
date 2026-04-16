@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="FunEx">
+  <title>FunEx</title>
+  <rect width="64" height="64" rx="12" fill="#111111"/>
+  <!-- ブランドロゴ FUN-Ex の太字イタリック風イニシャル "Fx" -->
+  <text x="32" y="46"
+        text-anchor="middle"
+        font-family="'Arial Black', 'Helvetica Neue', Arial, sans-serif"
+        font-weight="900"
+        font-size="40"
+        font-style="italic"
+        fill="#ffffff"
+        letter-spacing="-1">Fx</text>
+</svg>
