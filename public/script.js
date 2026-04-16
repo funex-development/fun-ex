@@ -26,39 +26,37 @@ document.addEventListener('DOMContentLoaded', () => {
     // Header Scroll Effect - Hide on scroll down, show on scroll up
     const navbar = document.querySelector('.navbar');
     let lastScrollTop = 0;
-    let scrollTimeout;
+    let scrollTicking = false;
 
+    // passive:true でメインスレッドブロック回避 + requestAnimationFrameでスロットル
     window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTicking) return;
+        scrollTicking = true;
+        requestAnimationFrame(() => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-        // Clear the timeout throughout the scroll
-        clearTimeout(scrollTimeout);
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.style.transform = 'translateY(-100%)';
+                navbar.style.transition = 'transform 0.3s ease-in-out';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+                navbar.style.transition = 'transform 0.3s ease-in-out';
+            }
 
-        // Hide navbar when scrolling down, show when scrolling up
-        if (scrollTop > lastScrollTop && scrollTop > 100) {
-            // Scrolling down
-            navbar.style.transform = 'translateY(-100%)';
-            navbar.style.transition = 'transform 0.3s ease-in-out';
-        } else {
-            // Scrolling up or at top
-            navbar.style.transform = 'translateY(0)';
-            navbar.style.transition = 'transform 0.3s ease-in-out';
-        }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 
-        // Update scroll position
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-
-        // Background effect
-        if (window.scrollY > 50) {
-            navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-            navbar.style.padding = '5px 0';
-            navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-        } else {
-            navbar.style.background = 'rgba(15, 23, 42, 0.8)';
-            navbar.style.padding = '8px 0';
-            navbar.style.boxShadow = 'none';
-        }
-    });
+            if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+                navbar.style.padding = '5px 0';
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.background = 'rgba(15, 23, 42, 0.8)';
+                navbar.style.padding = '8px 0';
+                navbar.style.boxShadow = 'none';
+            }
+            scrollTicking = false;
+        });
+    }, { passive: true });
 
     // Smooth Scroll for Anchors
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {

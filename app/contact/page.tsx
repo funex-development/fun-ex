@@ -1,24 +1,68 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useReducer, useState, useRef, useCallback } from "react";
 import Script from "next/script";
-import Link from "next/link";
+import Image from "next/image";
 
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_CF_SITE_KEY || "";
 
+// お問い合わせ種別の選択肢（モジュールスコープで定数化して毎レンダリング時の再生成を回避）
+const INQUIRY_TYPES = [
+  { value: "consultation", label: "相談したい（壁打ち）" },
+  { value: "estimate", label: "見積りが欲しい" },
+  { value: "request", label: "制作を依頼したい" },
+  { value: "hearing", label: "まず話を聞きたい" },
+  { value: "other", label: "その他" },
+] as const;
+
+// フォーム状態の型定義
+interface FormState {
+  company: string;
+  name: string;
+  email: string;
+  phone: string;
+  inquiryType: string;
+  message: string;
+  privacyPolicy: boolean;
+}
+
+const INITIAL_FORM_STATE: FormState = {
+  company: "",
+  name: "",
+  email: "",
+  phone: "",
+  inquiryType: "",
+  message: "",
+  privacyPolicy: false,
+};
+
+type FormAction =
+  | { type: "SET_FIELD"; field: keyof FormState; value: string | boolean }
+  | { type: "RESET" };
+
+function formReducer(state: FormState, action: FormAction): FormState {
+  switch (action.type) {
+    case "SET_FIELD":
+      // 同じ値なら参照を保つ（無駄な再レンダー抑制）
+      if (state[action.field] === action.value) return state;
+      return { ...state, [action.field]: action.value };
+    case "RESET":
+      return INITIAL_FORM_STATE;
+    default:
+      return state;
+  }
+}
+
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    company: "",
-    name: "",
-    email: "",
-    phone: "",
-    inquiryType: "",
-    message: "",
-    privacyPolicy: false,
-  });
+  const [formData, dispatch] = useReducer(formReducer, INITIAL_FORM_STATE);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const turnstileRef = useRef<string | null>(null);
+
+  // フィールド更新ハンドラ（useCallbackで参照安定化）
+  const setField = useCallback((field: keyof FormState, value: string | boolean) => {
+    dispatch({ type: "SET_FIELD", field, value });
+  }, []);
 
   // Turnstileスクリプトが読み込まれた後に呼ばれる
   const handleTurnstileLoad = () => {
@@ -36,6 +80,20 @@ export default function ContactPage() {
       }
     }
   };
+
+  // Turnstileウィジェットとトークンをリセットするヘルパー
+  // サーバー側で既にトークンが消費されている可能性があるため、
+  // 成功/失敗を問わず送信完了後に必ず新しいチャレンジを再発行させる
+  const resetTurnstile = useCallback(() => {
+    turnstileRef.current = null;
+    if (typeof window !== "undefined" && (window as any).turnstile) {
+      try {
+        (window as any).turnstile.reset();
+      } catch (error) {
+        console.error("Turnstile reset error:", error);
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,18 +124,15 @@ export default function ContactPage() {
       }
 
       setStatus("success");
-      setFormData({ company: "", name: "", email: "", phone: "", inquiryType: "", message: "", privacyPolicy: false });
-      turnstileRef.current = null;
-
-      // Turnstileをリセット
-      if ((window as any).turnstile) {
-        (window as any).turnstile.reset();
-      }
+      dispatch({ type: "RESET" });
+      resetTurnstile();
     } catch (error) {
       setStatus("error");
       setErrorMessage(
         error instanceof Error ? error.message : "送信に失敗しました。もう一度お試しください。"
       );
+      // サーバー側でトークンが消費済みの可能性があるため、失敗時も必ずリセット
+      resetTurnstile();
     }
   };
 
@@ -89,12 +144,7 @@ export default function ContactPage() {
         strategy="afterInteractive"
       />
 
-      {/* Google Fonts */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-      <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;700&display=swap" rel="stylesheet" />
-
-      {/* 既存CSSを読み込み */}
+      {/* 既存CSSを読み込み（Google Fontsはlayout.tsxのnext/fontで配信） */}
       <link rel="stylesheet" href="/style.css" />
       <link rel="stylesheet" href="/mvv.css" />
       <link rel="stylesheet" href="/subpage.css" />
@@ -112,7 +162,7 @@ export default function ContactPage() {
       <nav className="navbar">
         <div className="container nav-container">
           <a href="/" className="logo">
-            <img src="/assets/logo.png" alt="FunEx 株式会社ファンエクス" className="logo-img" width="200" height="90" />
+            <Image src="/funexW.png" alt="FunEx 株式会社ファンエクス" className="logo-img" width={200} height={90} priority />
           </a>
           <div className="nav-links">
             <a href="/index.html">TOP</a>
@@ -159,7 +209,7 @@ export default function ContactPage() {
                   type="text"
                   id="company"
                   value={formData.company}
-                  onChange={(e) => setFormData({ ...formData, company: e.target.value })}
+                  onChange={(e) => setField("company", e.target.value)}
                   style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -184,7 +234,7 @@ export default function ContactPage() {
                   id="name"
                   required
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) => setField("name", e.target.value)}
                   style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -206,7 +256,7 @@ export default function ContactPage() {
                   id="email"
                   required
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) => setField("email", e.target.value)}
                   style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -227,7 +277,7 @@ export default function ContactPage() {
                   type="tel"
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) => setField("phone", e.target.value)}
                   style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -248,13 +298,7 @@ export default function ContactPage() {
                   お問い合わせ種別 <span style={{ color: '#ef4444' }}>*</span>
                 </label>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {[
-                    { value: 'consultation', label: '相談したい（壁打ち）' },
-                    { value: 'estimate', label: '見積りが欲しい' },
-                    { value: 'request', label: '制作を依頼したい' },
-                    { value: 'hearing', label: 'まず話を聞きたい' },
-                    { value: 'other', label: 'その他' },
-                  ].map((option) => (
+                  {INQUIRY_TYPES.map((option) => (
                     <label
                       key={option.value}
                       style={{
@@ -269,7 +313,7 @@ export default function ContactPage() {
                         name="inquiryType"
                         value={option.value}
                         checked={formData.inquiryType === option.value}
-                        onChange={(e) => setFormData({ ...formData, inquiryType: e.target.value })}
+                        onChange={(e) => setField("inquiryType", e.target.value)}
                         required
                         style={{ marginRight: '8px', width: '18px', height: '18px', cursor: 'pointer' }}
                       />
@@ -293,7 +337,7 @@ export default function ContactPage() {
                   required
                   rows={6}
                   value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  onChange={(e) => setField("message", e.target.value)}
                   style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -312,7 +356,7 @@ export default function ContactPage() {
                   <input
                     type="checkbox"
                     checked={formData.privacyPolicy}
-                    onChange={(e) => setFormData({ ...formData, privacyPolicy: e.target.checked })}
+                    onChange={(e) => setField("privacyPolicy", e.target.checked)}
                     required
                     style={{ marginTop: '4px', marginRight: '8px', width: '18px', height: '18px', cursor: 'pointer' }}
                   />
@@ -372,7 +416,7 @@ export default function ContactPage() {
         <div className="container footer-grid">
           <div className="footer-brand">
             <a href="/">
-              <img loading="lazy" src="/assets/logo.png" alt="FunEx 株式会社ファンエクス" className="footer-logo" width="120" height="50" />
+              <Image src="/assets/logo.png" alt="FunEx 株式会社ファンエクス" className="footer-logo" width={120} height={50} loading="lazy" />
             </a>
             <p>
               株式会社ファンエクス<br />
@@ -422,35 +466,37 @@ export default function ContactPage() {
           // Header Scroll Effect - Hide on scroll down, show on scroll up
           const navbar = document.querySelector('.navbar');
           let lastScrollTop = 0;
+          let scrollTicking = false;
 
+          // passive:true でメインスレッドブロック回避 + rAFでスロットル
           window.addEventListener('scroll', () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTicking) return;
+            scrollTicking = true;
+            requestAnimationFrame(() => {
+              const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-            // Hide navbar when scrolling down, show when scrolling up
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-              // Scrolling down
-              navbar.style.transform = 'translateY(-100%)';
-              navbar.style.transition = 'transform 0.3s ease-in-out';
-            } else {
-              // Scrolling up or at top
-              navbar.style.transform = 'translateY(0)';
-              navbar.style.transition = 'transform 0.3s ease-in-out';
-            }
+              if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.style.transform = 'translateY(-100%)';
+                navbar.style.transition = 'transform 0.3s ease-in-out';
+              } else {
+                navbar.style.transform = 'translateY(0)';
+                navbar.style.transition = 'transform 0.3s ease-in-out';
+              }
 
-            // Update scroll position
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+              lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
 
-            // Background effect
-            if (window.scrollY > 50) {
-              navbar.style.background = 'rgba(15, 23, 42, 0.95)';
-              navbar.style.padding = '5px 0';
-              navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
-            } else {
-              navbar.style.background = 'rgba(15, 23, 42, 0.8)';
-              navbar.style.padding = '8px 0';
-              navbar.style.boxShadow = 'none';
-            }
-          });
+              if (window.scrollY > 50) {
+                navbar.style.background = 'rgba(15, 23, 42, 0.95)';
+                navbar.style.padding = '5px 0';
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+              } else {
+                navbar.style.background = 'rgba(15, 23, 42, 0.8)';
+                navbar.style.padding = '8px 0';
+                navbar.style.boxShadow = 'none';
+              }
+              scrollTicking = false;
+            });
+          }, { passive: true });
         `}
       </Script>
     </>
