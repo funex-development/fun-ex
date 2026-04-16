@@ -4,19 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>株式会社ファンエクス | 楽しい体験を創り出すエンターテインメント・テック企業</title>
-    <meta name="description" content="株式会社ファンエクスのコーポレートサイトです。ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けます。">
+    <title>会社概要 | 株式会社ファンエクス（FunEx Inc.）| 代表・設立・所在地</title>
+    <meta name="description" content="株式会社ファンエクス（FunEx Inc.）の会社概要です。設立2024年3月、代表取締役 石井雅人。東京都千代田区を拠点に、Z世代・α世代向けの体験づくりを行うエンターテインメント・テック企業です。">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://funex.co.jp/about.html">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/funexB.png" type="image/png">
+    <link rel="apple-touch-icon" href="/funexB.png">
 
     <!-- SEO & LLMO Optimization -->
-    <meta property="og:title" content="株式会社ファンエクス | 楽しい体験を創り出すエンターテインメント・テック企業">
+    <meta property="og:title" content="会社概要 | 株式会社ファンエクス">
     <meta property="og:description"
-        content="株式会社ファンエクスのコーポレートサイトです。ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けます。長野を拠点にVR/メタバース開発も行っています。">
+        content="株式会社ファンエクス（FunEx Inc.）の会社概要。設立2024年3月、代表取締役 石井雅人。Z世代・α世代向けの体験づくりを行うエンターテインメント・テック企業です。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://funex.co.jp"> <!-- 仮のURL -->
-    <meta property="og:image" content="https://funex.co.jp/assets/ogp.jpg"> <!-- 仮の画像 -->
+    <meta property="og:url" content="https://funex.co.jp/about.html">
+    <meta property="og:image" content="https://funex.co.jp/funexB.png">
+    <meta property="og:site_name" content="株式会社ファンエクス">
+    <meta property="og:locale" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Structured Data (JSON-LD) for LLMs -->
+    <!-- 構造化データ（会社情報） -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -24,17 +33,21 @@
       "name": "株式会社ファンエクス",
       "alternateName": "FunEx Inc.",
       "url": "https://funex.co.jp",
-      "logo": "https://funex.co.jp/funexW.png",
-      "sameAs": [
-        "https://www.instagram.com/funex_inc", 
-        "https://twitter.com/funex_inc"
-      ],
-      "description": "ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けるエンターテインメント・テック企業です。",
+      "logo": "https://funex.co.jp/funexB.png",
+      "foundingDate": "2024-03-01",
+      "founder": {
+        "@type": "Person",
+        "name": "石井 雅人"
+      },
       "address": {
         "@type": "PostalAddress",
-        "addressRegion": "長野県",
+        "streetAddress": "神田和泉町1番地6-16 ヤマトビル405",
+        "addressLocality": "千代田区",
+        "addressRegion": "東京都",
+        "postalCode": "101-0024",
         "addressCountry": "JP"
-      }
+      },
+      "description": "中小企業のためにテクノロジーを活用し、Z世代・α世代に届く体験をつくるエンターテインメント・テック企業です。"
     }
     </script>
 
@@ -44,10 +57,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;700&family=Unbounded:wght@700;900&display=swap"
         rel="stylesheet">
-
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="services-carousel.css">
 
     <!-- Preload Critical Assets -->
     <link rel="preload" href="funexW.png" as="image">
@@ -67,8 +76,8 @@
     <!-- Page Header (Sub-page Hero) -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">About Us</h1>
-            <p class="page-subtitle">私たちについて</p>
+            <h1 class="page-title">私たちについて</h1>
+            <p class="page-subtitle">About Us</p>
         </div>
     </section>
 
@@ -162,7 +171,6 @@
                                 ・HP制作<br>
                                 ・YouTube運営<br>
                                 ・SNS構築/運用<br>
-                                ・公式LINE構築/運用<br>
                                 ・動画制作<br>
                                 ・ポスター/チラシ制作<br>
                                 ・生成AI活用/導入<br>
@@ -216,11 +224,7 @@
         </div>
     </footer>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
-    <script src="hero-effect.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>

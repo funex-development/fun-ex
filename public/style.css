@@ -337,10 +337,10 @@ button {
 
 .jp-sub {
     font-family: var(--font-jp);
-    font-size: 1.8rem;
-    font-weight: 900;
+    font-size: 1.3rem;
+    font-weight: 700;
     margin-top: 3rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     color: var(--text-main);
 }
 

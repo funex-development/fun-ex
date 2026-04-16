@@ -4,15 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>最新情報 | 株式会社ファンエクス</title>
-    <meta name="description" content="株式会社ファンエクスの最新情報をお届けします。イベント出展情報、メディア掲載情報、リリース情報などをご覧いただけます。">
+    <title>最新情報・ニュース | メディア掲載・イベント出展 | 株式会社ファンエクス</title>
+    <meta name="description" content="株式会社ファンエクスの最新情報。Yahoo!ニュース掲載、FM長野出演、MISO TECH等のテックイベント出展情報、ゲーム制作・メタバース体験の取り組みなど、最新ニュースをお届けします。">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://funex.co.jp/news.html">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/funexB.png" type="image/png">
+    <link rel="apple-touch-icon" href="/funexB.png">
 
     <!-- SEO & LLMO Optimization -->
-    <meta property="og:title" content="最新情報 | 株式会社ファンエクス">
-    <meta property="og:description" content="株式会社ファンエクスの最新ニュース、プレスリリース、メディア掲載情報などをお届けします。">
-    <meta property="og:type" content="article">
+    <meta property="og:title" content="最新情報・ニュース | 株式会社ファンエクス">
+    <meta property="og:description" content="株式会社ファンエクスの最新ニュース、メディア掲載、イベント出展情報をお届けします。">
+    <meta property="og:type" content="website">
     <meta property="og:url" content="https://funex.co.jp/news.html">
-    <meta property="og:image" content="https://funex.co.jp/assets/ogp.jpg">
+    <meta property="og:image" content="https://funex.co.jp/funexB.png">
+    <meta property="og:site_name" content="株式会社ファンエクス">
+    <meta property="og:locale" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Fonts -->
@@ -21,10 +30,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Outfit:wght@400;700&family=Unbounded:wght@700;900&display=swap"
         rel="stylesheet">
-
-    <!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="services-carousel.css">
 
     <!-- Preload Critical Assets -->
     <link rel="preload" href="funexW.png" as="image">
@@ -44,8 +49,8 @@
     <!-- Page Header (Sub-page Hero) -->
     <section class="page-header">
         <div class="container">
-            <h1 class="page-title">News</h1>
-            <p class="page-subtitle">ニュース</p>
+            <h1 class="page-title">ニュース</h1>
+            <p class="page-subtitle">News</p>
         </div>
     </section>
 
@@ -82,6 +87,21 @@
     <section class="section news-page-section">
         <div class="container">
             <div class="news-list">
+                <!-- Item 8 -->
+                <article class="news-item">
+                    <time datetime="2026-02-14">2026.02.14</time>
+                    <div class="news-info">
+                        <h3 class="news-title">
+                            <a href="https://miso-tech.jp/#information" target="_blank" rel="noopener noreferrer">
+                                MISO TECH 2026にてゲーム体験コーナーの協力・監修を行いました
+                            </a>
+                        </h3>
+                        <p class="news-desc">
+                            松本で開催された共創型テックイベント「MISO TECH 2026」にて、「いっぱい遊んで、いっぱい学ぼう！ゲーム体験コーナー」の協力・監修を担当しました。RobloxでのVR体験と、生成AIを活用した次世代型プラットフォーム「DreamCore」によるゲーム制作体験を、小学生のみなさんに提供しました。
+                        </p>
+                    </div>
+                </article>
+
                 <!-- Item 7 -->
                 <article class="news-item">
                     <time datetime="2025-12-24">2025.12.24</time>
@@ -230,10 +250,7 @@
         </div>
     </footer>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>

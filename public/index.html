@@ -4,16 +4,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>株式会社ファンエクス | 楽しい体験を創り出すエンターテインメント・テック企業</title>
-    <meta name="description" content="株式会社ファンエクスのコーポレートサイトです。ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けます。">
+    <title>株式会社ファンエクス | Z世代・α世代向け体験づくり｜ゲーム・生成AI・SNS運用</title>
+    <meta name="description" content="株式会社ファンエクス（FunEx Inc.）公式サイト。中小企業のためのテクノロジー活用で、Z世代・α世代に届く体験をつくる東京のエンターテインメント・テック企業。ゲーム/メタバース制作、生成AI活用、SNS運用、Web制作、動画制作を提供。">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://funex.co.jp/index.html">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/funexB.png" type="image/png">
+    <link rel="apple-touch-icon" href="/funexB.png">
 
     <!-- SEO & LLMO Optimization -->
-    <meta property="og:title" content="株式会社ファンエクス | 楽しい体験を創り出すエンターテインメント・テック企業">
+    <meta property="og:title" content="株式会社ファンエクス | Z世代・α世代向け体験づくり">
     <meta property="og:description"
-        content="株式会社ファンエクスのコーポレートサイトです。ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けます。長野を拠点にVR/メタバース開発も行っています。">
+        content="中小企業のためのテクノロジー活用で、Z世代・α世代に届く体験をつくるエンターテインメント・テック企業。ゲーム制作、生成AI活用、SNS運用などを提供します。">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://funex.co.jp"> <!-- 仮のURL -->
-    <meta property="og:image" content="https://funex.co.jp/assets/ogp.jpg"> <!-- 仮の画像 -->
+    <meta property="og:url" content="https://funex.co.jp/">
+    <meta property="og:image" content="https://funex.co.jp/funexB.png">
+    <meta property="og:site_name" content="株式会社ファンエクス">
+    <meta property="og:locale" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
 
     <!-- Structured Data (JSON-LD) for LLMs -->
@@ -24,17 +33,52 @@
       "name": "株式会社ファンエクス",
       "alternateName": "FunEx Inc.",
       "url": "https://funex.co.jp",
-      "logo": "https://funex.co.jp/funexW.png",
+      "logo": "https://funex.co.jp/funexB.png",
+      "foundingDate": "2024-03-01",
+      "founder": {
+        "@type": "Person",
+        "name": "石井 雅人"
+      },
       "sameAs": [
-        "https://www.instagram.com/funex_inc", 
+        "https://www.instagram.com/funex_inc",
         "https://twitter.com/funex_inc"
       ],
-      "description": "ゲーム制作、生成AI活用、SNS運用サポートなどを通じて、世界に楽しい体験を届けるエンターテインメント・テック企業です。",
+      "description": "中小企業のためにテクノロジーを活用し、Z世代・α世代に届く体験をつくるエンターテインメント・テック企業。ゲーム/メタバース制作、生成AI活用、SNS運用、Web制作などを提供します。",
       "address": {
         "@type": "PostalAddress",
-        "addressRegion": "長野県",
+        "streetAddress": "神田和泉町1番地6-16 ヤマトビル405",
+        "addressLocality": "千代田区",
+        "addressRegion": "東京都",
+        "postalCode": "101-0024",
         "addressCountry": "JP"
-      }
+      },
+      "knowsAbout": [
+        "ゲーム制作",
+        "メタバース開発",
+        "生成AI活用",
+        "SNS運用代行",
+        "Web制作",
+        "動画制作",
+        "Z世代マーケティング",
+        "α世代マーケティング"
+      ]
+    }
+    </script>
+
+    <!-- 提供サービス（Service Schema） -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": "株式会社ファンエクスの提供サービス",
+      "itemListElement": [
+        {"@type": "Service", "position": 1, "name": "ゲーム・メタバース制作", "description": "Z世代・α世代向けゲームコンテンツとメタバース体験の制作"},
+        {"@type": "Service", "position": 2, "name": "オフラインイベント企画・運営", "description": "体験型イベントの企画から運営まで"},
+        {"@type": "Service", "position": 3, "name": "Web制作", "description": "中小企業向けコーポレートサイト・LP制作"},
+        {"@type": "Service", "position": 4, "name": "SNS構築・運用", "description": "Instagram、X等のSNS運用代行"},
+        {"@type": "Service", "position": 5, "name": "生成AI活用・導入支援", "description": "ChatGPT等の業務導入とAI活用コンサル"},
+        {"@type": "Service", "position": 6, "name": "動画・YouTube運営", "description": "動画制作とYouTubeチャンネル運用代行"}
+      ]
     }
     </script>
 
@@ -144,10 +188,11 @@
             </div>
 
             <!-- Services Grid -->
-            <div class="services-grid">
+            <div class="services-swiper swiper">
+            <div class="services-grid swiper-wrapper">
                     <!-- 1. ゲーム制作/メタバース -->
-                    <div class="service-card-wrapper">
-                        <div class="magic-card">
+                    <div class="service-card-wrapper swiper-slide">
+                        <div class="magic-card card-game">
                             <div class="magic-card-content">
                                 <div class="service-icon">
                                     <svg class="svg-icon icon-game" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
@@ -169,8 +214,8 @@
                     </div>
 
                     <!-- 2. オフラインイベント -->
-                    <div class="service-card-wrapper">
-                        <div class="magic-card">
+                    <div class="service-card-wrapper swiper-slide">
+                        <div class="magic-card card-event">
                             <div class="magic-card-content">
                                 <div class="service-icon">
                                     <svg class="svg-icon icon-event" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
@@ -190,8 +235,8 @@
                     </div>
 
                     <!-- 3. Web制作 -->
-                    <div class="service-card-wrapper">
-                        <div class="magic-card">
+                    <div class="service-card-wrapper swiper-slide">
+                        <div class="magic-card card-web">
                             <div class="magic-card-content">
                                 <div class="service-icon">
                                     <svg class="svg-icon icon-web" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
@@ -213,8 +258,8 @@
                     </div>
 
                     <!-- 4. SNSサポート -->
-                    <div class="service-card-wrapper">
-                        <div class="magic-card">
+                    <div class="service-card-wrapper swiper-slide">
+                        <div class="magic-card card-sns">
                             <div class="magic-card-content">
                                 <div class="service-icon">
                                     <svg class="svg-icon icon-sns" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
@@ -237,8 +282,8 @@
                     </div>
 
                     <!-- 5. 生成AI活用サポート -->
-                    <div class="service-card-wrapper">
-                        <div class="magic-card">
+                    <div class="service-card-wrapper swiper-slide">
+                        <div class="magic-card card-ai">
                             <div class="magic-card-content">
                                 <div class="service-icon">
                                     <svg class="svg-icon icon-ai" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
@@ -250,10 +295,12 @@
                                     </svg>
                                 </div>
                                 <h3>生成AI活用サポート</h3>
-                                <p>体験づくりや情報発信を支えるための、生成AIの導入・活用をサポートします。</p>
+                                <p>生成AIで業務を効率化する、伴走支援や開発を行っています。</p>
                             </div>
                         </div>
                     </div>
+            </div>
+            <div class="swiper-pagination"></div>
             </div>
 
             <div class="center-btn-container" style="text-align: center; margin-top: 40px;">
@@ -274,6 +321,21 @@
             </div>
 
             <div class="news-list">
+                <!-- Item 8 -->
+                <article class="news-item">
+                    <time datetime="2026-02-14">2026.02.14</time>
+                    <div class="news-info">
+                        <h3 class="news-title">
+                            <a href="https://miso-tech.jp/#information" target="_blank" rel="noopener noreferrer">
+                                MISO TECH 2026にてゲーム体験コーナーの協力・監修を行いました
+                            </a>
+                        </h3>
+                        <p class="news-desc">
+                            松本で開催された共創型テックイベント「MISO TECH 2026」にて、「いっぱい遊んで、いっぱい学ぼう！ゲーム体験コーナー」の協力・監修を担当しました。
+                        </p>
+                    </div>
+                </article>
+
                 <!-- Item 7 -->
                 <article class="news-item">
                     <time datetime="2025-12-24">2025.12.24</time>
@@ -299,20 +361,6 @@
                             </a>
                         </h3>
                         <p class="news-desc">「消防士からゲームクリエイターに転身⁈」</p>
-                    </div>
-                </article>
-
-                <!-- Item 5 -->
-                <article class="news-item">
-                    <time datetime="2025-11-26">2025.11.26</time>
-                    <div class="news-info">
-                        <h3 class="news-title">
-                            <a href="https://open.spotify.com/episode/7fPkPxEoYkspw1DkvblJ5Z?si=MxwNCr4NSie6iOw61oGOTg&nd=1&dlsi=caa3a7e11a6f42a1"
-                                target="_blank" rel="noopener noreferrer">
-                                FM長野/NAGANO・01 TALKSに出演しました
-                            </a>
-                        </h3>
-                        <p class="news-desc">「若者に大人気！Roblox」</p>
                     </div>
                 </article>
             </div>
@@ -383,10 +431,10 @@
     </footer>
 
     <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js" defer></script>
 
-    <script src="hero-effect.js"></script>
-    <script src="script.js"></script>
+    <script src="hero-effect.js" defer></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>

@@ -30,11 +30,129 @@
     max-width: 320px;
 }
 
-/* Mobile responsiveness */
+/* Services Swiper コンテナ */
+.services-swiper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Mobile responsiveness — Swiperループカルーセル */
 @media (max-width: 768px) {
+    /* Services セクションの親もはみ出し防止 */
+    .services {
+        overflow-x: hidden;
+    }
+
+    /* 親の #services > .container > .services-swiper の padding をキャンセルして
+       ビューポート全幅に確実に拡張する（calc でどんな親padding にも自動対応）
+       → Swiperコンテナ中央 = viewport中央 → centeredSlides が正しく効く */
+    .services-swiper {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        overflow: hidden;
+    }
+
+    /* Swiperに任せるのでgrid → flex。padding/margin はSwiperの幅計算に
+       影響するので 0 に揃える（shadow用の余白はslide側で確保する） */
     .services-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        display: flex !important;
+        grid-template-columns: none;
+        gap: 0;
+        margin: 30px 0 10px;
+        padding: 0;
+        max-width: none;
+        width: auto;
+    }
+
+    /* Swiperがカード幅を管理 — アクティブ:両脇チラ見せのバランス
+       vw 単位にして Swiper の幅計算を pixel perfect に */
+    .service-card-wrapper {
+        width: 78vw !important;
+        max-width: 300px;
+        min-width: 0;
+        flex-shrink: 0;
+        height: auto;
+        box-sizing: border-box;
+        padding: 10px 0; /* shadow 用の縦余白（Swiper幅計算に影響しない） */
+    }
+
+    /* 縦レイアウトのコンパクト版 */
+    .magic-card {
+        width: 100% !important;
+        height: 320px !important;
+        min-height: 320px !important;
+        max-height: 320px !important;
+        padding: 24px 20px !important;
+        border-radius: 14px;
+    }
+
+    .magic-card .service-icon {
+        width: 64px !important;
+        height: 64px !important;
+        margin-bottom: 16px !important;
+        border-radius: 12px !important;
+    }
+
+    .magic-card .service-icon svg {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .magic-card h3,
+    .magic-card-content h3 {
+        font-size: 1.1rem !important;
+        margin-top: 8px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .magic-card p,
+    .magic-card-content p {
+        font-size: 0.92rem !important;
+        line-height: 1.7 !important;
+    }
+
+    /* ページネーション（下部ドット） */
+    .services-swiper .swiper-pagination {
+        position: relative;
+        margin-top: 20px;
+        bottom: auto;
+    }
+
+    .services-swiper .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: #d0d0d0;
+        opacity: 1;
+        transition: all 0.3s;
+    }
+
+    .services-swiper .swiper-pagination-bullet-active {
+        background: #111;
+        width: 24px;
+        border-radius: 4px;
+    }
+}
+
+/* Desktop — Swiperを無効化してgrid復元 */
+@media (min-width: 769px) {
+    .services-grid.swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        transform: none !important;
+    }
+
+    .services-swiper .swiper-pagination {
+        display: none;
+    }
+}
+
+/* 中間幅（タブレット横〜小型ノート）では2列に落としてカード見切れを防止
+   3列 × 300px + gap60 = 960px 以上の内容幅が必要なため、それを下回るレンジは2列化 */
+@media (min-width: 769px) and (max-width: 1020px) {
+    .services-grid.swiper-wrapper {
+        grid-template-columns: repeat(2, 1fr) !important;
     }
 }
 
@@ -43,10 +161,9 @@
     --accent: #ff6b6b; /* デフォルト、カード毎に上書き */
     background: #ffffff !important;
     border: 2px solid #eaeaea !important;
-    width: var(--card-width);
-    height: 400px !important;
-    min-height: 400px !important;
-    max-height: 400px !important;
+    width: 100%;
+    max-width: var(--card-width);
+    min-height: 340px !important;
     padding: 30px 25px !important;
     position: relative;
     border-radius: 12px;
@@ -181,12 +298,14 @@
 .icon-game .icon-wobble {
     transform-box: fill-box;
     transform-origin: 50% 70%;
+    will-change: transform;
     animation: game-wobble 5s ease-in-out infinite;
 }
 .icon-game .btn {
     fill: var(--accent);
     transform-box: fill-box;
     transform-origin: center;
+    will-change: transform, opacity;
     animation: btn-pulse 2.4s ease-in-out infinite;
 }
 .icon-game .btn-a { animation-delay: 0s; }
@@ -207,11 +326,13 @@
 .icon-event .flag {
     transform-box: fill-box;
     transform-origin: 0% 50%;
+    will-change: transform;
     animation: flag-wave 2.2s ease-in-out infinite;
 }
 .icon-event .spark {
     transform-box: fill-box;
     transform-origin: center;
+    will-change: transform, opacity;
     animation: spark-twinkle 3.2s ease-in-out infinite;
 }
 .icon-event .sp-1 { animation-delay: 0s; }
@@ -231,6 +352,7 @@
 .icon-web .code-bar {
     transform-box: fill-box;
     transform-origin: 0% 50%;
+    will-change: transform, opacity;
     animation: bar-grow 2.4s ease-in-out infinite;
 }
 .icon-web .bar-1 { animation-delay: 0s; }
@@ -254,17 +376,20 @@
 .icon-sns .bubble-1 {
     transform-box: fill-box;
     transform-origin: center;
+    will-change: transform;
     animation: sns-float-1 4.5s ease-in-out infinite;
 }
 .icon-sns .bubble-2 {
     transform-box: fill-box;
     transform-origin: center;
+    will-change: transform;
     animation: sns-float-2 4.5s ease-in-out infinite;
 }
 .icon-sns .dot {
     fill: var(--accent);
     transform-box: fill-box;
     transform-origin: center;
+    will-change: transform, opacity;
     animation: dot-hop 1.8s ease-in-out infinite;
 }
 .icon-sns .d1 { animation-delay: 0s; }
@@ -273,6 +398,7 @@
 .icon-sns .heart {
     transform-box: fill-box;
     transform-origin: center;
+    will-change: transform;
     animation: heart-beat 2.2s ease-in-out infinite;
 }
 
@@ -299,12 +425,14 @@
 .icon-ai .ai-main {
     transform-box: fill-box;
     transform-origin: 50% 50%;
+    will-change: transform;
     animation: ai-spin 10s linear infinite;
 }
 .icon-ai .ai-s1,
 .icon-ai .ai-s2 {
     transform-box: fill-box;
     transform-origin: center;
+    will-change: transform, opacity;
     animation: ai-twinkle 2.8s ease-in-out infinite;
 }
 .icon-ai .ai-s2 { animation-delay: 0.9s; }
@@ -318,15 +446,8 @@
     50% { transform: scale(0.4); opacity: 0.5; }
 }
 
-/* ==== ホバー時に回転ブースト（全共通） ==== */
-.magic-card:hover .service-icon svg {
-    animation: icon-hover-pop 0.6s ease-out;
-}
-@keyframes icon-hover-pop {
-    0% { transform: scale(1) rotate(0); }
-    50% { transform: scale(1.06) rotate(-3deg); }
-    100% { transform: scale(1) rotate(0); }
-}
+/* ホバー時の動きは親 .service-icon の rotate+scale に一本化
+   （親子で transform を重ねると座標系がズレるため、子svgには別途適用しない） */
 
 /* アクセシビリティ: 動きを抑えたい人には静止 */
 @media (prefers-reduced-motion: reduce) {
@@ -347,12 +468,12 @@
     }
 }
 
-/* カード毎のアクセントカラー */
-.services-grid > .service-card-wrapper:nth-child(1) .magic-card { --accent: #c2185b; } /* ゲーム: ディープローズ */
-.services-grid > .service-card-wrapper:nth-child(2) .magic-card { --accent: #e65100; } /* イベント: ディープオレンジ */
-.services-grid > .service-card-wrapper:nth-child(3) .magic-card { --accent: #0277bd; } /* Web: ディープブルー */
-.services-grid > .service-card-wrapper:nth-child(4) .magic-card { --accent: #5e35b1; } /* SNS: ディープバイオレット */
-.services-grid > .service-card-wrapper:nth-child(5) .magic-card { --accent: #00897b; } /* AI: ディープティール */
+/* カード毎のアクセントカラー — Swiperループのclone後も正しく適用されるようクラスベースで指定 */
+.magic-card.card-game  { --accent: #c2185b; } /* ゲーム: ディープローズ */
+.magic-card.card-event { --accent: #e65100; } /* イベント: ディープオレンジ */
+.magic-card.card-web   { --accent: #0277bd; } /* Web: ディープブルー */
+.magic-card.card-sns   { --accent: #5e35b1; } /* SNS: ディープバイオレット */
+.magic-card.card-ai    { --accent: #00897b; } /* AI: ディープティール */
 
 .magic-card .service-icon i::before {
     /* Font Awesome疑似要素の中央配置 */

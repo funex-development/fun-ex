@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 // Close mobile menu if open
-                mobileMenu.classList.remove('active');
+                if (mobileMenu) mobileMenu.classList.remove('active');
                 if (menuBtn) menuBtn.classList.remove('active');
                 document.body.style.overflow = '';
 
@@ -87,35 +87,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // Swiper disabled - now using static grid layout
-    /*
-    const swiper = new Swiper('.services-swiper', {
-        slidesPerView: 1,
-        spaceBetween: 20,
-        loop: true,
-        loopAdditionalSlides: 5,
-        centeredSlides: true,
-        autoplay: {
-            delay: 3000,
-            disableOnInteraction: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        breakpoints: {
-            768: {
-                slidesPerView: 3,
+    // Services Swiper — モバイルのみループカルーセルとして有効化
+    let servicesSwiper = null;
+    const servicesSwiperEl = document.querySelector('.services-swiper');
+
+    function initServicesSwiper() {
+        const isMobile = window.innerWidth < 769;
+        if (!servicesSwiperEl) return;
+
+        if (isMobile && !servicesSwiper) {
+            servicesSwiper = new Swiper('.services-swiper', {
+                slidesPerView: 'auto',
                 centeredSlides: true,
-                spaceBetween: 30,
-            }
+                loop: true,
+                loopAdditionalSlides: 3,
+                spaceBetween: 16,
+                grabCursor: true,
+                speed: 500,
+                autoplay: {
+                    delay: 3500,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: false,
+                },
+                pagination: {
+                    el: '.services-swiper .swiper-pagination',
+                    clickable: true,
+                },
+                on: {
+                    // 初期化直後とリサイズ時にレイアウトを再計算して中央ズレを防止
+                    init: function () {
+                        requestAnimationFrame(() => this.update());
+                    },
+                    resize: function () {
+                        requestAnimationFrame(() => this.update());
+                    }
+                }
+            });
+        } else if (!isMobile && servicesSwiper) {
+            servicesSwiper.destroy(true, true);
+            servicesSwiper = null;
         }
+    }
+
+    initServicesSwiper();
+
+    // リサイズ時にモバイル⇔PC切替を処理（デバウンス）
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initServicesSwiper, 200);
     });
-    */
 
 
 

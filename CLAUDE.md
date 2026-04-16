@@ -248,7 +248,8 @@ Edit `public/news.html` and add new `<article class="news-item">` at the top:
 
 ### Adding a New Service
 1. Edit `public/index.html` - Add service card in Swiper carousel
-   - **Important:** Add the card TWICE (Swiper uses loop mode, needs duplicates)
+   - カードは1回のみ記述（Swiperの`loop: true`が自動で複製するため）
+   - `.magic-card` に `card-game` / `card-event` / `card-web` / `card-sns` / `card-ai` 等のクラスを付与（アクセント色はこれで決まる）
 2. Edit `public/services.html` - Add detailed service section with ID
 3. Update footer in ALL HTML pages to include new service link
 4. Add service icon to `public/assets/` if using image instead of Font Awesome

@@ -4,6 +4,25 @@ import { useReducer, useState, useRef, useCallback } from "react";
 import Script from "next/script";
 import Image from "next/image";
 
+// Cloudflare Turnstile の型定義（window.turnstile への型安全なアクセス用）
+interface TurnstileRenderOptions {
+  sitekey: string;
+  callback?: (token: string) => void;
+  "expired-callback"?: () => void;
+  "error-callback"?: () => void;
+}
+
+interface TurnstileApi {
+  render: (container: string | HTMLElement, options: TurnstileRenderOptions) => string;
+  reset: (widgetId?: string) => void;
+}
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+  }
+}
+
 const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_CF_SITE_KEY || "";
 
 // お問い合わせ種別の選択肢（モジュールスコープで定数化して毎レンダリング時の再生成を回避）
@@ -66,10 +85,9 @@ export default function ContactPage() {
 
   // Turnstileスクリプトが読み込まれた後に呼ばれる
   const handleTurnstileLoad = () => {
-    if (typeof window !== "undefined" && (window as any).turnstile) {
+    if (typeof window !== "undefined" && window.turnstile) {
       try {
-        console.log("Turnstile site key:", TURNSTILE_SITE_KEY);
-        (window as any).turnstile.render("#turnstile-widget", {
+        window.turnstile.render("#turnstile-widget", {
           sitekey: TURNSTILE_SITE_KEY,
           callback: (token: string) => {
             turnstileRef.current = token;
@@ -86,9 +104,9 @@ export default function ContactPage() {
   // 成功/失敗を問わず送信完了後に必ず新しいチャレンジを再発行させる
   const resetTurnstile = useCallback(() => {
     turnstileRef.current = null;
-    if (typeof window !== "undefined" && (window as any).turnstile) {
+    if (typeof window !== "undefined" && window.turnstile) {
       try {
-        (window as any).turnstile.reset();
+        window.turnstile.reset();
       } catch (error) {
         console.error("Turnstile reset error:", error);
       }
@@ -144,11 +162,7 @@ export default function ContactPage() {
         strategy="afterInteractive"
       />
 
-      {/* 既存CSSを読み込み（Google Fontsはlayout.tsxのnext/fontで配信） */}
-      <link rel="stylesheet" href="/style.css" />
-      <link rel="stylesheet" href="/mvv.css" />
-      <link rel="stylesheet" href="/subpage.css" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+      {/* CSSは app/layout.tsx の<head>で一括読み込み（レンダブロック回避） */}
 
       {/* Page Header */}
       <section className="page-header">

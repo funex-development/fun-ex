@@ -306,8 +306,7 @@
 }
 
 /* Specific aspect ratio for square images */
-#service-sns .service-item-image,
-#service-line .service-item-image {
+#service-sns .service-item-image {
     aspect-ratio: 1 / 1;
     max-width: 400px;
     /* Restrict width so it doesn't get too huge vertically */
@@ -362,6 +361,24 @@
 
 .service-item:hover .service-item-image img {
     transform: scale(1.05);
+}
+
+/* 生成AI活用：インラインSVGビジュアル */
+.service-ai-visual {
+    background: #05081f;
+    box-shadow: 0 10px 40px rgba(0, 102, 204, 0.25), 0 0 0 1px rgba(0, 229, 255, 0.12) inset;
+}
+
+.service-ai-visual img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.service-item:hover .service-ai-visual img {
+    transform: scale(1.03);
 }
 
 /* Typography updates for new layout */

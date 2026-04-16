@@ -193,22 +193,21 @@ fun-ex/
 
 2. **サービス詳細セクション**（9つ）
 
-   #### 3-1. ホームページ制作 (`#service-hp`)
-   - 説明: 企業サイト、ECサイト、ランディングページ
-   - 画像: ポートフォリオ事例
-   - 技術: HTML, CSS, JavaScript, React, WordPress等
+   #### 3-1. 生成AI活用/導入支援 (`#service-ai`)
+   - 説明: ChatGPT、画像生成AI、業務効率化AI導入
+   - 画像: AI活用イメージ（アニメーションSVG）
 
-   #### 3-2. YouTube運営代行 (`#service-youtube`)
+   #### 3-2. ゲーム/メタバース制作 (`#service-game`)
+   - 説明: Unity、Unreal Engine、VR/ARコンテンツ
+   - 画像: ゲーム開発事例
+
+   #### 3-3. YouTube運営代行 (`#service-youtube`)
    - 説明: 企画、撮影、編集、SEO対策、分析
    - 画像: YouTube運営事例
 
-   #### 3-3. SNS構築/運用 (`#service-sns`)
+   #### 3-4. SNS構築/運用 (`#service-sns`)
    - 説明: Instagram, Twitter, TikTok等のアカウント運用
    - 画像: SNS運用事例
-
-   #### 3-4. 公式LINE構築/運用 (`#service-line`)
-   - 説明: LINE公式アカウントの設計、運用、自動応答設定
-   - 画像: LINE公式画面
 
    #### 3-5. 動画制作 (`#service-movie`)
    - 説明: プロモーション動画、商品紹介動画、イベント動画
@@ -218,15 +217,12 @@ fun-ex/
    - 説明: イベントポスター、店舗チラシ、広告デザイン
    - 画像: チラシデザイン事例
 
-   #### 3-7. 生成AI活用/導入支援 (`#service-ai`)
-   - 説明: ChatGPT、画像生成AI、業務効率化AI導入
-   - 画像: AI活用イメージ
+   #### 3-7. ホームページ制作 (`#service-hp`)
+   - 説明: 企業サイト、ECサイト、ランディングページ
+   - 画像: ポートフォリオ事例
+   - 技術: HTML, CSS, JavaScript, React, WordPress等
 
-   #### 3-8. ゲーム/メタバース制作 (`#service-game`)
-   - 説明: Unity、Unreal Engine、VR/ARコンテンツ
-   - 画像: ゲーム開発事例
-
-   #### 3-9. オフラインイベント企画/運営 (`#service-event`)
+   #### 3-8. オフラインイベント企画/運営 (`#service-event`)
    - 説明: 展示会、セミナー、ワークショップ
    - 画像: イベント事例
 
