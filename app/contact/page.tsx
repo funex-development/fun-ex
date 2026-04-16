@@ -176,7 +176,7 @@ export default function ContactPage() {
       <nav className="navbar">
         <div className="container nav-container">
           <a href="/" className="logo">
-            <Image src="/funexW.png" alt="FunEx 株式会社ファンエクス" className="logo-img" width={200} height={90} priority />
+            <Image src="/funexW.png" alt="FunEx 株式会社ファンエクス" className="logo-img" width={162} height={30} priority />
           </a>
           <div className="nav-links">
             <a href="/index.html">TOP</a>
@@ -430,7 +430,7 @@ export default function ContactPage() {
         <div className="container footer-grid">
           <div className="footer-brand">
             <a href="/">
-              <Image src="/assets/logo.png" alt="FunEx 株式会社ファンエクス" className="footer-logo" width={120} height={50} loading="lazy" />
+              <Image src="/funexW.png" alt="FunEx 株式会社ファンエクス" className="footer-logo" width={162} height={30} loading="lazy" />
             </a>
             <p>
               株式会社ファンエクス<br />

@@ -73,7 +73,10 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: "/funexB.png",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/funexB.png", type: "image/png" },
+    ],
     apple: "/funexB.png",
   },
 };

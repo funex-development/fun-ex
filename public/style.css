@@ -40,6 +40,7 @@
 
 html {
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
 }
 
 body {
@@ -166,6 +167,8 @@ button {
 .logo {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    /* モバイルでは a 要素に min-height:44px が付くため縦中央に寄せる */
     font-weight: 900;
     font-family: var(--font-en);
     align-items: flex-start;
@@ -225,6 +228,8 @@ button {
     flex-direction: column;
     gap: 6px;
     z-index: 1200;
+    align-items: center;
+    justify-content: center;
 }
 
 .bar {

@@ -107,8 +107,6 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-animate();
-
 // Touch support to mimic mouse interaction
 
 
@@ -139,4 +137,8 @@ window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(resize, 200);
 });
+
+// particlesを初期化してから次のフレームでアニメーション開始
+// （旧コードではanimate()がresize()より先に呼ばれ、初回フレームが空走していた）
 resize();
+requestAnimationFrame(animate);
