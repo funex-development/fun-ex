@@ -30,35 +30,167 @@
     max-width: 320px;
 }
 
-/* Mobile responsiveness */
+/* Services Swiper コンテナ */
+.services-swiper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Mobile responsiveness — Swiperループカルーセル */
 @media (max-width: 768px) {
+    /* Services セクションの親もはみ出し防止 */
+    .services {
+        overflow-x: hidden;
+    }
+
+    /* 親の #services > .container > .services-swiper の padding をキャンセルして
+       ビューポート全幅に確実に拡張する（calc でどんな親padding にも自動対応）
+       → Swiperコンテナ中央 = viewport中央 → centeredSlides が正しく効く */
+    .services-swiper {
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        overflow: hidden;
+    }
+
+    /* Swiperに任せるのでgrid → flex。padding/margin はSwiperの幅計算に
+       影響するので 0 に揃える（shadow用の余白はslide側で確保する） */
     .services-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
+        display: flex !important;
+        grid-template-columns: none;
+        gap: 0;
+        margin: 30px 0 10px;
+        padding: 0;
+        max-width: none;
+        width: auto;
+    }
+
+    /* Swiperがカード幅を管理 — アクティブ:両脇チラ見せのバランス
+       vw 単位にして Swiper の幅計算を pixel perfect に */
+    .service-card-wrapper {
+        width: 78vw !important;
+        max-width: 300px;
+        min-width: 0;
+        flex-shrink: 0;
+        height: auto;
+        box-sizing: border-box;
+        padding: 10px 0; /* shadow 用の縦余白（Swiper幅計算に影響しない） */
+    }
+
+    /* 縦レイアウトのコンパクト版 */
+    .magic-card {
+        width: 100% !important;
+        height: 320px !important;
+        min-height: 320px !important;
+        max-height: 320px !important;
+        padding: 24px 20px !important;
+        border-radius: 14px;
+    }
+
+    .magic-card .service-icon {
+        width: 64px !important;
+        height: 64px !important;
+        margin-bottom: 16px !important;
+        border-radius: 12px !important;
+    }
+
+    .magic-card .service-icon svg {
+        width: 42px !important;
+        height: 42px !important;
+    }
+
+    .magic-card h3,
+    .magic-card-content h3 {
+        font-size: 1.1rem !important;
+        margin-top: 8px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .magic-card p,
+    .magic-card-content p {
+        font-size: 0.92rem !important;
+        line-height: 1.7 !important;
+    }
+
+    /* ページネーション（下部ドット） */
+    .services-swiper .swiper-pagination {
+        position: relative;
+        margin-top: 20px;
+        bottom: auto;
+    }
+
+    .services-swiper .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: #d0d0d0;
+        opacity: 1;
+        transition: all 0.3s;
+    }
+
+    .services-swiper .swiper-pagination-bullet-active {
+        background: #111;
+        width: 24px;
+        border-radius: 4px;
     }
 }
 
-/* User Provided Card Styles with Adjustments */
+/* Desktop — Swiperを無効化してgrid復元 */
+@media (min-width: 769px) {
+    .services-grid.swiper-wrapper {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr);
+        transform: none !important;
+    }
+
+    .services-swiper .swiper-pagination {
+        display: none;
+    }
+}
+
+/* 中間幅（タブレット横〜小型ノート）では2列に落としてカード見切れを防止
+   3列 × 300px + gap60 = 960px 以上の内容幅が必要なため、それを下回るレンジは2列化 */
+@media (min-width: 769px) and (max-width: 1020px) {
+    .services-grid.swiper-wrapper {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+
+/* Card Styles — light base with colorful accent */
 .magic-card {
-    background: #1e293b !important;
-    border: 2px solid #334155 !important;
-    width: var(--card-width);
-    height: 400px !important;
-    min-height: 400px !important;
-    max-height: 400px !important;
+    --accent: #ff6b6b; /* デフォルト、カード毎に上書き */
+    background: #ffffff !important;
+    border: 2px solid #eaeaea !important;
+    width: 100%;
+    max-width: var(--card-width);
+    min-height: 340px !important;
     padding: 30px 25px !important;
     position: relative;
-    border-radius: 20px;
+    border-radius: 12px;
     justify-content: flex-start;
     align-items: center;
     text-align: center;
     display: flex !important;
     flex-direction: column;
     font-size: 1rem;
-    color: #ffffff !important;
+    color: #111111 !important;
     cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06) !important;
+    overflow: hidden;
+}
+
+/* カード上部にアクセントの帯 */
+.magic-card::before {
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--accent);
+    z-index: 2;
 }
 
 .magic-card-content {
@@ -75,16 +207,13 @@
     position: relative;
 }
 
-/* Hover effects - simplified */
+/* Hover — アクセント色で縁取り＋浮き上がる */
 .magic-card:hover {
-    background: #2d3748 !important;
-    border-color: #4a5568 !important;
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6) !important;
+    border-color: var(--accent) !important;
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.09) !important;
 }
 
-/* Remove sparkle effects */
-.magic-card::before,
 .magic-card::after {
     display: none !important;
     content: none !important;
@@ -97,7 +226,7 @@
     margin-bottom: 15px !important;
     font-size: 1.3rem !important;
     font-weight: 700 !important;
-    color: #ffffff !important;
+    color: #111111 !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -105,52 +234,246 @@
 
 .magic-card p,
 .magic-card-content p {
-    font-size: 1.1rem !important;
-    color: #e2e8f0 !important;
+    font-size: 1.05rem !important;
+    color: #4a4a4a !important;
     line-height: 1.8 !important;
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
 }
 
+/* Service Icon — アクセント色背景 */
 .magic-card .service-icon {
     width: 80px !important;
     height: 80px !important;
     margin-bottom: 20px !important;
-    background: #0066cc !important;
-    border-radius: 20px !important;
-    box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3) !important;
+    background: var(--accent) !important;
+    border-radius: 14px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10) !important;
 
-    /* シンプルで確実なflexbox中央配置 */
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
 
-    /* 余計な要素を排除 */
     padding: 0 !important;
     margin-left: auto !important;
     margin-right: auto !important;
     position: relative !important;
+    transition: transform 0.3s ease;
+}
+
+.magic-card:hover .service-icon {
+    transform: rotate(-3deg) scale(1.03);
 }
 
 .magic-card .service-icon i {
-    /* アイコンサイズを固定 */
     font-size: 40px !important;
     width: 40px !important;
     height: 40px !important;
 
-    /* 色 */
     color: #ffffff !important;
 
-    /* シンプルな表示 */
     display: block !important;
     line-height: 40px !important;
     text-align: center !important;
 
-    /* 余白削除 */
     margin: 0 !important;
     padding: 0 !important;
 }
+
+/* SVGアイコン共通 */
+.magic-card .service-icon svg {
+    width: 54px !important;
+    height: 54px !important;
+    display: block !important;
+    overflow: visible;
+}
+
+/* カラーcut-out部分はカードのアクセント色と同色 */
+.magic-card .service-icon svg .ic-acc {
+    fill: var(--accent);
+}
+
+/* ==== 1) GAME — コントローラーが揺れ、ボタンが順番に光る ==== */
+.icon-game .icon-wobble {
+    transform-box: fill-box;
+    transform-origin: 50% 70%;
+    will-change: transform;
+    animation: game-wobble 5s ease-in-out infinite;
+}
+.icon-game .btn {
+    fill: var(--accent);
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform, opacity;
+    animation: btn-pulse 2.4s ease-in-out infinite;
+}
+.icon-game .btn-a { animation-delay: 0s; }
+.icon-game .btn-b { animation-delay: 0.4s; }
+.icon-game .btn-d { animation-delay: 0.8s; }
+.icon-game .btn-c { animation-delay: 1.2s; }
+
+@keyframes game-wobble {
+    0%, 100% { transform: rotate(-2deg) translateY(0); }
+    50% { transform: rotate(2deg) translateY(-1px); }
+}
+@keyframes btn-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    30% { transform: scale(1.25); opacity: 0.8; }
+}
+
+/* ==== 2) EVENT — 旗が風でなびき、星がきらめく ==== */
+.icon-event .flag {
+    transform-box: fill-box;
+    transform-origin: 0% 50%;
+    will-change: transform;
+    animation: flag-wave 2.2s ease-in-out infinite;
+}
+.icon-event .spark {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform, opacity;
+    animation: spark-twinkle 3.2s ease-in-out infinite;
+}
+.icon-event .sp-1 { animation-delay: 0s; }
+.icon-event .sp-2 { animation-delay: 0.7s; }
+.icon-event .sp-3 { animation-delay: 1.3s; }
+
+@keyframes flag-wave {
+    0%, 100% { transform: skewY(0deg) scaleX(1); }
+    50% { transform: skewY(6deg) scaleX(0.92); }
+}
+@keyframes spark-twinkle {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.5); opacity: 0.4; }
+}
+
+/* ==== 3) WEB — コード行が流れ、カーソル点滅 ==== */
+.icon-web .code-bar {
+    transform-box: fill-box;
+    transform-origin: 0% 50%;
+    will-change: transform, opacity;
+    animation: bar-grow 2.4s ease-in-out infinite;
+}
+.icon-web .bar-1 { animation-delay: 0s; }
+.icon-web .bar-2 { animation-delay: 0.3s; }
+.icon-web .bar-3 { animation-delay: 0.6s; }
+.icon-web .cursor {
+    animation: cursor-blink 0.9s steps(2, end) infinite;
+}
+
+@keyframes bar-grow {
+    0%, 100% { transform: scaleX(1); opacity: 1; }
+    45% { transform: scaleX(0.15); opacity: 0.5; }
+    55% { transform: scaleX(1); opacity: 1; }
+}
+@keyframes cursor-blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ==== 4) SNS — 吹き出しが浮遊、ドットが入力中、ハートが上昇 ==== */
+.icon-sns .bubble-1 {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform;
+    animation: sns-float-1 4.5s ease-in-out infinite;
+}
+.icon-sns .bubble-2 {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform;
+    animation: sns-float-2 4.5s ease-in-out infinite;
+}
+.icon-sns .dot {
+    fill: var(--accent);
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform, opacity;
+    animation: dot-hop 1.8s ease-in-out infinite;
+}
+.icon-sns .d1 { animation-delay: 0s; }
+.icon-sns .d2 { animation-delay: 0.2s; }
+.icon-sns .d3 { animation-delay: 0.4s; }
+.icon-sns .heart {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform;
+    animation: heart-beat 2.2s ease-in-out infinite;
+}
+
+@keyframes sns-float-1 {
+    0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+    50% { transform: translate(0, -2px) rotate(-1deg); }
+}
+@keyframes sns-float-2 {
+    0%, 100% { transform: translate(0, 0) rotate(3deg); }
+    50% { transform: translate(0, 2px) rotate(1deg); }
+}
+@keyframes dot-hop {
+    0%, 100% { transform: translateY(0); opacity: 1; }
+    50% { transform: translateY(-2px); opacity: 0.5; }
+}
+@keyframes heart-beat {
+    0%, 100% { transform: scale(1); }
+    20% { transform: scale(1.12); }
+    40% { transform: scale(0.97); }
+    60% { transform: scale(1.08); }
+}
+
+/* ==== 5) AI — メインスパークルが回転、小スパークルが独立きらめき ==== */
+.icon-ai .ai-main {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    will-change: transform;
+    animation: ai-spin 10s linear infinite;
+}
+.icon-ai .ai-s1,
+.icon-ai .ai-s2 {
+    transform-box: fill-box;
+    transform-origin: center;
+    will-change: transform, opacity;
+    animation: ai-twinkle 2.8s ease-in-out infinite;
+}
+.icon-ai .ai-s2 { animation-delay: 0.9s; }
+
+@keyframes ai-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@keyframes ai-twinkle {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.4); opacity: 0.5; }
+}
+
+/* ホバー時の動きは親 .service-icon の rotate+scale に一本化
+   （親子で transform を重ねると座標系がズレるため、子svgには別途適用しない） */
+
+/* アクセシビリティ: 動きを抑えたい人には静止 */
+@media (prefers-reduced-motion: reduce) {
+    .icon-game .icon-wobble,
+    .icon-game .btn,
+    .icon-event .flag,
+    .icon-event .spark,
+    .icon-web .code-bar,
+    .icon-web .cursor,
+    .icon-sns .bubble-1,
+    .icon-sns .bubble-2,
+    .icon-sns .dot,
+    .icon-sns .heart,
+    .icon-ai .ai-main,
+    .icon-ai .ai-s1,
+    .icon-ai .ai-s2 {
+        animation: none !important;
+    }
+}
+
+/* カード毎のアクセントカラー — Swiperループのclone後も正しく適用されるようクラスベースで指定 */
+.magic-card.card-game  { --accent: #c2185b; } /* ゲーム: ディープローズ */
+.magic-card.card-event { --accent: #e65100; } /* イベント: ディープオレンジ */
+.magic-card.card-web   { --accent: #0277bd; } /* Web: ディープブルー */
+.magic-card.card-sns   { --accent: #5e35b1; } /* SNS: ディープバイオレット */
+.magic-card.card-ai    { --accent: #00897b; } /* AI: ディープティール */
 
 .magic-card .service-icon i::before {
     /* Font Awesome疑似要素の中央配置 */

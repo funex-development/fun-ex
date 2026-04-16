@@ -1,0 +1,58 @@
+# robots.txt for funex.co.jp
+# 株式会社ファンエクス公式サイト
+
+# 全ての一般クローラーを許可
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# === AI検索エンジン向け明示許可（GEO/LLMO対策）===
+
+# OpenAI（ChatGPT、ChatGPT Search）
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic（Claude）
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Google（Gemini、AI Overviews）
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Microsoft Copilot
+User-agent: Bingbot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# === 学習目的のみのクローラーは拒否（任意。引用は許可・学習は拒否のスタンス）===
+User-agent: CCBot
+Disallow: /
+
+# サイトマップ
+Sitemap: https://funex.co.jp/sitemap.xml
