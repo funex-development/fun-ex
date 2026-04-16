@@ -55,15 +55,17 @@
     }
 
     /* Swiperに任せるのでgrid → flex。padding/margin はSwiperの幅計算に
-       影響するので 0 に揃える（shadow用の余白はslide側で確保する） */
+       影響するので 0 に揃える（shadow用の余白はslide側で確保する）。
+       gap/margin/padding は style.css 側の .services-grid 定義に
+       上書きされないよう !important で固定する（Swiperのスライド位置計算に必須） */
     .services-grid {
         display: flex !important;
         grid-template-columns: none;
-        gap: 0;
-        margin: 30px 0 10px;
-        padding: 0;
-        max-width: none;
-        width: auto;
+        gap: 0 !important;
+        margin: 30px 0 10px !important;
+        padding: 0 !important;
+        max-width: none !important;
+        width: auto !important;
     }
 
     /* Swiperがカード幅を管理 — アクティブ:両脇チラ見せのバランス
