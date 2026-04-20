@@ -380,6 +380,15 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 
 ---
 
+## 対応履歴
+
+### 2026-04-20
+- `public/index.html` のcanonical URLを `https://funex.co.jp/index.html` → `https://funex.co.jp/` に修正
+- `public/sitemap.xml` から `/index.html` の `<url>` ブロックを削除（残り6URL: `/`, `/about.html`, `/services.html`, `/news.html`, `/contact`, `/privacy.html`）
+- 未デプロイ（Git commit & push → Vercel反映が必要）
+
+---
+
 ## Documentation References
 
 - **ARCHITECTURE.md** - Full technical architecture, design specs, future roadmap (810 lines)
