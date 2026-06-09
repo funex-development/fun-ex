@@ -179,7 +179,7 @@ export default function ContactPage() {
             <Image src="/funexW.png" alt="FunEx 株式会社ファンエクス" className="logo-img" width={162} height={30} priority />
           </a>
           <div className="nav-links">
-            <a href="/index.html">TOP</a>
+            <a href="/">TOP</a>
             <a href="about.html">会社概要</a>
             <a href="services.html">事業内容</a>
             <a href="news.html">ニュース</a>
@@ -193,7 +193,7 @@ export default function ContactPage() {
         </div>
         {/* Mobile Menu */}
         <div className="mobile-menu" id="mobile-menu">
-          <a href="/index.html" className="mobile-link">TOP</a>
+          <a href="/" className="mobile-link">TOP</a>
           <a href="about.html" className="mobile-link">会社概要</a>
           <a href="services.html" className="mobile-link">事業内容</a>
           <a href="news.html" className="mobile-link">ニュース</a>

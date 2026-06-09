@@ -382,6 +382,17 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 
 ## 対応履歴
 
+### 2026-06-09 — `/index.html` 重複インデックスの根本解消（SEO正規化）
+- **背景**: Google に `https://www.funex.co.jp/index.html` がインデックスされていた（正規 `/` ではなく）。原因は `app/page.tsx` が `/` を `/index.html` へ 307 リダイレクトしており、サイト自身が「正規ページは /index.html」と宣言していたこと。加えて www/非www のHTTP正規化が無く重複URLが最大4種存在していた。
+- **next.config.ts**: リダイレクト方向を逆転。`/index.html → /` を 308、www→非www を 308 で正規化。`/` は `beforeFiles` rewrite で静的ホーム `public/index.html` を **200** 配信（URLは `/` のまま）。
+  - **重要（壊さないこと）**: `redirects` と `beforeFiles` rewrite は別フェーズで評価されるためループしない。`/` を再び `/index.html` へ **redirect** する実装に戻すと 307 問題が再発する。www正規化の destination は `$1` 後方参照が展開されないため `:path+` 名前付きパラメータを使用している。
+- **app/page.tsx**: 元凶の `redirect('/index.html')` を除去。rewrite が万一外れた時のフェイルセーフとして `notFound()`（空200の白紙インデックス防止）。
+- **app/contact/layout.tsx（新規）**: `/contact` がルート layout の `canonical:'/'` を継承しホームを正規URLと誤宣言していたため、`canonical:'/contact'` を付与。
+- **内部リンク**: 全静的HTML+contactページのロゴ/TOPリンク 27箇所を `/index.html`→`/` に統一。`public/llms.txt` のトップURLも `/` に。
+- **sitemap**: `public/sitemap.xml` の lastmod 更新。ルート直下 `sitemap.xml`（Next.jsでは非配信の残骸）を public版に同期し旧 `/index.html` を削除。JSON-LD の `url` を canonical と統一（末尾スラッシュ）。
+- **検証**: プロダクションビルド+ローカル起動で全リダイレクト/配信を実測済み（`/`=200, `/index.html`=308→/ 1ホップ, www系=308で非wwwへ, ループ無し）。
+- **デプロイ後の必須作業**: Search Console で `/` の再インデックス申請・サイトマップ再送信。Vercel CDN に旧307がキャッシュ済のため反映確認（必要なら Build Cache オフで再デプロイ）。
+
 ### 2026-04-20
 - `public/index.html` のcanonical URLを `https://funex.co.jp/index.html` → `https://funex.co.jp/` に修正
 - `public/sitemap.xml` から `/index.html` の `<url>` ブロックを削除（残り6URL: `/`, `/about.html`, `/services.html`, `/news.html`, `/contact`, `/privacy.html`）

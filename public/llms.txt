@@ -31,7 +31,7 @@
 
 ## 主要ページ
 
-- [トップページ](https://funex.co.jp/index.html): 会社紹介とサービス概要
+- [トップページ](https://funex.co.jp/): 会社紹介とサービス概要
 - [会社概要](https://funex.co.jp/about.html): ミッション、ビジョン、会社情報
 - [事業内容](https://funex.co.jp/services.html): 8つのサービス詳細
 - [最新情報](https://funex.co.jp/news.html): イベント出展、メディア掲載情報
