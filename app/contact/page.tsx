@@ -452,7 +452,6 @@ export default function ContactPage() {
             <h4>Services</h4>
             <ul>
               <li><a href="/services.html#service-game">ゲーム制作／メタバース</a></li>
-              <li><a href="/services.html#service-event">オフラインイベント</a></li>
               <li><a href="/services.html#service-web">Web制作</a></li>
               <li><a href="/services.html#service-sns">SNSサポート</a></li>
               <li><a href="/services.html#service-ai">生成AI活用サポート</a></li>

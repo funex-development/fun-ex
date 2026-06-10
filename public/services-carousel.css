@@ -448,6 +448,27 @@
     50% { transform: scale(0.4); opacity: 0.5; }
 }
 
+/* ==== 6) MEO — マップピンがふわっと上下し、きらめきが瞬く ==== */
+.icon-meo .meo-pin {
+    transform-box: fill-box;
+    transform-origin: 50% 95%;
+    will-change: transform;
+    animation: meo-bob 3.6s ease-in-out infinite;
+}
+.icon-meo .meo-spark {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: meo-twinkle 2.4s ease-in-out infinite;
+}
+@keyframes meo-bob {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-3px); }
+}
+@keyframes meo-twinkle {
+    0%, 100% { transform: scale(0.7); opacity: 0.35; }
+    50%      { transform: scale(1.1); opacity: 1; }
+}
+
 /* ホバー時の動きは親 .service-icon の rotate+scale に一本化
    （親子で transform を重ねると座標系がズレるため、子svgには別途適用しない） */
 
@@ -465,7 +486,9 @@
     .icon-sns .heart,
     .icon-ai .ai-main,
     .icon-ai .ai-s1,
-    .icon-ai .ai-s2 {
+    .icon-ai .ai-s2,
+    .icon-meo .meo-pin,
+    .icon-meo .meo-spark {
         animation: none !important;
     }
 }
@@ -476,6 +499,7 @@
 .magic-card.card-web   { --accent: #0277bd; } /* Web: ディープブルー */
 .magic-card.card-sns   { --accent: #5e35b1; } /* SNS: ディープバイオレット */
 .magic-card.card-ai    { --accent: #00897b; } /* AI: ディープティール */
+.magic-card.card-meo   { --accent: #2e7d32; } /* MEO: ディープグリーン */
 
 .magic-card .service-icon i::before {
     /* Font Awesome疑似要素の中央配置 */

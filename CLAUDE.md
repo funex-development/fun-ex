@@ -382,6 +382,72 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 
 ## 対応履歴
 
+### 2026-06-10 — トップページのヒーロー以降リッチ化（スクロール演出＋セクション装飾）
+- **背景**: ヒーローだけがリッチで以降が「見出し＋テキスト＋ボタン」のみでシンプルすぎるとの判断。案A（モーション強化）＋案C（セクションの見た目刷新）の組み合わせで実装。設計書 `docs/superpowers/specs/2026-06-10-top-page-richness-design.md`／実装プラン `docs/superpowers/plans/2026-06-10-top-page-richness.md`。
+- **style.css（末尾に追記）**: ①スクロールリビール（`.js-reveal .reveal` → `.is-visible`）②Aboutにブランド3色の淡いradial-gradientブロブ（transformのみの18sアニメ）③Servicesをライトグレー帯＋上下に白い斜めウェッジ（clip-path）④Newsカード化（**`.news-home` でトップ専用にスコープ** — `.news-item` はnews.htmlと共有クラスのため必須）⑤Contact用グラデCTA帯（`.contact-cta`、ブランドグラデに黒16%を重ねて白文字のコントラスト3:1確保、ボタン文字 #d23f3a は4.5:1）。装飾サークルは疑似要素でなく背景レイヤーで描画。
+- **script.js**: DOMContentLoaded末尾にIntersectionObserverのリビール処理。同一セクション内は0.12s刻みのstagger、表示後にtransitionDelayを除去（ホバー遅延防止）、`prefers-reduced-motion`時はJS側でスキップ＋CSS側にも無効化ルール（二重ガード）。JS無効時は `.js-reveal` が付かないため何も隠れない。
+- **index.html**: クラス付与のみ（`reveal`×12・`news-home`・`contact-cta`）＋Contactの section-desc のインラインstyleをCSSへ移設。文章・リンク・構成・カルーセルは不変。
+- **既存実装の知見**: サービスカードは現在**白ベース＋アクセント色**でホバー演出も実装済み（本ファイルStyling Guidelinesの「ダークカード #1e293b」記述は古い）。ボタンのホバー演出も既存。
+- **技術知見（重要・再発防止）**: この環境のChromeは **CDPスクリーンショット（Page.captureScreenshot）がタブごとに数枚で劣化してハングする**（30sタイムアウト）。ページ側は無実（JS即応・新しいタブなら同じ画面が即撮れる）。CSS要素の二分探索で「原因特定」しても劣化途中のまだら成功を追いかけているだけの可能性が高い。**検証スクショは新しいタブで最初の1〜2枚に絞る**こと。過去の「feGaussianBlurでフリーズ」も同根の疑いあり。
+- **検証**: localhost:3002 で全セクション目視・リビール12要素動作・コンソールエラーなし・`npm run build` 成功。モバイル幅のみ実機未確認（resize_windowが環境的に不可。CSSパースは検証済み）。
+- **コミット状況**: 設計書・プラン・style.css・script.js はコミット済み（ブランチ `fix/seo-canonical-index-html`）。**index.html は未コミット**（同日のMEO対応等の未コミット変更と同居しているため、コミット方針はユーザー判断待ち）。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/index.html`, `public/style.css`, `public/script.js`
+
+### 2026-06-10 — トップページ（index.html）事業内容カルーセルのサービス再構成
+- **導入文**: 事業内容セクションの section-desc を「私たちの事業はすべて、中小企業の価値を」→「**私たちの事業は、中小企業の価値を最大化し**」に変更。`α世代` はギリシャ文字のまま維持（サイト全体20+箇所の表記統一のため。ユーザー指定の半角 `a世代` はキーボード代替と判断し採用せず）。
+- **カルーセル（5枚構成に）**: 「オフラインイベント」カードを削除、「生成AI活用サポート」→「**生成AI伴走支援**」に改名、「**MEO対策**」カードを新設。
+- **MEO対策カード**: コピー「Googleマップで見つけてもらえるお店へ。来店・お問い合わせ・売上の増加につながる集客をサポートします。」。アクセント色 `.magic-card.card-meo { --accent: #2e7d32 }`（ディープグリーン、他カードと非重複）、地図ピン型インラインSVG（`icon-meo`／ふわっと上下＋きらめき、`prefers-reduced-motion` 対応）を `services-carousel.css` に追加。
+- **構造化データ**: JSON-LD 提供サービスからオフライン削除・生成AI伴走支援に改名・MEO対策追加。`knowsAbout` に「MEO対策」「ローカルSEO」を追加。
+- **スコープ判断**: 本作業は「トップの注目5サービス」レイヤー（index.html カルーセル＋各ページフッター）のみ。`services.html`／`llms.txt`／`about.html` の「事業内容」表（=8項目カタログ）は別レイヤーとして非更新（services.html 側の整理は同日の別エントリ参照）。
+- **フッターMEOリンク**: 当初 `/contact` で実装したが、同日の「services.html に MEO対策セクション追加」作業で全ページ `services.html#service-meo` に統一済み。
+- **未整合（将来用メモ）**: トップのカード/フッター表記は「生成AI伴走支援」、services.html 詳細セクションは「生成AI活用/導入」で名称が分かれている。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/index.html`, `public/services-carousel.css`
+
+### 2026-06-10 — 会社設立日（2024年3月）を全公開面から削除
+- **会社概要テーブルの「設立」行を削除**（`about.html`）。
+- **構造化データ JSON-LD の `foundingDate` を削除**（`about.html` / `index.html` 両方）。
+- **`about.html` の meta description・og:description から「設立2024年3月、」を削除**、`<title>` の「設立」キーワード（代表・設立・所在地 → 代表・所在地）も削除。
+- **`llms.txt` の「設立」行を削除**。
+- **理由**: 設立年（社歴の浅さ）を露出させない方針。表示だけ消すと検索結果/SNS/AI検索に残るため、表示・メタ・構造化データ・llms.txt を一括で揃えた。
+- **残置**: `privacy.html` の「制定日: 2024年3月1日」はプライバシーポリシー制定日（会社設立日とは別物・偶然同日）のため触っていない。`ARCHITECTURE.md`（社内ドキュメント、設立=2024年7月の古い不整合あり）も公開面でないため未修正。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/about.html`, `public/index.html`, `public/llms.txt`
+
+### 2026-06-10 — 事業内容ページ（services.html）の文言・料金・サービス整理
+- **2サービスを削除**: 「ポスター/チラシ制作」「オフラインイベント企画/運営」をタブ・詳細セクション・meta記述から削除。波及する不整合も解消 → `about.html` の事業内容リスト、`llms.txt` のサービス一覧（8→6領域・番号振り直し）、`app/contact/page.tsx` フッターの `#service-event` リンク（リンク切れ回避）、`subpage.css` の `#service-poster` 専用スタイル（dead CSS）を削除。
+- **HP制作**: 管理費 月額4,980円→**5,000円**、制作費/管理費に**（税抜）明記**（消費者向け総額表示の誤解防止）、説明文「ドメイン取得から管理まで〜」→「**サーバー管理から保守、運用まで全てお任せいただけます。**」、「HP制作例：ポートフォリオサイト」リンクを削除。
+- **生成AI活用**: 説明文を「**お客様自身で**生成AIを使いこなせるようになる伴走支援を提供します。」に変更（システム開発の記載を削除・3行構成）。
+- **MEO対策**: キャッチコピー「『近くで探す』お客様に、**いちばんに**見つかる」→「見つかる」（"いちばんに" は1位を断定する誇大表現になりうるため削除）。
+- **残置**: 削除2サービスの画像アセット（`flyer-bousai` / `flyer-hp` / `offline-event`）はグローバルルール「ファイル削除禁止」に従い残置（参照は無くなった）。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/services.html`, `public/about.html`, `public/llms.txt`, `app/contact/page.tsx`, `public/subpage.css`
+
+### 2026-06-10 — 生成AIセクションのSVGビジュアル刷新（service-ai.svg）
+- **public/assets/service-ai.svg を全面リライト**。3回の方向転換を経て最終形は「漆黒×アイスブルー単色系のニューラルネットワーク＋パス化したAIモノグラム」。①プレミアムミニマル→ユーザー評「しょぼい」、②ネオン多色の派手路線→「子どもっぽい」、③単色ハイエンド路線→採用。今後の調整も「大人かっこいい・単色系・明度差で奥行き」の路線を基準にする。
+- **技術知見（再発防止）**:
+  - このSVGは `<img>` で読み込まれるため Webフォント不可・SMIL/内部CSSは可 → ロゴ文字は `<text>` ではなくパスで描く
+  - 大判 `feGaussianBlur`（stdDeviation 55 をアニメ層に適用）で Chrome レンダラーがフリーズ（CDPスクショのタイムアウトで発覚）→ 発光表現は放射グラデーション図形で代替し、ぼかしフィルタは小領域・静的色（キャッシュ可能）に限定する
+  - 中心から放射するエッジは中央のAIモノグラムを貫通して可読性を壊す → 第1シェルは八角形リング配線にする
+- **構成**: ノード28個を3層シェル配置（内側ほど明るく＝被写界深度）、信号パルス5個・発火エッジ5本・波紋は低頻度。`prefers-reduced-motion` では `.ai-motion` クラスの要素を display:none（SMILはCSSで停止できないため要素ごと隠す方式）。
+- **public/services.html**: 生成AIセクションの `alt` を新デザインの説明に更新。
+- **検証**: localhost:3001 で単体表示＋実ページを Chrome MCP スクショで確認。旧デザインは `../_meo_eval/ai.svg` に保全、`<img>` 読み込み検証用 `../_meo_eval/ai_v2_host.html` を新規作成。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/assets/service-ai.svg`, `public/services.html`, `../_meo_eval/ai_v2_host.html`
+
+### 2026-06-10 — 事業内容ページに「MEO対策」セクション追加
+- **背景**: フッターに「MEO対策」リンクは既にあったが `/contact` を指すのみで、事業内容ページに専用セクションが無かった。事業内容ページへ正式に追加した。
+- **public/services.html**: サービスタブに「MEO対策」を追加し、末尾に専用セクション `#service-meo` を新設。コピーは既存サービスと同じ「課題→解決」トーン（「近くで探す」客向けの地図検索上位＝Googleビジネスプロフィール最適化・口コミ返信運用・写真/投稿改善）。※見出しは投入後にユーザー側で「『近くで探す』お客様に見つかる」へ短縮調整あり。
+- **public/assets/service-meo.svg（新規・約37KB）**: 姉妹作 `service-ai.svg` と同系のダーク×ネオンHUDのアニメSVG。夜の地図グリッド＋発光する主役ピン＋No.1バッジ＋検索リーチの同心円波＋順位リスト（1位ハイライト/地図表示スコア94%）＋★4.8＋検索バー「地域名×業種」。SMILアニメ・`prefers-reduced-motion`対応・`viewBox 0 0 1600 900`・`preserveAspectRatio xMidYMid slice`。Googleロゴ等の商標は不使用の汎用デザイン。
+- **public/subpage.css**: `.service-meo-visual`（夜の地図トーン背景＋ティール/グリーンのグロー枠）を `.service-ai-visual` に倣って追加。PC/モバイル両レイアウトは `.service-item` 既存ルールを継承。
+- **フッター統一**: 全ページ（services/about/news/privacy/index）のフッター「MEO対策」リンクを `/contact` → `services.html#service-meo` に変更。フッター内の他サービス（ゲーム/SNS/AI）が各セクションへ飛ぶ挙動に揃えた。
+- **既知の未修整（今回は触れず）**: 全ページのフッター「Web制作」が `services.html#service-web` を指すが該当IDは存在しない（実体は `#service-hp`）。
+- **検証**: ローカル dev（3000使用中のため port 3001）で実ページを表示し、タブ追加・セクション表示・SVGのコンテナ内16:9スライス表示・レイアウトを目視確認。SVGはXML整形式・id一意・url参照整合・SMIL正当性を機械検証済み。
+- **後片付け**: 生成過程でサブエージェントが作った検証用スクラッチ（`_meo_eval/`、ルート直下の重複 `service-meo.svg`、一時スクリプト）を削除済み。`fun-ex/` 配下のサイト本体には影響なし。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/services.html`, `public/assets/service-meo.svg`, `public/subpage.css`, 各 `public/*.html` フッター
+
 ### 2026-06-09 — `/index.html` 重複インデックスの根本解消（SEO正規化）
 - **背景**: Google に `https://www.funex.co.jp/index.html` がインデックスされていた（正規 `/` ではなく）。原因は `app/page.tsx` が `/` を `/index.html` へ 307 リダイレクトしており、サイト自身が「正規ページは /index.html」と宣言していたこと。加えて www/非www のHTTP正規化が無く重複URLが最大4種存在していた。
 - **next.config.ts**: リダイレクト方向を逆転。`/index.html → /` を 308、www→非www を 308 で正規化。`/` は `beforeFiles` rewrite で静的ホーム `public/index.html` を **200** 配信（URLは `/` のまま）。

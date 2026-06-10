@@ -1,0 +1,540 @@
+<svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="meo-viz-title meo-viz-desc" preserveAspectRatio="xMidYMid slice">
+    <title id="meo-viz-title">MEO対策（Googleマップ・地図検索の上位表示）イメージ</title>
+    <desc id="meo-viz-desc">夜の地図グリッドの上で、地域名×業種の検索バー、左の順位リスト、中央の発光する主役ロケーションピンと到達範囲のパルス波、星4.8のレビュー評価が連動し、自店がローカル検索で3位から1位へ浮上する「MEO＝地図検索で上位表示」を表す、ダーク×ネオンのHUDビジュアル。</desc>
+    <style>
+        /* 動きを減らす設定のユーザー向け：CSS駆動のマスターアニメを停止し、
+           SMILにもbegin="indefinite"を併用しないため、ここではグローバルに視覚的な揺らぎの主体を弱める。
+           SMILは静止時でも構図が成立するよう設計しているため、機能はそのまま保つ。 */
+        .meo-anim-css { animation: meo-breathe 6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+        @keyframes meo-breathe { 0%,100% { opacity: 0.85; } 50% { opacity: 1; } }
+        @media (prefers-reduced-motion: reduce) {
+            .meo-anim-css { animation: none !important; opacity: 0.92 !important; }
+        }
+    </style>
+    <defs>
+        <!-- 背景：夜の地図トーンの放射グラデーション -->
+        <radialGradient id="meo-bg" cx="50%" cy="46%" r="80%">
+            <stop offset="0%" stop-color="#07223d" />
+            <stop offset="55%" stop-color="#04101f" />
+            <stop offset="100%" stop-color="#00060f" />
+        </radialGradient>
+        <!-- 主役ピンの発光コア（温かみの琥珀寄りに統一） -->
+        <radialGradient id="meo-pin-core" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="1" />
+            <stop offset="34%" stop-color="#ffe0b0" stop-opacity="0.95" />
+            <stop offset="70%" stop-color="#ff7a4d" stop-opacity="0.45" />
+            <stop offset="100%" stop-color="#ff7a4d" stop-opacity="0" />
+        </radialGradient>
+        <!-- 主役ピン本体グラデーション（温かみのある橙〜朱・主役だけの暖色） -->
+        <linearGradient id="meo-pin-body" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#ffc58a" />
+            <stop offset="45%" stop-color="#ff6a4d" />
+            <stop offset="100%" stop-color="#d12a3a" />
+        </linearGradient>
+        <!-- サブピン本体（マップグリーン） -->
+        <linearGradient id="meo-pin-green" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#6ee7b7" />
+            <stop offset="100%" stop-color="#15803d" />
+        </linearGradient>
+        <!-- サブピン本体（シアン） -->
+        <linearGradient id="meo-pin-cyan" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#7df9ff" />
+            <stop offset="100%" stop-color="#0284a8" />
+        </linearGradient>
+        <!-- 到達範囲（地図の発光地表） -->
+        <radialGradient id="meo-reach" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#34d399" stop-opacity="0.28" />
+            <stop offset="55%" stop-color="#00e5ff" stop-opacity="0.11" />
+            <stop offset="100%" stop-color="#00e5ff" stop-opacity="0" />
+        </radialGradient>
+        <!-- レーダースイープ用の扇形グラデーション -->
+        <linearGradient id="meo-radar" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#00e5ff" stop-opacity="0" />
+            <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.42" />
+        </linearGradient>
+        <!-- 検索バーのガラス面 -->
+        <linearGradient id="meo-bar" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0e2e4d" stop-opacity="0.95" />
+            <stop offset="100%" stop-color="#06182b" stop-opacity="0.95" />
+        </linearGradient>
+        <!-- 1位ハイライト行のグラデーション（暖色は主役の役割に限定） -->
+        <linearGradient id="meo-rank1" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff6a4d" stop-opacity="0.30" />
+            <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.10" />
+        </linearGradient>
+        <!-- リストパネルのガラス面 -->
+        <linearGradient id="meo-panel" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0c2742" stop-opacity="0.90" />
+            <stop offset="100%" stop-color="#05131f" stop-opacity="0.94" />
+        </linearGradient>
+        <!-- ネオン帯（タイトル用、シアン→グリーン主体に整理。紫は廃し寒色一貫へ） -->
+        <linearGradient id="meo-text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#7df9ff">
+                <animate attributeName="stop-color" values="#7df9ff;#34d399;#00e5ff;#7df9ff" dur="10s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="55%" stop-color="#34d399">
+                <animate attributeName="stop-color" values="#34d399;#00e5ff;#7df9ff;#34d399" dur="10s" repeatCount="indefinite" />
+            </stop>
+            <stop offset="100%" stop-color="#00e5ff">
+                <animate attributeName="stop-color" values="#00e5ff;#7df9ff;#34d399;#00e5ff" dur="10s" repeatCount="indefinite" />
+            </stop>
+        </linearGradient>
+        <!-- 説明バッジ（日本語キャッチ）のガラス面 -->
+        <linearGradient id="meo-caption" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0c2c49" stop-opacity="0.92" />
+            <stop offset="100%" stop-color="#06182b" stop-opacity="0.92" />
+        </linearGradient>
+        <!-- グロー（標準） -->
+        <filter id="meo-glow" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="4.5" result="blur" />
+            <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        <!-- グロー（強・ロゴ用） -->
+        <filter id="meo-glow-strong" x="-70%" y="-70%" width="240%" height="240%">
+            <feGaussianBlur stdDeviation="8" result="blur" />
+            <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+            </feMerge>
+        </filter>
+        <!-- ソフトグロー（ぼかしのみ） -->
+        <filter id="meo-glow-soft" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="16" />
+        </filter>
+        <!-- 地図グリッド（細街路） -->
+        <pattern id="meo-grid" width="64" height="64" patternUnits="userSpaceOnUse">
+            <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#13476e" stroke-opacity="0.38" stroke-width="1" />
+        </pattern>
+        <!-- 地図グリッド（大ブロック・幹線） -->
+        <pattern id="meo-grid-major" width="256" height="256" patternUnits="userSpaceOnUse">
+            <path d="M 256 0 L 0 0 0 256" fill="none" stroke="#1c5f8f" stroke-opacity="0.28" stroke-width="2" />
+        </pattern>
+        <!-- 走査線（ホログラム風・控えめ） -->
+        <pattern id="meo-scanlines" width="1" height="5" patternUnits="userSpaceOnUse">
+            <rect width="1" height="1" fill="#7df9ff" opacity="0.03" />
+        </pattern>
+        <!-- ★（星）シンボル：再利用 -->
+        <symbol id="meo-star" viewBox="-10 -10 20 20" overflow="visible">
+            <path d="M 0 -9 L 2.6 -2.8 L 9 -2.8 L 3.9 1.4 L 5.8 8 L 0 4 L -5.8 8 L -3.9 1.4 L -9 -2.8 L -2.6 -2.8 Z" />
+        </symbol>
+        <!-- ロケーションピン シンボル（汎用・商標非該当の一般的形状） -->
+        <symbol id="meo-pin" viewBox="-24 -54 48 60" overflow="visible">
+            <path d="M 0 4 C -16 -16 -20 -26 -20 -34 A 20 20 0 0 1 20 -34 C 20 -26 16 -16 0 4 Z" />
+        </symbol>
+        <!-- 見込み客アイコン（汎用の人型・リーチ波が届く先のお客様） -->
+        <symbol id="meo-person" viewBox="-12 -24 24 26" overflow="visible">
+            <circle cx="0" cy="-16" r="6" />
+            <path d="M -10 1 C -10 -10 -5 -10 0 -10 C 5 -10 10 -10 10 1 Z" />
+        </symbol>
+    </defs>
+
+    <!-- 背景 -->
+    <rect width="1600" height="900" fill="url(#meo-bg)" />
+
+    <!-- ===== 俯瞰パースの地図グリッド層 ===== -->
+    <g opacity="0.9">
+        <!-- 地表面の発光（中央やや右に主役エリア） -->
+        <ellipse cx="940" cy="500" rx="600" ry="400" fill="url(#meo-reach)" />
+        <!-- パース変形した街路網（上=奥、下=手前） -->
+        <g transform="translate(800 470) scale(1 0.62)">
+            <g transform="skewX(-8)">
+                <rect x="-1100" y="-560" width="2200" height="1120" fill="url(#meo-grid)" />
+                <rect x="-1100" y="-560" width="2200" height="1120" fill="url(#meo-grid-major)" />
+            </g>
+        </g>
+        <!-- 主要幹線（発光する道路・地図らしさを強調） -->
+        <g stroke-linecap="round" fill="none" filter="url(#meo-glow)" opacity="0.55">
+            <path d="M 120 760 Q 600 560 980 440 T 1560 240" stroke="#1c8fc4" stroke-width="6" opacity="0.5" />
+            <path d="M 60 360 Q 500 420 980 440 Q 1300 452 1560 540" stroke="#15803d" stroke-width="5" opacity="0.45" />
+            <path d="M 980 440 L 740 900" stroke="#1c8fc4" stroke-width="5" opacity="0.4" />
+            <path d="M 980 440 L 1400 860" stroke="#1c8fc4" stroke-width="4" opacity="0.35" />
+            <path d="M 980 440 L 1120 880" stroke="#15803d" stroke-width="4" opacity="0.32" />
+        </g>
+    </g>
+
+    <!-- 背景の浮遊データ粒子（夜空・地図上の信号／寒色一貫） -->
+    <g fill="#7df9ff">
+        <circle cx="180" cy="150" r="1.6" opacity="0.7">
+            <animate attributeName="opacity" values="0.2;1;0.2" dur="3.2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1460" cy="130" r="1.3" opacity="0.5">
+            <animate attributeName="opacity" values="1;0.2;1" dur="2.6s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="300" cy="800" r="1.8" opacity="0.8" fill="#34d399">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1360" cy="780" r="1.4" opacity="0.6">
+            <animate attributeName="opacity" values="0.2;0.9;0.2" dur="3.6s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="120" cy="520" r="1.3" opacity="0.6" fill="#34d399">
+            <animate attributeName="opacity" values="1;0.3;1" dur="2.9s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1500" cy="470" r="1.5" opacity="0.7">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="3.4s" repeatCount="indefinite" />
+        </circle>
+    </g>
+
+    <!-- 浮遊するHUDコード断片（モノスペース・点数を絞り日本語併記で意味を補強） -->
+    <g font-family="'Courier New', monospace" fill="#7df9ff" opacity="0.26">
+        <text x="150" y="600" font-size="13">範囲 半径 3.0km</text>
+        <text x="1372" y="430" font-size="13">クチコミ 1,284件</text>
+        <g>
+            <animate attributeName="opacity" values="0.18;0.55;0.18" dur="3.6s" repeatCount="indefinite" />
+            <text x="1330" y="560" font-size="13">&#9656; 順位 上昇中...</text>
+        </g>
+    </g>
+
+    <!-- ===== 中央〜右：マップ＋主役ピン群（主役を中央寄りに配置） ===== -->
+    <g transform="translate(980 450)">
+
+        <!-- レーダースイープ（回転する扇形・上品に） -->
+        <g opacity="0.45">
+            <g>
+                <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="9s" repeatCount="indefinite" />
+                <path d="M 0 0 L 300 0 A 300 300 0 0 1 212 212 Z" fill="url(#meo-radar)" opacity="0.33" />
+                <line x1="0" y1="0" x2="320" y2="0" stroke="#00e5ff" stroke-width="2" filter="url(#meo-glow)" />
+            </g>
+        </g>
+
+        <!-- 到達範囲パルス波（主役ピンを中心に同心円が広がる／寒色2色に整理） -->
+        <g fill="none" stroke-width="1.8">
+            <circle r="64" stroke="#34d399" opacity="0">
+                <animate attributeName="r" values="64;305" dur="4.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0 0.4 1" />
+                <animate attributeName="opacity" values="0.85;0" dur="4.2s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0 0.4 1" />
+            </circle>
+            <circle r="64" stroke="#00e5ff" opacity="0">
+                <animate attributeName="r" values="64;305" dur="4.2s" begin="1.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0 0.4 1" />
+                <animate attributeName="opacity" values="0.85;0" dur="4.2s" begin="1.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0 0.4 1" />
+            </circle>
+            <circle r="64" stroke="#7df9ff" opacity="0">
+                <animate attributeName="r" values="64;305" dur="4.2s" begin="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0 0.4 1" />
+                <animate attributeName="opacity" values="0.7;0" dur="4.2s" begin="2.8s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0 0.4 1" />
+            </circle>
+        </g>
+
+        <!-- 固定の到達範囲リング（静止時でも構図成立／レビューバッジと干渉しない半径に再配置） -->
+        <circle r="250" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="3 9" opacity="0.38" />
+        <circle r="190" fill="none" stroke="#34d399" stroke-width="1" stroke-dasharray="3 9" opacity="0.42" />
+
+        <!-- ソフトな地表発光（主役の足元） -->
+        <ellipse cx="0" cy="6" rx="120" ry="34" fill="#ff6a4d" opacity="0.26" filter="url(#meo-glow-soft)">
+            <animate attributeName="opacity" values="0.16;0.34;0.16" dur="3.8s" repeatCount="indefinite" />
+        </ellipse>
+
+        <!-- サブピン（周辺の競合店・順位下位）：奥に小さく配置 -->
+        <g opacity="0.9">
+            <!-- 左奥（グリーン） -->
+            <g>
+                <animateTransform attributeName="transform" type="translate" values="-218,-118;-218,-126;-218,-118" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+                <g transform="scale(0.62)">
+                    <ellipse cx="0" cy="8" rx="16" ry="5" fill="#000a14" opacity="0.5" />
+                    <use href="#meo-pin" x="-24" y="-54" width="48" height="60" fill="url(#meo-pin-green)" stroke="#bbf7d0" stroke-width="1.4" />
+                    <circle cx="0" cy="-34" r="6.5" fill="#04101f" />
+                </g>
+            </g>
+            <!-- 右奥（シアン） -->
+            <g>
+                <animateTransform attributeName="transform" type="translate" values="218,-158;218,-150;218,-158" dur="5.6s" begin="0.7s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+                <g transform="scale(0.56)">
+                    <ellipse cx="0" cy="8" rx="16" ry="5" fill="#000a14" opacity="0.5" />
+                    <use href="#meo-pin" x="-24" y="-54" width="48" height="60" fill="url(#meo-pin-cyan)" stroke="#cffafe" stroke-width="1.4" />
+                    <circle cx="0" cy="-34" r="6.5" fill="#04101f" />
+                </g>
+            </g>
+            <!-- 左手前（シアン・小） -->
+            <g>
+                <animateTransform attributeName="transform" type="translate" values="-158,100;-158,92;-158,100" dur="5.3s" begin="1.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+                <g transform="scale(0.66)">
+                    <ellipse cx="0" cy="8" rx="16" ry="5" fill="#000a14" opacity="0.5" />
+                    <use href="#meo-pin" x="-24" y="-54" width="48" height="60" fill="url(#meo-pin-cyan)" stroke="#cffafe" stroke-width="1.4" />
+                    <circle cx="0" cy="-34" r="6.5" fill="#04101f" />
+                </g>
+            </g>
+            <!-- 右手前（グリーン・小） -->
+            <g>
+                <animateTransform attributeName="transform" type="translate" values="176,128;176,121;176,128" dur="6s" begin="2.1s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+                <g transform="scale(0.6)">
+                    <ellipse cx="0" cy="8" rx="16" ry="5" fill="#000a14" opacity="0.5" />
+                    <use href="#meo-pin" x="-24" y="-54" width="48" height="60" fill="url(#meo-pin-green)" stroke="#bbf7d0" stroke-width="1.4" />
+                    <circle cx="0" cy="-34" r="6.5" fill="#04101f" />
+                </g>
+            </g>
+        </g>
+
+        <!-- 見込み客アイコン群（リーチ波が届く先のお客様・順に灯る／near customers） -->
+        <g>
+            <g fill="#7df9ff" opacity="0">
+                <use href="#meo-person" x="-12" y="-24" width="24" height="26" transform="translate(-195 22)" />
+                <animate attributeName="opacity" values="0;0.82;0.82;0" keyTimes="0;0.3;0.7;1" dur="6s" repeatCount="indefinite" />
+            </g>
+            <g fill="#34d399" opacity="0">
+                <use href="#meo-person" x="-12" y="-24" width="24" height="26" transform="translate(188 34)" />
+                <animate attributeName="opacity" values="0;0.82;0.82;0" keyTimes="0;0.3;0.7;1" dur="6s" begin="2s" repeatCount="indefinite" />
+            </g>
+            <g fill="#7df9ff" opacity="0">
+                <use href="#meo-person" x="-12" y="-24" width="24" height="26" transform="translate(-124 -128)" />
+                <animate attributeName="opacity" values="0;0.82;0.82;0" keyTimes="0;0.3;0.7;1" dur="6s" begin="1s" repeatCount="indefinite" />
+            </g>
+            <g fill="#34d399" opacity="0">
+                <use href="#meo-person" x="-12" y="-24" width="24" height="26" transform="translate(126 -118)" />
+                <animate attributeName="opacity" values="0;0.82;0.82;0" keyTimes="0;0.3;0.7;1" dur="6s" begin="3s" repeatCount="indefinite" />
+            </g>
+            <g fill="#7df9ff" opacity="0">
+                <use href="#meo-person" x="-10" y="-20" width="20" height="22" transform="translate(-74 118)" />
+                <animate attributeName="opacity" values="0;0.78;0.78;0" keyTimes="0;0.3;0.7;1" dur="6s" begin="4s" repeatCount="indefinite" />
+            </g>
+            <g fill="#34d399" opacity="0">
+                <use href="#meo-person" x="-10" y="-20" width="20" height="22" transform="translate(82 124)" />
+                <animate attributeName="opacity" values="0;0.78;0.78;0" keyTimes="0;0.3;0.7;1" dur="6s" begin="1.6s" repeatCount="indefinite" />
+            </g>
+        </g>
+
+        <!-- 主役ピン（中央・最前面・発光・上下に上品に浮遊） -->
+        <g class="meo-anim-css">
+            <animateTransform attributeName="transform" type="translate" values="0,0;0,-14;0,0" dur="4.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+            <!-- 発光ハロ -->
+            <circle cx="0" cy="-58" r="72" fill="url(#meo-pin-core)" opacity="0.85">
+                <animate attributeName="opacity" values="0.6;0.95;0.6" dur="3.2s" repeatCount="indefinite" />
+            </circle>
+            <!-- 接地シャドウ -->
+            <ellipse cx="0" cy="6" rx="24" ry="7" fill="#000a14" opacity="0.55" />
+            <!-- ピン本体 -->
+            <use href="#meo-pin" x="-43" y="-96" width="86" height="108" fill="url(#meo-pin-body)" stroke="#ffe2c2" stroke-width="2.2" filter="url(#meo-glow)" />
+            <!-- ピン中央の窓（汎用の円・商標非該当） -->
+            <circle cx="0" cy="-60" r="15" fill="#04101f" />
+            <circle cx="0" cy="-60" r="15" fill="none" stroke="#ffd9a8" stroke-width="2" />
+            <!-- 中央の発光ドット -->
+            <circle cx="0" cy="-60" r="5.5" fill="#fbbf24" filter="url(#meo-glow)">
+                <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite" />
+            </circle>
+        </g>
+
+        <!-- 「No.1 / 1位」バッジ（主役ピンの右上・きらめき） -->
+        <g>
+            <animateTransform attributeName="transform" type="translate" values="58,-118;58,-132;58,-118" dur="4.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.42 0 0.58 1;0.42 0 0.58 1" />
+            <circle r="34" fill="#fbbf24" filter="url(#meo-glow-strong)" opacity="0.95">
+                <animate attributeName="opacity" values="0.85;1;0.85" dur="2.6s" repeatCount="indefinite" />
+            </circle>
+            <circle r="34" fill="none" stroke="#fff7e0" stroke-width="2" />
+            <text x="0" y="-3" text-anchor="middle" font-family="'Outfit', 'Noto Sans JP', sans-serif" font-weight="900" font-size="17" fill="#3a2400">No.</text>
+            <text x="0" y="20" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="900" font-size="26" fill="#3a2400">1</text>
+            <!-- きらめき -->
+            <g stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.9">
+                <line x1="0" y1="-44" x2="0" y2="-52">
+                    <animate attributeName="opacity" values="0;1;0" dur="2.6s" repeatCount="indefinite" />
+                </line>
+                <line x1="44" y1="0" x2="52" y2="0">
+                    <animate attributeName="opacity" values="0;1;0" dur="2.6s" begin="0.8s" repeatCount="indefinite" />
+                </line>
+            </g>
+        </g>
+
+        <!-- ★レビュー評価バッジ（4.8・主役ピンの足元前面／固定リングと干渉しない位置） -->
+        <g transform="translate(0 116)">
+            <rect x="-118" y="-26" width="236" height="52" rx="26" fill="url(#meo-bar)" stroke="#fbbf24" stroke-width="1.4" opacity="0.96" filter="url(#meo-glow)" />
+            <text x="-86" y="9" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="900" font-size="30" fill="#fbbf24">4.8</text>
+            <!-- ★★★★★ -->
+            <g fill="#fbbf24" filter="url(#meo-glow)">
+                <use href="#meo-star" x="-58" y="-9" width="18" height="18" />
+                <use href="#meo-star" x="-34" y="-9" width="18" height="18" />
+                <use href="#meo-star" x="-10" y="-9" width="18" height="18" />
+                <use href="#meo-star" x="14" y="-9" width="18" height="18">
+                    <animate attributeName="opacity" values="0.6;1;0.6" dur="2.4s" repeatCount="indefinite" />
+                </use>
+                <!-- 5つ目：きらめき強調 -->
+                <use href="#meo-star" x="38" y="-9" width="18" height="18">
+                    <animate attributeName="opacity" values="1;0.55;1" dur="2.4s" begin="0.6s" repeatCount="indefinite" />
+                </use>
+            </g>
+        </g>
+    </g>
+
+    <!-- ===== 上部：検索バー（地域名 × 業種・汎用ワードのみ） ===== -->
+    <g transform="translate(440 150)">
+        <rect x="0" y="0" width="720" height="64" rx="32" fill="url(#meo-bar)" stroke="#00e5ff" stroke-width="1.6" filter="url(#meo-glow)" opacity="0.98" />
+        <!-- 虫眼鏡アイコン（汎用） -->
+        <g transform="translate(40 32)" stroke="#7df9ff" stroke-width="3" fill="none" stroke-linecap="round">
+            <circle cx="0" cy="-2" r="11" />
+            <line x1="8" y1="7" x2="17" y2="16" />
+        </g>
+        <!-- 検索ワード（地域名×業種：架空・汎用） -->
+        <text x="78" y="41" font-family="'Noto Sans JP', 'Outfit', sans-serif" font-size="24" font-weight="700" fill="#eaf6ff">みなと町　&#215;　カフェ</text>
+        <!-- タイピングのカーソル -->
+        <rect x="318" y="18" width="2.5" height="28" fill="#7df9ff">
+            <animate attributeName="opacity" values="1;0;1" dur="1.1s" repeatCount="indefinite" />
+        </rect>
+        <!-- 「近くで探す」LEDタグ -->
+        <g transform="translate(560 32)">
+            <rect x="0" y="-17" width="124" height="34" rx="17" fill="#0a3a2a" stroke="#34d399" stroke-width="1.2" opacity="0.95" />
+            <circle cx="22" cy="0" r="4" fill="#34d399" filter="url(#meo-glow)">
+                <animate attributeName="opacity" values="0.4;1;0.4" dur="1.8s" repeatCount="indefinite" />
+            </circle>
+            <text x="40" y="6" font-family="'Noto Sans JP', sans-serif" font-size="15" font-weight="700" fill="#bbf7d0">近くで探す</text>
+        </g>
+        <!-- バー上を走るスキャン光 -->
+        <rect x="2" y="2" width="80" height="60" rx="30" fill="#7df9ff" opacity="0">
+            <animate attributeName="opacity" values="0;0.16;0" dur="4.4s" repeatCount="indefinite" />
+            <animate attributeName="x" values="-80;640;-80" dur="4.4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+        </rect>
+    </g>
+
+    <!-- ===== 左：順位リスト/ランキングパネル（主役店が1位に浮上） ===== -->
+    <g transform="translate(96 296)">
+        <!-- パネル本体 -->
+        <rect x="0" y="0" width="372" height="430" rx="20" fill="url(#meo-panel)" stroke="#1c5f8f" stroke-width="1.5" filter="url(#meo-glow-soft)" opacity="0.96" />
+        <rect x="0" y="0" width="372" height="430" rx="20" fill="none" stroke="#00e5ff" stroke-width="1.2" opacity="0.55" />
+
+        <!-- パネルヘッダー（英略語に日本語を併記） -->
+        <text x="26" y="40" font-family="'Outfit', 'Noto Sans JP', sans-serif" font-size="15" letter-spacing="2" fill="#7df9ff">地図検索の順位</text>
+        <text x="346" y="40" text-anchor="end" font-family="'Courier New', monospace" font-size="12" fill="#34d399">LIVE &#9679;</text>
+        <line x1="22" y1="54" x2="350" y2="54" stroke="#1c5f8f" stroke-width="1" opacity="0.7" />
+
+        <!-- 1位行（主役店・ハイライト＋浮上演出） -->
+        <g>
+            <animateTransform attributeName="transform" type="translate" values="0,4;0,0;0,0" keyTimes="0;0.18;1" dur="6s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0.8 0.2 1;0 0 1 1" />
+            <rect x="14" y="70" width="344" height="62" rx="12" fill="url(#meo-rank1)" stroke="#ff6a4d" stroke-width="1.6" />
+            <rect x="14" y="70" width="344" height="62" rx="12" fill="none" stroke="#fbbf24" stroke-width="1" opacity="0.7">
+                <animate attributeName="opacity" values="0.3;0.9;0.3" dur="3s" repeatCount="indefinite" />
+            </rect>
+            <!-- 順位バッジ -->
+            <circle cx="48" cy="101" r="20" fill="#ff6a4d" filter="url(#meo-glow)" />
+            <text x="48" y="109" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="900" font-size="22" fill="#fff7f0">1</text>
+            <!-- 店名（汎用・架空） -->
+            <text x="82" y="96" font-family="'Noto Sans JP', sans-serif" font-size="18" font-weight="700" fill="#ffffff">あなたの店舗</text>
+            <!-- ★と評価 -->
+            <g fill="#fbbf24">
+                <use href="#meo-star" x="82" y="108" width="13" height="13" />
+                <use href="#meo-star" x="98" y="108" width="13" height="13" />
+                <use href="#meo-star" x="114" y="108" width="13" height="13" />
+                <use href="#meo-star" x="130" y="108" width="13" height="13" />
+                <use href="#meo-star" x="146" y="108" width="13" height="13" />
+            </g>
+            <text x="170" y="120" font-family="'Outfit', sans-serif" font-size="14" font-weight="700" fill="#fbbf24">4.8</text>
+            <!-- 上昇矢印 -->
+            <g transform="translate(330 101)" filter="url(#meo-glow)">
+                <path d="M 0 8 L 0 -8 M -7 -1 L 0 -8 L 7 -1" fill="none" stroke="#34d399" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                    <animate attributeName="opacity" values="0.5;1;0.5" dur="2.2s" repeatCount="indefinite" />
+                </path>
+            </g>
+        </g>
+
+        <!-- 2位行 -->
+        <g opacity="0.85">
+            <rect x="14" y="142" width="344" height="52" rx="10" fill="#0a2236" stroke="#1c5f8f" stroke-width="1" />
+            <circle cx="44" cy="168" r="16" fill="#16324e" stroke="#34d399" stroke-width="1.2" />
+            <text x="44" y="174" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="800" font-size="16" fill="#9fe7c4">2</text>
+            <text x="72" y="166" font-family="'Noto Sans JP', sans-serif" font-size="15" fill="#cfe6f5">みなと珈琲店</text>
+            <g fill="#fbbf24" opacity="0.85">
+                <use href="#meo-star" x="72" y="176" width="10" height="10" />
+                <use href="#meo-star" x="85" y="176" width="10" height="10" />
+                <use href="#meo-star" x="98" y="176" width="10" height="10" />
+                <use href="#meo-star" x="111" y="176" width="10" height="10" />
+            </g>
+            <text x="128" y="186" font-family="'Outfit', sans-serif" font-size="12" fill="#9fe7c4">4.3</text>
+        </g>
+
+        <!-- 3位行 -->
+        <g opacity="0.78">
+            <rect x="14" y="204" width="344" height="52" rx="10" fill="#0a2236" stroke="#1c5f8f" stroke-width="1" />
+            <circle cx="44" cy="230" r="16" fill="#16324e" stroke="#7df9ff" stroke-width="1.2" />
+            <text x="44" y="236" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="800" font-size="16" fill="#9fdcef">3</text>
+            <text x="72" y="228" font-family="'Noto Sans JP', sans-serif" font-size="15" fill="#cfe6f5">海辺のベーカリー</text>
+            <g fill="#fbbf24" opacity="0.8">
+                <use href="#meo-star" x="72" y="238" width="10" height="10" />
+                <use href="#meo-star" x="85" y="238" width="10" height="10" />
+                <use href="#meo-star" x="98" y="238" width="10" height="10" />
+                <use href="#meo-star" x="111" y="238" width="10" height="10" />
+            </g>
+            <text x="128" y="248" font-family="'Outfit', sans-serif" font-size="12" fill="#9fdcef">4.1</text>
+        </g>
+
+        <!-- 4位行 -->
+        <g opacity="0.62">
+            <rect x="14" y="266" width="344" height="52" rx="10" fill="#0a2236" stroke="#143a55" stroke-width="1" />
+            <circle cx="44" cy="292" r="16" fill="#13283c" stroke="#3a6f93" stroke-width="1.1" />
+            <text x="44" y="298" text-anchor="middle" font-family="'Outfit', sans-serif" font-weight="800" font-size="16" fill="#84a7bf">4</text>
+            <text x="72" y="290" font-family="'Noto Sans JP', sans-serif" font-size="15" fill="#9fb6c7">駅前ティールーム</text>
+            <g fill="#fbbf24" opacity="0.6">
+                <use href="#meo-star" x="72" y="300" width="10" height="10" />
+                <use href="#meo-star" x="85" y="300" width="10" height="10" />
+                <use href="#meo-star" x="98" y="300" width="10" height="10" />
+            </g>
+            <text x="118" y="310" font-family="'Outfit', sans-serif" font-size="12" fill="#84a7bf">3.9</text>
+        </g>
+
+        <!-- フッター：表示順位スコアバー（日本語ラベルで意味を明確化） -->
+        <line x1="22" y1="340" x2="350" y2="340" stroke="#1c5f8f" stroke-width="1" opacity="0.7" />
+        <text x="26" y="368" font-family="'Noto Sans JP', 'Outfit', sans-serif" font-size="12" fill="#7df9ff" opacity="0.85">地図表示スコア（見つけやすさ）</text>
+        <rect x="26" y="380" width="320" height="8" rx="4" fill="#0a2236" stroke="#1c5f8f" stroke-width="0.8" />
+        <rect x="26" y="380" width="60" height="8" rx="4" fill="#34d399" filter="url(#meo-glow)">
+            <animate attributeName="width" values="60;300;300" keyTimes="0;0.55;1" dur="6s" repeatCount="indefinite" calcMode="spline" keySplines="0.2 0.8 0.2 1;0 0 1 1" />
+        </rect>
+        <text x="346" y="412" text-anchor="end" font-family="'Outfit', sans-serif" font-size="13" font-weight="700" fill="#34d399">
+            <animate attributeName="opacity" values="0.7;1;0.7" dur="2.6s" repeatCount="indefinite" />94%</text>
+    </g>
+
+    <!-- ===== 主役ピンからリストの1位へつながる関連線（地図⇄ランキング） ===== -->
+    <g fill="none" stroke="#fbbf24" stroke-width="1.4" opacity="0.5" stroke-dasharray="2 7">
+        <path d="M 922 390 Q 700 320 482 367" filter="url(#meo-glow)">
+            <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3.6s" repeatCount="indefinite" />
+        </path>
+    </g>
+    <!-- 関連線上を流れる光点 -->
+    <circle r="3" fill="#fff7e0" filter="url(#meo-glow)">
+        <animateMotion dur="3.6s" repeatCount="indefinite" path="M 922 390 Q 700 320 482 367" />
+    </circle>
+
+    <!-- ===== 下部中央：MEOの日本語キャッチ（核メッセージを明言・空白を充填） ===== -->
+    <g transform="translate(800 790)" text-anchor="middle">
+        <rect x="-322" y="-34" width="644" height="68" rx="34" fill="url(#meo-caption)" stroke="#00e5ff" stroke-width="1.3" opacity="0.94" filter="url(#meo-glow)" />
+        <rect x="-322" y="-34" width="644" height="68" rx="34" fill="none" stroke="#34d399" stroke-width="0.8" opacity="0.4" />
+        <!-- ピン型の小アイコン（左） -->
+        <g transform="translate(-272 0) scale(0.5)">
+            <use href="#meo-pin" x="-24" y="-54" width="48" height="60" fill="url(#meo-pin-body)" stroke="#ffe2c2" stroke-width="1.6" transform="translate(0 24)" />
+            <circle cx="0" cy="-10" r="6" fill="#04101f" />
+        </g>
+        <text x="22" y="-4" text-anchor="middle" font-family="'Noto Sans JP', 'Outfit', sans-serif" font-weight="800" font-size="25" fill="#eaf6ff">MEO対策<tspan fill="#7df9ff"> ＝ </tspan>Googleマップで上位表示</text>
+        <text x="22" y="22" text-anchor="middle" font-family="'Noto Sans JP', sans-serif" font-weight="600" font-size="14" fill="#9fd9c4" letter-spacing="1">地図検索で「近くのお店」として見つけてもらう施策</text>
+    </g>
+
+    <!-- ===== 流れるデータ粒子（地図全体・寒色一貫に整理） ===== -->
+    <g fill="#34d399" filter="url(#meo-glow)">
+        <circle r="3" opacity="0.9">
+            <animateMotion dur="7.5s" repeatCount="indefinite" path="M -40,720 Q 500,560 980,450 Q 1300,360 1640,260" />
+        </circle>
+        <circle r="2.6" opacity="0.85" fill="#7df9ff">
+            <animateMotion dur="8.4s" begin="1.2s" repeatCount="indefinite" path="M 1640,540 Q 1200,470 980,450 Q 600,400 -40,360" />
+        </circle>
+        <circle r="2.4" opacity="0.8" fill="#7df9ff">
+            <animateMotion dur="6.8s" begin="2.4s" repeatCount="indefinite" path="M 980,450 L 1120,940" />
+        </circle>
+    </g>
+
+    <!-- ===== 上部HUDラベル（中央／英語サブに日本語の言い換えを併記） ===== -->
+    <g text-anchor="middle">
+        <text x="800" y="70" font-family="'Outfit', 'Noto Sans JP', sans-serif" font-weight="900" font-size="36" letter-spacing="10" fill="url(#meo-text-grad)" filter="url(#meo-glow-strong)">MEO</text>
+        <text x="800" y="100" font-family="'Noto Sans JP', 'Outfit', sans-serif" font-size="14" letter-spacing="4" fill="#7df9ff" opacity="0.85">地図検索エンジン最適化 / LOCAL SEARCH OPTIMIZATION</text>
+    </g>
+
+    <!-- ===== コーナー装飾（HUD風ブラケット） ===== -->
+    <g stroke="#00e5ff" stroke-width="2" fill="none" opacity="0.7">
+        <path d="M 40 40 L 40 110 M 40 40 L 110 40" />
+        <path d="M 1560 40 L 1560 110 M 1560 40 L 1490 40" />
+        <path d="M 40 860 L 40 790 M 40 860 L 110 860" />
+        <path d="M 1560 860 L 1560 790 M 1560 860 L 1490 860" />
+    </g>
+
+    <!-- HUDテキスト（コーナー4点・英略語を絞り日本語の意味を補強） -->
+    <g font-family="'Outfit', 'Noto Sans JP', sans-serif" fill="#7df9ff" opacity="0.6">
+        <text x="60" y="92" font-size="14" letter-spacing="1">現在地ロック</text>
+        <text x="1540" y="92" font-size="14" text-anchor="end" letter-spacing="1">地図順位 &#9650;</text>
+        <text x="60" y="842" font-size="14" letter-spacing="2">FunEx · MEO</text>
+        <text x="1540" y="842" font-size="14" text-anchor="end" letter-spacing="1">1位表示 &#9679;</text>
+    </g>
+
+    <!-- 走査線オーバーレイ（最上層） -->
+    <rect width="1600" height="900" fill="url(#meo-scanlines)" pointer-events="none" />
+</svg>
