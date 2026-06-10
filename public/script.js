@@ -142,4 +142,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    // スクロールリビール — .reveal 要素が画面に入ったらふわっと表示
+    // JS無効環境では .js-reveal が付かないため、コンテンツは常に表示される
+    const revealEls = document.querySelectorAll('.reveal');
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (revealEls.length > 0 && 'IntersectionObserver' in window && !prefersReducedMotion) {
+        document.documentElement.classList.add('js-reveal');
+
+        // 同じセクション内の要素に 0.12s ずつの時間差をつける
+        const delayCounters = new Map();
+        revealEls.forEach(el => {
+            const group = el.closest('.section') || document.body;
+            const index = delayCounters.get(group) || 0;
+            el.style.transitionDelay = `${index * 0.12}s`;
+            delayCounters.set(group, index + 1);
+        });
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                const el = entry.target;
+                el.classList.add('is-visible');
+                // リビール完了後はディレイを消す（カード等のホバー反応が遅れるのを防ぐ）
+                el.addEventListener('transitionend', () => {
+                    el.style.transitionDelay = '';
+                }, { once: true });
+                revealObserver.unobserve(el);
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        revealEls.forEach(el => revealObserver.observe(el));
+    }
+
 });

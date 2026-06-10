@@ -1136,3 +1136,232 @@ button {
         /* Increase hit area */
     }
 }
+
+/* ============================================================
+   トップページ リッチ化（2026-06-10）
+   設計書: docs/superpowers/specs/2026-06-10-top-page-richness-design.md
+   - スクロールリビール（.reveal / .is-visible）
+   - About 背景ブロブ
+   - Services ライトグレー帯＋斜め区切り
+   - News カード化（トップページ .news-home のみ）
+   - Contact グラデーションCTA帯（.contact-cta）
+   ============================================================ */
+
+/* --- スクロールリビール ---
+   JS有効時のみ <html> に .js-reveal が付く（script.js）。
+   JS無効・reduced-motion環境では何も隠さない */
+.js-reveal .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+}
+
+.js-reveal .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+/* --- About: ブランド3色の淡い光のブロブ --- */
+.about {
+    position: relative;
+    overflow: hidden;
+}
+
+.about::before {
+    content: '';
+    position: absolute;
+    inset: -120px;
+    background:
+        radial-gradient(circle at 82% 18%, rgba(78, 205, 196, 0.18), transparent 32%),
+        radial-gradient(circle at 12% 85%, rgba(255, 107, 107, 0.14), transparent 30%),
+        radial-gradient(circle at 70% 92%, rgba(255, 217, 61, 0.14), transparent 26%);
+    pointer-events: none;
+    animation: aboutBlobFloat 18s ease-in-out infinite alternate;
+}
+
+/* コンテンツをブロブより手前に（::beforeはpositioned要素のため必須） */
+.about .container {
+    position: relative;
+}
+
+@keyframes aboutBlobFloat {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(40px, -30px, 0); }
+}
+
+/* --- Services: ライトグレー帯＋斜めの区切り --- */
+.services {
+    position: relative;
+    background: #f1f5f9;
+    padding-top: 160px;
+    padding-bottom: 160px;
+}
+
+/* 上端: 白い斜めウェッジ（左下がり） */
+.services::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #ffffff;
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+    pointer-events: none;
+}
+
+/* 下端: 白い斜めウェッジ（上端と逆向き） */
+.services::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #ffffff;
+    clip-path: polygon(0 0, 100% 100%, 0 100%);
+    pointer-events: none;
+}
+
+/* --- News: トップページのみカード化（news.html には影響させない） --- */
+.news-home .news-list {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.news-home .news-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #4ecdc4;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* カードごとに左バーの色を変える（ブランド系3色） */
+.news-home .news-item:nth-child(2) { border-left-color: #ff6b6b; }
+.news-home .news-item:nth-child(3) { border-left-color: #f5a623; }
+
+.news-home .news-item:last-child {
+    margin-bottom: 0;
+}
+
+/* 旧リスト用ホバー（translateX＋padding-left変化）を打ち消して浮き上がりに */
+.news-home .news-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+    padding-left: 28px;
+}
+
+/* --- Contact: フルワイドのグラデーションCTA帯 --- */
+.contact-cta {
+    position: relative;
+    overflow: hidden;
+    /* 白文字のコントラスト（3:1以上）確保のため、ブランドグラデに薄い黒を重ねる */
+    background:
+        linear-gradient(rgba(17, 17, 17, 0.16), rgba(17, 17, 17, 0.16)),
+        linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+}
+
+/* 装飾の半透明サークル */
+.contact-cta::before,
+.contact-cta::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+.contact-cta::before {
+    width: 280px;
+    height: 280px;
+    top: -90px;
+    left: -70px;
+}
+
+.contact-cta::after {
+    width: 200px;
+    height: 200px;
+    bottom: -70px;
+    right: -50px;
+}
+
+.contact-cta .container {
+    position: relative;
+}
+
+.contact-cta .section-subtitle {
+    background: rgba(255, 255, 255, 0.22);
+    color: #ffffff;
+}
+
+.contact-cta .section-title {
+    color: #ffffff;
+}
+
+/* index.html側のインラインstyleを外し、ここで同等指定＋白文字にする */
+.contact-cta .section-desc {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 2;
+    margin-top: 20px;
+    color: #ffffff;
+}
+
+/* CTA帯の上ではボタンを白反転（文字色はコントラスト4.5:1を満たす赤） */
+.contact-cta .btn-primary {
+    background: #ffffff;
+    color: #d23f3a;
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+}
+
+.contact-cta .btn-primary:hover {
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.25);
+}
+
+/* --- アクセシビリティ: 動きを減らす設定への対応 --- */
+@media (prefers-reduced-motion: reduce) {
+    .js-reveal .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+
+    .about::before {
+        animation: none;
+    }
+
+    .news-home .news-item:hover {
+        transform: none;
+    }
+}
+
+/* --- モバイル調整 --- */
+@media (max-width: 768px) {
+    .services {
+        padding-top: 110px;
+        padding-bottom: 110px;
+    }
+
+    .services::before,
+    .services::after {
+        height: 36px;
+    }
+
+    .contact-cta .section-desc {
+        font-size: 1.15rem;
+    }
+
+    .news-home .news-item {
+        padding: 18px 20px;
+    }
+
+    .news-home .news-item:hover {
+        padding-left: 20px;
+    }
+}
