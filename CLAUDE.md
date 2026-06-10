@@ -382,6 +382,23 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 
 ## 対応履歴
 
+### 2026-06-10〜11 — トップページリッチ化第2弾「Particle Continuum」（コミット f34929b）
+- **コンセプト**: ヒーローのcanvas粒子ネットワーク（ドット・接続線・#ff6b6b/#4ecdc4/#ffd93d）を**サイト唯一の装飾言語**として全セクションへ展開。3デザイナー案＋2審査員のワークフローで決定。設計書 `docs/superpowers/specs/2026-06-10-particle-continuum-design.md`（採用10項目・却下項目・再提案禁止リストあり）。
+- **スコープ方式**: `index.html` の body に `class="home"` を付与し、新ルールは全て `.home` 配下（style.css は全5ページ共有のため）。装飾DOMは全て `aria-hidden="true"`。アニメは transform/opacity のみ。
+- **実装**: ①スクロールプログレスバー（既存rAF相乗り・nullガード）②sec-index 01〜04 ③About浮遊粒子6個＋同心円/ドットパネル（::after静的）④セクション間スレッド（リビール相乗り）⑤Services回路図地紋＋マーキー帯（同一chunk×2でtranslateX(-50%)ループ）⑥svc-net信号パルス（≥1021px限定）⑦カードシャインスイープ（ホバー/モバイルはSwiper slideChangeTransitionEnd で .shine-once）⑧Newsドット地紋＋3色タイムライン＋グラデ下線 ⑨Contact星座＋光スイープ＋光点＋CTAパルス ⑩Footer3色ヘアライン＋FUNEX透かしカーテンリビール。
+- **レビュー所見の反映（多角レンズ＋反証検証ワークフロー）**:
+  - **省電力**: 画面外セクション（.about/.services/.contact-cta）は IntersectionObserver で `is-inview` をトグルし、常時アニメを `animation-play-state: paused` で停止。JS無効時は全アニメ静止（静止でも装飾成立する設計）
+  - プログレスバー先端ノードは親の scaleX で潰れるため `--progress-inv`（1/p）の逆スケールで常に正円に補正
+  - CTA光帯のGPUレイヤーを width:200%→120% に縮小（帯幅・移動量を再計算し見た目は同一）
+  - **Newsノードの基準**: `.news-home .news-item` に position:relative が必須（無いと全ノードが .news-list 基準で1点に重なる）。さらに **border-left:4px の分 absolute の基準（padding box）が右にズレる**ため left は -36px（モバイル -29px）。レール中心 x=10/モバイル6 に整列済み
+  - 320〜480px は News の日付を縦積み（time の固定幅140pxで本文列が70pxまで潰れるため）。news-title a の inline-block 化でモバイル共通 `a{min-height:44px}` が新たに効く問題は min-height:0 で解除
+  - reduced-motion: 接続線の傾きは keyframe 内だけでなくベース transform にも `rotate(var(--tilt))` を持たせ静止時も保持。ホバーシャインは transition:none で停止。閲覧中の設定切替に備え `.js-reveal` 配下の隠し状態も media query 内で解除（二重ガード）
+  - マーキーの rotate(-2deg) は AABB が左右±1px はみ出し横スクロールを生む → `.home .services { overflow-x: clip }`（旧ブラウザは hidden フォールバック）
+- **技術知見（重要・再発防止）**: 前回「CDPスクショがタブ単位で劣化」と記録した現象の主因は**タブが非表示（visibilityState:hidden）だとレンダラーが rAF を停止する**こと。影響: ①Page.captureScreenshot がタイムアウト ②`scroll-behavior:smooth` 環境では `scrollTop` 代入すら無効（smoothスクロールがrAF駆動のため。`behavior:'instant'` 指定なら動く）③IntersectionObserver 不発火 ④スクロールイベント系の検証が全滅。**検証は getComputedStyle・getBoundingClientRect 等の同期APIで行うか、クラス手動付与で CSS 側を直接検証する**こと（今回 is-inview・--progress-inv はこの方式で検証済み）。
+- **検証**: `npm run build` 成功・コンソールエラーなし・横はみ出しなし・ノード/レール整列0px・is-inview切替/逆スケール/新ジオメトリは computed style で全合格。モバイル幅の実機確認は未実施（resize不可環境）。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/index.html`, `public/style.css`, `public/script.js`
+
 ### 2026-06-10 — トップページのヒーロー以降リッチ化（スクロール演出＋セクション装飾）
 - **背景**: ヒーローだけがリッチで以降が「見出し＋テキスト＋ボタン」のみでシンプルすぎるとの判断。案A（モーション強化）＋案C（セクションの見た目刷新）の組み合わせで実装。設計書 `docs/superpowers/specs/2026-06-10-top-page-richness-design.md`／実装プラン `docs/superpowers/plans/2026-06-10-top-page-richness.md`。
 - **style.css（末尾に追記）**: ①スクロールリビール（`.js-reveal .reveal` → `.is-visible`）②Aboutにブランド3色の淡いradial-gradientブロブ（transformのみの18sアニメ）③Servicesをライトグレー帯＋上下に白い斜めウェッジ（clip-path）④Newsカード化（**`.news-home` でトップ専用にスコープ** — `.news-item` はnews.htmlと共有クラスのため必須）⑤Contact用グラデCTA帯（`.contact-cta`、ブランドグラデに黒16%を重ねて白文字のコントラスト3:1確保、ボタン文字 #d23f3a は4.5:1）。装飾サークルは疑似要素でなく背景レイヤーで描画。
