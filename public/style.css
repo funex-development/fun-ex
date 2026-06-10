@@ -1259,40 +1259,14 @@ button {
 
 /* --- Contact: フルワイドのグラデーションCTA帯 --- */
 .contact-cta {
-    position: relative;
-    overflow: hidden;
-    /* 白文字のコントラスト（3:1以上）確保のため、ブランドグラデに薄い黒を重ねる */
+    /* レイヤー構成（上から）: 装飾の白サークル2つ → 薄い黒（白文字のコントラスト
+       3:1以上を確保するための減光） → ブランドグラデ。
+       サークルは疑似要素ではなく背景レイヤーで描画（追加要素なしで済み軽量） */
     background:
+        radial-gradient(circle at 70px 50px, rgba(255, 255, 255, 0.12) 0, rgba(255, 255, 255, 0.12) 139px, transparent 140px),
+        radial-gradient(circle at calc(100% - 50px) calc(100% - 30px), rgba(255, 255, 255, 0.12) 0, rgba(255, 255, 255, 0.12) 99px, transparent 100px),
         linear-gradient(rgba(17, 17, 17, 0.16), rgba(17, 17, 17, 0.16)),
         linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
-}
-
-/* 装飾の半透明サークル */
-.contact-cta::before,
-.contact-cta::after {
-    content: '';
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
-    pointer-events: none;
-}
-
-.contact-cta::before {
-    width: 280px;
-    height: 280px;
-    top: -90px;
-    left: -70px;
-}
-
-.contact-cta::after {
-    width: 200px;
-    height: 200px;
-    bottom: -70px;
-    right: -50px;
-}
-
-.contact-cta .container {
-    position: relative;
 }
 
 .contact-cta .section-subtitle {
