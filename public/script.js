@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Header Scroll Effect - Hide on scroll down, show on scroll up
     const navbar = document.querySelector('.navbar');
+    // スクロールプログレスバー（トップページのみ存在。共有スクリプトのため null ガード）
+    const progressBar = document.querySelector('.scroll-progress-bar');
     let lastScrollTop = 0;
     let scrollTicking = false;
 
@@ -55,6 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 navbar.style.background = 'rgba(15, 23, 42, 0.8)';
                 navbar.style.padding = '8px 0';
                 navbar.style.boxShadow = 'none';
+            }
+
+            // プログレスバー更新（transform のみ。既存 rAF に相乗り＝追加リスナーなし）
+            if (progressBar) {
+                const max = document.documentElement.scrollHeight - window.innerHeight;
+                const progress = max > 0 ? Math.min(Math.max(scrollTop / max, 0), 1) : 0;
+                progressBar.style.transform = `scaleX(${progress})`;
+                // 先端ノードはバーの scaleX を受けて潰れるため、逆数で打ち消して正円を保つ
+                progressBar.style.setProperty('--progress-inv', progress > 0.01 ? (1 / progress).toFixed(3) : '1');
             }
             scrollTicking = false;
         });
@@ -122,6 +133,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     resize: function () {
                         requestAnimationFrame(() => this.update());
+                    },
+                    // スライド切替時にアクティブカードを1回だけ光らせる
+                    // （ホバー時シャインスイープのモバイル代替演出）
+                    slideChangeTransitionEnd: function () {
+                        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+                        const slide = this.slides[this.activeIndex];
+                        const card = slide && slide.querySelector('.magic-card');
+                        if (!card || card.classList.contains('shine-once')) return;
+                        card.classList.add('shine-once');
+                        // アイコン等の animationend が伝播してくるため animationName で絞る
+                        card.addEventListener('animationend', function handler(e) {
+                            if (e.animationName !== 'shineSweep') return;
+                            card.classList.remove('shine-once');
+                            card.removeEventListener('animationend', handler);
+                        });
                     }
                 }
             });
@@ -173,6 +199,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
 
         revealEls.forEach(el => revealObserver.observe(el));
+    }
+
+
+    // 画面外セクションの常時アニメを停止（省電力・合成コスト削減）
+    // CSS 側で is-inview が無い間は animation-play-state: paused になる。
+    // トップページ（body.home）以外では対象 0 件で何もしない
+    const animSections = document.querySelectorAll('.home .about, .home .services, .home .contact-cta');
+    if (animSections.length > 0 && 'IntersectionObserver' in window) {
+        const inviewObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                entry.target.classList.toggle('is-inview', entry.isIntersecting);
+            });
+        }, { rootMargin: '120px 0px' });
+        animSections.forEach(el => inviewObserver.observe(el));
     }
 
 });

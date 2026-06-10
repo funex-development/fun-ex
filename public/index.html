@@ -107,8 +107,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
+<body class="home">
 
+    <!-- スクロールプログレス（シグナル・ライン） -->
+    <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress-bar"></span></div>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -154,8 +156,18 @@
 
     <!-- About Section -->
     <section id="about" class="section about">
+        <!-- 装飾: ヒーローの粒子の「拡大版」が漂う -->
+        <div class="about-particles" aria-hidden="true">
+            <span class="ap ap-dot ap-1"></span>
+            <span class="ap ap-ring ap-2"></span>
+            <span class="ap ap-dot ap-3"></span>
+            <span class="ap ap-ring ap-4"></span>
+            <span class="ap ap-line ap-5"></span>
+            <span class="ap ap-line ap-6"></span>
+        </div>
         <div class="container">
             <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">01</span>
                 <span class="section-subtitle">About Us</span>
                 <h2 class="section-title">私たちについて</h2>
                 <p class="section-desc"
@@ -171,13 +183,29 @@
             <div class="center-btn-container reveal" style="text-align: center; margin-top: 40px;">
                 <a href="about.html" class="btn btn-primary">会社概要はこちら</a>
             </div>
+
+            <!-- 装飾: 次セクションへ信号が流れるネットワーク・スレッド -->
+            <div class="section-thread reveal" aria-hidden="true">
+                <span class="thread-line"></span>
+                <span class="thread-dot td-1"></span>
+                <span class="thread-dot td-2"></span>
+                <span class="thread-dot td-3"></span>
+            </div>
         </div>
     </section>
 
     <!-- Services Section -->
     <section id="services" class="section services">
+        <!-- 装飾: 英字アウトラインのマーキー帯 -->
+        <div class="svc-marquee" aria-hidden="true">
+            <div class="svc-marquee-track">
+                <span class="svc-marquee-chunk">GAME / WEB / SNS / AI / MEO / <em>FUN EXPERIENCES</em> / </span>
+                <span class="svc-marquee-chunk">GAME / WEB / SNS / AI / MEO / <em>FUN EXPERIENCES</em> / </span>
+            </div>
+        </div>
         <div class="container" style="max-width: 1400px;">
             <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">02</span>
                 <span class="section-subtitle">Our Business</span>
                 <h2 class="section-title">事業内容</h2>
                 <p class="section-desc" style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); line-height: 2; margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">
@@ -191,6 +219,11 @@
 
             <!-- Services Grid -->
             <div class="services-swiper swiper reveal">
+            <!-- 装飾: カード間を貫く破線と信号パルス（デスクトップのみ表示） -->
+            <div class="svc-net" aria-hidden="true">
+                <span class="svc-net-line"></span>
+                <span class="svc-net-pulse"></span>
+            </div>
             <div class="services-grid swiper-wrapper">
                     <!-- 1. ゲーム制作/メタバース -->
                     <div class="service-card-wrapper swiper-slide">
@@ -314,6 +347,7 @@
     <section id="news" class="section news news-home">
         <div class="container">
             <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">03</span>
                 <span class="section-subtitle">Latest Information</span>
                 <h2 class="section-title">最新ニュース</h2>
                 <p class="section-desc" style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); line-height: 2; margin-top: 20px;">
@@ -321,7 +355,7 @@
                 </p>
             </div>
 
-            <div class="news-list">
+            <div class="news-list reveal">
                 <!-- Item 8 -->
                 <article class="news-item reveal">
                     <time datetime="2026-02-14">2026.02.14</time>
@@ -369,14 +403,30 @@
             <div class="center-btn-container reveal" style="text-align: center; margin-top: 40px;">
                 <a href="news.html" class="btn btn-primary">過去のニュースはこちら</a>
             </div>
+
+            <!-- 装飾: 次セクションへ信号が流れるネットワーク・スレッド -->
+            <div class="section-thread reveal" aria-hidden="true">
+                <span class="thread-line"></span>
+                <span class="thread-dot td-1"></span>
+                <span class="thread-dot td-2"></span>
+                <span class="thread-dot td-3"></span>
+            </div>
         </div>
         </div>
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="section contact contact-cta">
+        <!-- 装飾: 浮遊する光点 -->
+        <div class="cta-particles" aria-hidden="true">
+            <span class="cp cp-1"></span>
+            <span class="cp cp-2"></span>
+            <span class="cp cp-3"></span>
+            <span class="cp cp-4"></span>
+        </div>
         <div class="container">
             <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">04</span>
                 <span class="section-subtitle">Contact Us</span>
                 <h2 class="section-title">お問い合わせ</h2>
                 <p class="section-desc">
@@ -392,7 +442,9 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer reveal">
+        <!-- 装飾: 最下部のご褒美 — 巨大FUNEX透かしのカーテンリビール -->
+        <span class="footer-watermark" aria-hidden="true">FUNEX</span>
         <div class="container footer-grid">
             <div class="footer-brand">
                 <a href="/">

@@ -1339,3 +1339,916 @@ button {
         padding-left: 20px;
     }
 }
+
+/* ============================================================
+   トップページ リッチ化 第2弾「Particle Continuum」（2026-06-10）
+   設計書: docs/superpowers/specs/2026-06-10-particle-continuum-design.md
+   ヒーローの粒子ネットワーク（ドット・接続線・3色）を
+   ページ全体の装飾言語として展開する。
+   全ルールは index.html の body.home でスコープ（style.css は全ページ共有）。
+   アニメーションは transform / opacity のみ。
+   ============================================================ */
+
+/* --- ページ全体: スクロールプログレス「シグナル・ライン」 --- */
+.home .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    z-index: 1001;
+    /* navbar(1000) より上 */
+    pointer-events: none;
+}
+
+.home .scroll-progress-bar {
+    display: block;
+    height: 100%;
+    position: relative;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4 55%, #ffd93d);
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
+}
+
+/* バー先端のイエローノード。
+   親バーの scaleX(p) をそのまま受けると横に潰れて楕円になるため、
+   script.js が設定する --progress-inv（= 1/p）の逆スケールで打ち消して
+   常に正円を保つ（transform のみの制約は維持） */
+.home .scroll-progress-bar::after {
+    content: '';
+    position: absolute;
+    right: -3px;
+    top: -2px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #ffd93d;
+    box-shadow: 0 0 8px rgba(255, 217, 61, 0.9);
+    transform: scaleX(var(--progress-inv, 1));
+    transform-origin: right center;
+}
+
+/* --- 各セクション: エディトリアル風の連番 01〜04 --- */
+.home .sec-index {
+    display: block;
+    font-family: var(--font-en);
+    font-weight: 900;
+    font-size: 2.4rem;
+    line-height: 1;
+    margin-bottom: 14px;
+    background: linear-gradient(120deg, #ff6b6b, #f5a623 55%, #4ecdc4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* CTA帯の上は白系グラデに切替 */
+.home .contact-cta .sec-index {
+    background: linear-gradient(120deg, #ffffff, rgba(255, 255, 255, 0.65));
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+/* --- About: 浮遊ジオメトリック粒子（ヒーロー粒子の拡大版） --- */
+.home .about-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.home .ap {
+    position: absolute;
+    opacity: 0.55;
+    /* 接続線の傾き（--tilt）はアニメ停止時（reduced-motion 等）にも
+       保たれるようベース transform にも持たせる。アニメ中は keyframe の
+       同値 transform が上書きするため通常時の挙動は不変 */
+    transform: rotate(var(--tilt, 0deg));
+}
+
+.home .ap-dot {
+    border-radius: 50%;
+}
+
+.home .ap-ring {
+    border-radius: 50%;
+}
+
+.home .ap-1 {
+    width: 14px;
+    height: 14px;
+    background: #ff6b6b;
+    top: 18%;
+    left: 7%;
+    animation: apDrift 11s ease-in-out infinite;
+}
+
+.home .ap-2 {
+    width: 38px;
+    height: 38px;
+    border: 2px solid #4ecdc4;
+    top: 30%;
+    right: 8%;
+    animation: apDriftRev 14s ease-in-out infinite;
+}
+
+.home .ap-3 {
+    width: 10px;
+    height: 10px;
+    background: #ffd93d;
+    bottom: 20%;
+    right: 13%;
+    animation: apDrift 12s ease-in-out infinite;
+    animation-delay: -3s;
+}
+
+.home .ap-4 {
+    width: 22px;
+    height: 22px;
+    border: 2px solid #ff6b6b;
+    bottom: 24%;
+    left: 11%;
+    animation: apDriftRev 16s ease-in-out infinite;
+    animation-delay: -6s;
+}
+
+.home .ap-line {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #94a3b8 30%, #94a3b8 70%, transparent);
+}
+
+.home .ap-5 {
+    width: 120px;
+    top: 56%;
+    left: 4%;
+    --tilt: 35deg;
+    animation: apDrift 13s ease-in-out infinite;
+}
+
+.home .ap-6 {
+    width: 100px;
+    top: 14%;
+    right: 18%;
+    --tilt: -25deg;
+    animation: apDriftRev 15s ease-in-out infinite;
+}
+
+/* 浮遊2系統（--tilt で線の傾きを保ったまま漂う） */
+@keyframes apDrift {
+    0%, 100% { transform: rotate(var(--tilt, 0deg)) translate3d(0, 0, 0); }
+    50% { transform: rotate(calc(var(--tilt, 0deg) + 6deg)) translate3d(16px, -24px, 0); }
+}
+
+@keyframes apDriftRev {
+    0%, 100% { transform: rotate(var(--tilt, 0deg)) translate3d(0, 0, 0); }
+    50% { transform: rotate(calc(var(--tilt, 0deg) - 5deg)) translate3d(-14px, 20px, 0); }
+}
+
+/* --- About: 静的背景（右上の同心円リング＋左下のドットパネル）
+   アニメ中の ::before（ブロブ）には触れず、独立した ::after に置く --- */
+.home .about::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='560' viewBox='0 0 560 560'%3E%3Cg fill='none' stroke='%23111111' stroke-opacity='0.06' stroke-width='1.5'%3E%3Ccircle cx='280' cy='280' r='110'/%3E%3Ccircle cx='280' cy='280' r='170'/%3E%3Ccircle cx='280' cy='280' r='230'/%3E%3Ccircle cx='280' cy='280' r='276'/%3E%3C/g%3E%3C/svg%3E"),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='320'%3E%3Cdefs%3E%3Cpattern id='d' width='26' height='26' patternUnits='userSpaceOnUse'%3E%3Ccircle cx='2' cy='2' r='1.7' fill='%23111111' fill-opacity='0.10'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='400' height='320' fill='url(%23d)'/%3E%3C/svg%3E");
+    background-repeat: no-repeat, no-repeat;
+    background-position: right -200px top -180px, left -40px bottom -30px;
+}
+
+/* 本文を装飾レイヤーより手前に */
+.home .about .container {
+    z-index: 1;
+}
+
+/* --- セクション間「ネットワーク・スレッド」（点線＋3色ノード） --- */
+.home .section-thread {
+    position: relative;
+    width: 2px;
+    height: 90px;
+    margin: 56px auto 0;
+}
+
+.home .thread-line {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(to bottom, #cbd5e1 0 4px, transparent 4px 10px);
+}
+
+.home .thread-dot {
+    position: absolute;
+    left: 50%;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.home .td-1 { top: 0; background: #ff6b6b; }
+.home .td-2 { top: 50%; background: #4ecdc4; }
+.home .td-3 { top: 100%; background: #ffd93d; }
+
+/* リビール発火前の隠し状態は .js-reveal 配下にのみ書く（JS無効時は常時表示） */
+.js-reveal .home .section-thread .thread-line {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.8s ease 0.1s;
+}
+
+.js-reveal .home .section-thread.is-visible .thread-line {
+    transform: scaleY(1);
+}
+
+.js-reveal .home .section-thread .thread-dot {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+}
+
+.js-reveal .home .section-thread.is-visible .thread-dot {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+.js-reveal .home .section-thread.is-visible .td-1 { transition-delay: 0.35s; }
+.js-reveal .home .section-thread.is-visible .td-2 { transition-delay: 0.55s; }
+.js-reveal .home .section-thread.is-visible .td-3 { transition-delay: 0.75s; }
+
+/* --- Services: 回路図風の地紋（静的タイル。色は既存の #f1f5f9 のまま） --- */
+.home .services {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cg stroke='%23111111' stroke-opacity='0.05' stroke-width='1'%3E%3Cline x1='20' y1='20' x2='120' y2='50'/%3E%3Cline x1='120' y1='50' x2='60' y2='120'/%3E%3C/g%3E%3Cg fill='%23111111' fill-opacity='0.09'%3E%3Ccircle cx='20' cy='20' r='2.5'/%3E%3Ccircle cx='120' cy='50' r='2.5'/%3E%3Ccircle cx='60' cy='120' r='2.5'/%3E%3C/g%3E%3C/svg%3E");
+    /* マーキーの -2deg 回転で AABB が左右に約1pxはみ出し、横スクロールが
+       発生するためクリップ（clip はスクロールコンテナを作らない。
+       非対応の旧ブラウザは hidden にフォールバック） */
+    overflow-x: hidden;
+    overflow-x: clip;
+}
+
+/* --- Services: 英字アウトラインのマーキー帯 --- */
+.home .svc-marquee {
+    position: absolute;
+    top: 58px;
+    left: 0;
+    right: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transform: rotate(-2deg);
+}
+
+.home .svc-marquee-track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+    animation: marqueeX 48s linear infinite;
+}
+
+.home .svc-marquee-chunk {
+    font-family: var(--font-en);
+    font-weight: 900;
+    font-size: clamp(2.6rem, 6vw, 4.6rem);
+    line-height: 1.1;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1.2px rgba(17, 17, 17, 0.14);
+    padding-right: 0.6em;
+}
+
+/* FUN EXPERIENCES だけブランドグラデの塗りでアクセント */
+.home .svc-marquee-chunk em {
+    font-style: normal;
+    -webkit-text-stroke: 0;
+    background: linear-gradient(120deg, #ff6b6b, #ff8e53 45%, #4ecdc4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* text-stroke 非対応環境では薄塗りにフォールバック */
+@supports not (-webkit-text-stroke: 1px #000) {
+    .home .svc-marquee-chunk {
+        color: rgba(17, 17, 17, 0.06);
+    }
+}
+
+/* 同一チャンク2連を -50% 動かすことでシームレスにループ */
+@keyframes marqueeX {
+    to { transform: translate3d(-50%, 0, 0); }
+}
+
+/* --- Services: カード間コンステレーション・ライン＋信号パルス（デスクトップ限定）
+   1020px 以下は Swiper でカード位置が動的なため非表示 --- */
+@media (min-width: 1021px) {
+    .home .svc-net {
+        --svc-net-top: 118px;
+        /* カードのアイコン中心の高さ */
+        position: absolute;
+        top: var(--svc-net-top);
+        left: 4%;
+        right: 4%;
+        height: 12px;
+        overflow: hidden;
+        /* パルスのはみ出しをクリップ */
+        pointer-events: none;
+    }
+
+    .home .svc-net-line {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 5px;
+        border-top: 1.5px dashed rgba(148, 163, 184, 0.55);
+    }
+
+    .home .svc-net-pulse {
+        position: absolute;
+        left: -8px;
+        top: 2px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #ff6b6b;
+        box-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+        will-change: transform;
+        animation: netPulse 5.5s linear infinite;
+    }
+
+    @keyframes netPulse {
+        0% { transform: translateX(0); opacity: 0; }
+        6% { opacity: 1; }
+        85% { opacity: 1; }
+        100% { transform: translateX(1450px); opacity: 0; }
+    }
+}
+
+@media (max-width: 1020px) {
+    .home .svc-net {
+        display: none;
+    }
+}
+
+/* --- サービスカード: シャインスイープ（ホバーで白い光が一閃）
+   .magic-card::after は services-carousel.css で封鎖済みのため content 側に置く --- */
+.home .magic-card .magic-card-content::after {
+    content: '';
+    position: absolute;
+    top: -30%;
+    bottom: -30%;
+    left: -80%;
+    width: 55%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+    transform: skewX(-20deg) translateX(-150%);
+    pointer-events: none;
+}
+
+.home .magic-card:hover .magic-card-content::after {
+    transform: skewX(-20deg) translateX(480%);
+    transition: transform 0.75s ease;
+    /* 非ホバー時は transition 無し＝即帰還して何度でも再生できる */
+}
+
+/* モバイル: スライド切替時に1回だけ光る（script.js が .shine-once を付与） */
+.home .magic-card.shine-once .magic-card-content::after {
+    animation: shineSweep 0.9s ease 0.1s 1 both;
+}
+
+@keyframes shineSweep {
+    from { transform: skewX(-20deg) translateX(-150%); }
+    to { transform: skewX(-20deg) translateX(480%); }
+}
+
+/* --- News: 周縁ドット地紋（中央はマスクで抜いて可読性維持） --- */
+.home .news-home {
+    position: relative;
+}
+
+.home .news-home::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='2' cy='2' r='1.5' fill='%23111111' fill-opacity='0.07'/%3E%3C/svg%3E");
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, transparent 25%, #000 70%);
+    mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, transparent 25%, #000 70%);
+}
+
+.home .news-home > .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* --- News: ノード・タイムライン（3色レール＋ノード＋ホバーピング） --- */
+.home .news-home .news-list {
+    position: relative;
+    padding-left: 36px;
+}
+
+/* 縦レール（リビールで上から伸びる） */
+.home .news-home .news-list::before {
+    content: '';
+    position: absolute;
+    left: 9px;
+    top: 20px;
+    bottom: 20px;
+    width: 2px;
+    border-radius: 2px;
+    background: linear-gradient(180deg, #4ecdc4, #ff6b6b 50%, #f5a623);
+}
+
+/* .news-list の .reveal は観測フックとしてのみ使う（見た目のフェードは無効化） */
+.js-reveal .home .news-home .news-list.reveal {
+    opacity: 1;
+    transform: none;
+}
+
+.js-reveal .home .news-home .news-list::before {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 1s ease 0.2s;
+}
+
+.js-reveal .home .news-home .news-list.is-visible::before {
+    transform: scaleY(1);
+}
+
+/* ノードの配置基準を各カード自身にする
+   （これが無いと containing block が .news-list になり全ノードが1点に重なる） */
+.home .news-home .news-item {
+    position: relative;
+}
+
+/* 各カードのノード（既存の左バー色と同期）
+   left はカードの padding box 基準（border-left 4px の内側）。
+   レール中心 x=10 に合わせる: 36(カード位置) + 4(border) - 36 + 6(半径) = 10 */
+.home .news-home .news-item::before {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 30px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #4ecdc4;
+    box-shadow: 0 0 0 4px rgba(78, 205, 196, 0.18);
+}
+
+.home .news-home .news-item:nth-child(2)::before {
+    background: #ff6b6b;
+    box-shadow: 0 0 0 4px rgba(255, 107, 107, 0.18);
+}
+
+.home .news-home .news-item:nth-child(3)::before {
+    background: #f5a623;
+    box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.18);
+}
+
+/* ホバーでノードからレーダー波紋（ピング） */
+.home .news-home .news-item::after {
+    content: '';
+    position: absolute;
+    left: -36px;
+    top: 30px;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #4ecdc4;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.home .news-home .news-item:nth-child(2)::after { border-color: #ff6b6b; }
+.home .news-home .news-item:nth-child(3)::after { border-color: #f5a623; }
+
+.home .news-home .news-item:hover::after {
+    animation: nodePing 0.9s ease-out infinite;
+}
+
+@keyframes nodePing {
+    from { transform: scale(0.6); opacity: 0.8; }
+    to { transform: scale(2.4); opacity: 0; }
+}
+
+/* --- News: タイトルホバーのグラデ下線（右へ抜けて左から入る） --- */
+.home .news-home .news-title a {
+    display: inline-block;
+    position: relative;
+}
+
+.home .news-home .news-title a:hover {
+    text-decoration: none;
+}
+
+.home .news-home .news-title a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    transition: transform 0.35s ease;
+}
+
+.home .news-home .news-title a:hover::after {
+    transform: scaleX(1);
+    transform-origin: 0 50%;
+}
+
+/* --- Contact: 星座タイル＋光スイープ＋浮遊光点＋CTAパルス --- */
+.home .contact-cta {
+    position: relative;
+    overflow: hidden;
+    /* 既存レイヤー（白サークル2・減光・ブランドグラデ）の先頭に星座タイルを追加 */
+    background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='200'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.12'%3E%3Cline x1='30' y1='40' x2='130' y2='90'/%3E%3Cline x1='130' y1='90' x2='220' y2='30'/%3E%3Cline x1='130' y1='90' x2='80' y2='170'/%3E%3C/g%3E%3Cg fill='%23ffffff' fill-opacity='0.25'%3E%3Ccircle cx='30' cy='40' r='3'/%3E%3Ccircle cx='130' cy='90' r='3'/%3E%3Ccircle cx='220' cy='30' r='3'/%3E%3Ccircle cx='80' cy='170' r='3'/%3E%3C/g%3E%3C/svg%3E"),
+        radial-gradient(circle at 70px 50px, rgba(255, 255, 255, 0.12) 0, rgba(255, 255, 255, 0.12) 139px, transparent 140px),
+        radial-gradient(circle at calc(100% - 50px) calc(100% - 30px), rgba(255, 255, 255, 0.12) 0, rgba(255, 255, 255, 0.12) 99px, transparent 100px),
+        linear-gradient(rgba(17, 17, 17, 0.16), rgba(17, 17, 17, 0.16)),
+        linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+}
+
+/* 幅広の淡い光帯がゆっくり往復（コンポジタ完結） */
+.home .contact-cta::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* 幅はセクションの1.2倍に抑えて GPU レイヤーを最小化
+       （旧 200% 幅と同じ見え方になるよう、帯幅・移動量を再計算済み:
+       帯の絶対幅 ≒ 0.32×セクション幅、移動 ±0.2×セクション幅） */
+    left: -10%;
+    width: 120%;
+    background: linear-gradient(115deg, transparent 37%, rgba(255, 255, 255, 0.10) 50%, transparent 63%);
+    pointer-events: none;
+    will-change: transform;
+    animation: ctaSweep 7s ease-in-out infinite;
+}
+
+@keyframes ctaSweep {
+    0%, 100% { transform: translate3d(-16.7%, 0, 0); }
+    50% { transform: translate3d(16.7%, 0, 0); }
+}
+
+.home .contact-cta .container {
+    position: relative;
+    z-index: 1;
+}
+
+/* 浮遊光点（ヒーロー粒子の残響） */
+.home .cta-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.home .cp {
+    position: absolute;
+    border-radius: 50%;
+}
+
+.home .cp-1 {
+    width: 10px;
+    height: 10px;
+    background: rgba(255, 255, 255, 0.5);
+    top: 22%;
+    left: 9%;
+    animation: apDrift 9s ease-in-out infinite;
+}
+
+.home .cp-2 {
+    width: 14px;
+    height: 14px;
+    background: rgba(255, 217, 61, 0.55);
+    top: 64%;
+    left: 16%;
+    animation: apDriftRev 12s ease-in-out infinite;
+}
+
+.home .cp-3 {
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.45);
+    top: 28%;
+    right: 11%;
+    animation: apDriftRev 10s ease-in-out infinite;
+    animation-delay: -4s;
+}
+
+.home .cp-4 {
+    width: 12px;
+    height: 12px;
+    background: rgba(255, 217, 61, 0.5);
+    bottom: 16%;
+    right: 19%;
+    animation: apDrift 13s ease-in-out infinite;
+    animation-delay: -7s;
+}
+
+/* CTAボタンのシグナル・パルス（白リングが広がって消える） */
+.home .contact-cta .btn-primary {
+    position: relative;
+}
+
+.home .contact-cta .btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50px;
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    pointer-events: none;
+    animation: ctaPulse 2.6s ease-out infinite;
+}
+
+@keyframes ctaPulse {
+    0% { transform: scale(1); opacity: 0.7; }
+    70%, 100% { transform: scale(1.28); opacity: 0; }
+}
+
+/* --- Footer: 3色ヘアライン＋沈殿地紋＋リンクノード＋巨大FUNEX透かし --- */
+.home .footer {
+    position: relative;
+    overflow: hidden;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='3' cy='3' r='1.2' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* 上端の3色ストライプ */
+.home .footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #ff6b6b 0 33.4%, #4ecdc4 33.4% 66.7%, #ffd93d 66.7% 100%);
+}
+
+/* footer 自体の .reveal は観測フックとしてのみ使う（フェードは無効化） */
+.js-reveal .home .footer.reveal {
+    opacity: 1;
+    transform: none;
+}
+
+/* ページ唯一の巨大透かし。フッター到達でカーテンリビール */
+.home .footer-watermark {
+    position: absolute;
+    right: -30px;
+    bottom: -0.14em;
+    font-family: var(--font-en);
+    font-weight: 900;
+    font-size: clamp(110px, 18vw, 240px);
+    line-height: 1;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+    user-select: none;
+}
+
+@supports not (-webkit-text-stroke: 1px #000) {
+    .home .footer-watermark {
+        color: rgba(255, 255, 255, 0.04);
+    }
+}
+
+.js-reveal .home .footer .footer-watermark {
+    transform: translateY(45%);
+    opacity: 0;
+}
+
+.js-reveal .home .footer.reveal.is-visible .footer-watermark {
+    transform: translateY(0);
+    opacity: 1;
+    transition: transform 1.1s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.9s ease;
+}
+
+/* コンテンツを透かしより手前に */
+.home .footer-grid,
+.home .copyright {
+    position: relative;
+    z-index: 1;
+}
+
+/* リンクホバーで3色循環のノードドットがポップ（幅は常時確保＝シフトなし） */
+.home .footer-nav a::before,
+.home .footer-services a::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+    background: #ff6b6b;
+    opacity: 0;
+    transform: scale(0);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
+}
+
+.home .footer-nav li:nth-child(3n+2) a::before,
+.home .footer-services li:nth-child(3n+2) a::before {
+    background: #4ecdc4;
+}
+
+.home .footer-nav li:nth-child(3n) a::before,
+.home .footer-services li:nth-child(3n) a::before {
+    background: #ffd93d;
+}
+
+.home .footer-nav a:hover::before,
+.home .footer-services a:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* --- 省電力: 画面外の常時アニメは停止する ---
+   is-inview は script.js の IntersectionObserver がセクション単位で付け外しする。
+   JS 無効時は is-inview が付かず全アニメ静止（静止でも装飾として成立する設計） */
+.home .about::before,
+.home .ap,
+.home .cp,
+.home .svc-marquee-track,
+.home .svc-net-pulse,
+.home .contact-cta::before,
+.home .contact-cta .btn-primary::after {
+    animation-play-state: paused;
+}
+
+.home .about.is-inview::before,
+.home .is-inview .ap,
+.home .is-inview .cp,
+.home .is-inview .svc-marquee-track,
+.home .is-inview .svc-net-pulse,
+.home .contact-cta.is-inview::before,
+.home .contact-cta.is-inview .btn-primary::after {
+    animation-play-state: running;
+}
+
+/* --- アクセシビリティ: 動きを減らす設定で全モーション停止
+   （リビール系は script.js が .js-reveal を付けないため自動で常時表示） --- */
+@media (prefers-reduced-motion: reduce) {
+    .home .scroll-progress {
+        display: none;
+    }
+
+    .home .ap,
+    .home .cp {
+        animation: none;
+    }
+
+    .home .svc-marquee-track {
+        animation: none;
+        /* 静止しても透かしタイポとして成立する */
+    }
+
+    .home .svc-net-pulse {
+        animation: none;
+        opacity: 0;
+    }
+
+    .home .contact-cta::before {
+        animation: none;
+    }
+
+    .home .contact-cta .btn-primary::after {
+        animation: none;
+        opacity: 0;
+    }
+
+    .home .news-home .news-item:hover::after {
+        animation: none;
+    }
+
+    .home .magic-card.shine-once .magic-card-content::after {
+        animation: none;
+    }
+
+    /* ホバーのシャインスイープも停止（transition を消すと最終位置へ
+       即ジャンプし、overflow:hidden のカード外なので何も見えない） */
+    .home .magic-card:hover .magic-card-content::after {
+        transition: none;
+    }
+
+    /* 閲覧中に「動きを減らす」へ切り替えた場合の保険（CSS側の二重ガード）。
+       .js-reveal 配下の子要素ゲートを解除して即座に最終状態にする */
+    .js-reveal .home .section-thread .thread-line,
+    .js-reveal .home .news-home .news-list::before {
+        transform: none;
+        transition: none;
+    }
+
+    .js-reveal .home .section-thread .thread-dot {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+        transition: none;
+    }
+
+    .js-reveal .home .footer .footer-watermark {
+        transform: none;
+        opacity: 1;
+        transition: none;
+    }
+}
+
+/* --- モバイル調整（第2弾） --- */
+@media (max-width: 768px) {
+    /* 粒子を半減・控えめに */
+    .home .ap-2,
+    .home .ap-4,
+    .home .ap-6 {
+        display: none;
+    }
+
+    .home .ap {
+        opacity: 0.4;
+    }
+
+    .home .cp-3,
+    .home .cp-4 {
+        display: none;
+    }
+
+    /* マーキーは縮小・減速 */
+    .home .svc-marquee {
+        top: 34px;
+    }
+
+    .home .svc-marquee-chunk {
+        font-size: 2rem;
+        -webkit-text-stroke-width: 1px;
+    }
+
+    .home .svc-marquee-track {
+        animation-duration: 70s;
+    }
+
+    /* スレッドを短縮 */
+    .home .section-thread {
+        height: 56px;
+        margin-top: 36px;
+    }
+
+    /* タイムラインのレールとノードを縮小 */
+    .home .news-home .news-list {
+        padding-left: 26px;
+    }
+
+    .home .news-home .news-list::before {
+        left: 5px;
+    }
+
+    .home .news-home .news-item::before,
+    .home .news-home .news-item::after {
+        /* レール中心 x=6 に合わせる: 26 + 4(border) - 29 + 5(半径) = 6 */
+        left: -29px;
+        top: 24px;
+        width: 10px;
+        height: 10px;
+    }
+
+    /* About の静的装飾を端に逃がす */
+    .home .about::after {
+        background-position: right -280px top -260px, left -60px bottom -60px;
+    }
+
+    /* フッター透かしを縮小 */
+    .home .footer-watermark {
+        font-size: clamp(64px, 22vw, 110px);
+        right: -16px;
+    }
+
+    /* セクション番号を少し小さく */
+    .home .sec-index {
+        font-size: 1.9rem;
+    }
+
+    /* タイトルリンクは inline-block 化（グラデ下線用）でモバイル共通の
+       a { min-height:44px } が新たに効いてしまい、1行タイトル時に
+       下線が約19px下へ離れるため、従来の inline と同じ実寸に戻す */
+    .home .news-home .news-title a {
+        min-height: 0;
+    }
+}
+
+/* --- 極小幅: News の日付・本文を縦積みに ---
+   time の固定幅 140px と横並びのままでは 320px 幅で本文列が約70pxまで
+   圧縮されるため、日付をタイトルの上に積む（.home スコープなので
+   news.html のリストには不干渉） --- */
+@media (max-width: 480px) {
+    .home .news-home .news-item {
+        flex-direction: column;
+    }
+
+    .home .news-home .news-item time {
+        width: auto;
+        margin-bottom: 6px;
+    }
+}
