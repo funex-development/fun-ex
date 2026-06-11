@@ -176,19 +176,20 @@ document.addEventListener('DOMContentLoaded', () => {
     if (revealEls.length > 0 && 'IntersectionObserver' in window && !prefersReducedMotion) {
         document.documentElement.classList.add('js-reveal');
 
-        // 同じセクション内の要素に 0.12s ずつの時間差をつける
-        const delayCounters = new Map();
-        revealEls.forEach(el => {
-            const group = el.closest('.section') || document.body;
-            const index = delayCounters.get(group) || 0;
-            el.style.transitionDelay = `${index * 0.12}s`;
-            delayCounters.set(group, index + 1);
-        });
-
+        // 時間差は「同時に画面へ入ったバッチ内」で 0.12s ずつ動的に付与する。
+        // （ロード時にセクション内連番で一括付与すると、要素数の多いページで
+        //   後方の要素だけ発火が数百ms遅れてしまうため）
         const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (!entry.isIntersecting) return;
-                const el = entry.target;
+            const batch = entries
+                .filter(entry => entry.isIntersecting)
+                .map(entry => entry.target)
+                // entries の順序は仕様上保証されないため DOM 順に並べ直す
+                .sort((a, b) =>
+                    a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1
+                );
+
+            batch.forEach((el, i) => {
+                el.style.transitionDelay = `${i * 0.12}s`;
                 el.classList.add('is-visible');
                 // リビール完了後はディレイを消す（カード等のホバー反応が遅れるのを防ぐ）
                 el.addEventListener('transitionend', () => {
