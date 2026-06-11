@@ -231,6 +231,7 @@ export default function ContactPage() {
                     borderRadius: '8px',
                     fontSize: '16px',
                   }}
+                  maxLength={100}
                   placeholder="株式会社〇〇"
                 />
                 <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>
@@ -256,6 +257,7 @@ export default function ContactPage() {
                     borderRadius: '8px',
                     fontSize: '16px',
                   }}
+                  maxLength={100}
                   placeholder="山田 太郎"
                 />
               </div>
@@ -278,6 +280,7 @@ export default function ContactPage() {
                     borderRadius: '8px',
                     fontSize: '16px',
                   }}
+                  maxLength={254}
                   placeholder="example@example.com"
                 />
               </div>
@@ -299,6 +302,7 @@ export default function ContactPage() {
                     borderRadius: '8px',
                     fontSize: '16px',
                   }}
+                  maxLength={30}
                   placeholder="03-1234-5678"
                 />
                 <p style={{ fontSize: '14px', color: '#6b7280', marginTop: '4px' }}>
@@ -360,6 +364,7 @@ export default function ContactPage() {
                     fontSize: '16px',
                     resize: 'vertical',
                   }}
+                  maxLength={5000}
                   placeholder="お問い合わせ内容をご記入ください"
                 />
               </div>
@@ -452,7 +457,6 @@ export default function ContactPage() {
             <h4>Services</h4>
             <ul>
               <li><a href="/services.html#service-game">ゲーム制作／メタバース</a></li>
-              <li><a href="/services.html#service-event">オフラインイベント</a></li>
               <li><a href="/services.html#service-web">Web制作</a></li>
               <li><a href="/services.html#service-sns">SNSサポート</a></li>
               <li><a href="/services.html#service-ai">生成AI活用サポート</a></li>

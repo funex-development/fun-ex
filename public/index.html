@@ -35,7 +35,6 @@
       "alternateName": "FunEx Inc.",
       "url": "https://funex.co.jp/",
       "logo": "https://funex.co.jp/funexB.png",
-      "foundingDate": "2024-03-01",
       "founder": {
         "@type": "Person",
         "name": "石井 雅人"
@@ -59,6 +58,8 @@
         "生成AI活用",
         "SNS運用代行",
         "Web制作",
+        "MEO対策",
+        "ローカルSEO",
         "動画制作",
         "Z世代マーケティング",
         "α世代マーケティング"
@@ -74,10 +75,10 @@
       "name": "株式会社ファンエクスの提供サービス",
       "itemListElement": [
         {"@type": "Service", "position": 1, "name": "ゲーム・メタバース制作", "description": "Z世代・α世代向けゲームコンテンツとメタバース体験の制作"},
-        {"@type": "Service", "position": 2, "name": "オフラインイベント企画・運営", "description": "体験型イベントの企画から運営まで"},
-        {"@type": "Service", "position": 3, "name": "Web制作", "description": "中小企業向けコーポレートサイト・LP制作"},
-        {"@type": "Service", "position": 4, "name": "SNS構築・運用", "description": "Instagram、X等のSNS運用代行"},
-        {"@type": "Service", "position": 5, "name": "生成AI活用・導入支援", "description": "ChatGPT等の業務導入とAI活用コンサル"},
+        {"@type": "Service", "position": 2, "name": "Web制作", "description": "中小企業向けコーポレートサイト・LP制作"},
+        {"@type": "Service", "position": 3, "name": "SNS構築・運用", "description": "Instagram、X等のSNS運用代行"},
+        {"@type": "Service", "position": 4, "name": "生成AI伴走支援", "description": "生成AIの業務活用に向けた伴走支援・導入・開発"},
+        {"@type": "Service", "position": 5, "name": "MEO対策", "description": "Googleマップ・ローカルSEO対策で来店・問い合わせ・売上の増加につながる集客を支援"},
         {"@type": "Service", "position": 6, "name": "動画・YouTube運営", "description": "動画制作とYouTubeチャンネル運用代行"}
       ]
     }
@@ -102,12 +103,12 @@
     <link rel="stylesheet" href="mvv.css">
 
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body>
+<body class="home">
 
+    <!-- スクロールプログレス（シグナル・ライン） -->
+    <div class="scroll-progress" aria-hidden="true"><span class="scroll-progress-bar"></span></div>
 
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
@@ -153,8 +154,18 @@
 
     <!-- About Section -->
     <section id="about" class="section about">
+        <!-- 装飾: ヒーローの粒子の「拡大版」が漂う -->
+        <div class="about-particles" aria-hidden="true">
+            <span class="ap ap-dot ap-1"></span>
+            <span class="ap ap-ring ap-2"></span>
+            <span class="ap ap-dot ap-3"></span>
+            <span class="ap ap-ring ap-4"></span>
+            <span class="ap ap-line ap-5"></span>
+            <span class="ap ap-line ap-6"></span>
+        </div>
         <div class="container">
-            <div class="section-header center">
+            <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">01</span>
                 <span class="section-subtitle">About Us</span>
                 <h2 class="section-title">私たちについて</h2>
                 <p class="section-desc"
@@ -167,20 +178,36 @@
                 </p>
             </div>
 
-            <div class="center-btn-container" style="text-align: center; margin-top: 40px;">
+            <div class="center-btn-container reveal" style="text-align: center; margin-top: 40px;">
                 <a href="about.html" class="btn btn-primary">会社概要はこちら</a>
+            </div>
+
+            <!-- 装飾: 次セクションへ信号が流れるネットワーク・スレッド -->
+            <div class="section-thread reveal" aria-hidden="true">
+                <span class="thread-line"></span>
+                <span class="thread-dot td-1"></span>
+                <span class="thread-dot td-2"></span>
+                <span class="thread-dot td-3"></span>
             </div>
         </div>
     </section>
 
     <!-- Services Section -->
     <section id="services" class="section services">
+        <!-- 装飾: 英字アウトラインのマーキー帯 -->
+        <div class="svc-marquee" aria-hidden="true">
+            <div class="svc-marquee-track">
+                <span class="svc-marquee-chunk">GAME / WEB / SNS / AI / MEO / <em>FUN EXPERIENCES</em> / </span>
+                <span class="svc-marquee-chunk">GAME / WEB / SNS / AI / MEO / <em>FUN EXPERIENCES</em> / </span>
+            </div>
+        </div>
         <div class="container" style="max-width: 1400px;">
-            <div class="section-header center">
+            <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">02</span>
                 <span class="section-subtitle">Our Business</span>
                 <h2 class="section-title">事業内容</h2>
                 <p class="section-desc" style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); line-height: 2; margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">
-                    私たちの事業はすべて、中小企業の価値を<br>
+                    私たちの事業は、中小企業の価値を最大化し<br>
                     Z世代・α世代に届けるための「体験づくり」です。<br>
                     <br>
                     目的に応じて、テクノロジーや手法を組み合わせ、<br>
@@ -189,7 +216,12 @@
             </div>
 
             <!-- Services Grid -->
-            <div class="services-swiper swiper">
+            <div class="services-swiper swiper reveal">
+            <!-- 装飾: カード間を貫く破線と信号パルス（デスクトップのみ表示） -->
+            <div class="svc-net" aria-hidden="true">
+                <span class="svc-net-line"></span>
+                <span class="svc-net-pulse"></span>
+            </div>
             <div class="services-grid swiper-wrapper">
                     <!-- 1. ゲーム制作/メタバース -->
                     <div class="service-card-wrapper swiper-slide">
@@ -214,28 +246,7 @@
                         </div>
                     </div>
 
-                    <!-- 2. オフラインイベント -->
-                    <div class="service-card-wrapper swiper-slide">
-                        <div class="magic-card card-event">
-                            <div class="magic-card-content">
-                                <div class="service-icon">
-                                    <svg class="svg-icon icon-event" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-                                        <circle class="spark sp-1" cx="9" cy="13" r="1.4" fill="#ffffff"/>
-                                        <circle class="spark sp-2" cx="40" cy="16" r="1.2" fill="#ffffff"/>
-                                        <circle class="spark sp-3" cx="42" cy="32" r="1.1" fill="#ffffff"/>
-                                        <path class="tent" d="M6 39 L 24 11 L 42 39 Z" fill="#ffffff"/>
-                                        <path d="M20 39 Q 22 27, 24 29 Q 26 27, 28 39 Z" class="ic-acc"/>
-                                        <rect x="23.2" y="5" width="1.6" height="7" rx="0.8" fill="#ffffff"/>
-                                        <path class="flag" d="M24.8 5 Q 31 6.5, 32 8 Q 31 9.5, 24.8 10 Z" fill="#ffffff"/>
-                                    </svg>
-                                </div>
-                                <h3>オフラインイベント</h3>
-                                <p>ゲームや体験型コンテンツを活用し、記憶に残るオフラインイベントを企画・運営します。</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3. Web制作 -->
+                    <!-- 2. Web制作 -->
                     <div class="service-card-wrapper swiper-slide">
                         <div class="magic-card card-web">
                             <div class="magic-card-content">
@@ -258,7 +269,7 @@
                         </div>
                     </div>
 
-                    <!-- 4. SNSサポート -->
+                    <!-- 3. SNSサポート -->
                     <div class="service-card-wrapper swiper-slide">
                         <div class="magic-card card-sns">
                             <div class="magic-card-content">
@@ -282,7 +293,7 @@
                         </div>
                     </div>
 
-                    <!-- 5. 生成AI活用サポート -->
+                    <!-- 4. 生成AI伴走支援 -->
                     <div class="service-card-wrapper swiper-slide">
                         <div class="magic-card card-ai">
                             <div class="magic-card-content">
@@ -295,8 +306,28 @@
                                         <path class="ai-s2" d="M38 34 C 38.3 36.5, 39 37.2, 41.5 37.5 C 39 37.8, 38.3 38.5, 38 41 C 37.7 38.5, 37 37.8, 34.5 37.5 C 37 37.2, 37.7 36.5, 38 34 Z" fill="#ffffff"/>
                                     </svg>
                                 </div>
-                                <h3>生成AI活用サポート</h3>
+                                <h3>生成AI伴走支援</h3>
                                 <p>生成AIで業務を効率化する、伴走支援や開発を行っています。</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. MEO対策 -->
+                    <div class="service-card-wrapper swiper-slide">
+                        <div class="magic-card card-meo">
+                            <div class="magic-card-content">
+                                <div class="service-icon">
+                                    <svg class="svg-icon icon-meo" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+                                        <g class="meo-pin">
+                                            <path d="M24 5 C 16 5, 10 11.5, 10 19.5 C 10 29.5, 24 43, 24 43 C 24 43, 38 29.5, 38 19.5 C 38 11.5, 32 5, 24 5 Z" fill="#ffffff"/>
+                                            <circle class="ic-acc" cx="24" cy="19" r="6"/>
+                                            <circle cx="24" cy="19" r="2.4" fill="#ffffff"/>
+                                        </g>
+                                        <path class="meo-spark" d="M39 8 C 39.3 10.4, 40 11.1, 42.4 11.4 C 40 11.7, 39.3 12.4, 39 14.8 C 38.7 12.4, 38 11.7, 35.6 11.4 C 38 11.1, 38.7 10.4, 39 8 Z" fill="#ffffff"/>
+                                    </svg>
+                                </div>
+                                <h3>MEO対策</h3>
+                                <p>Googleマップで見つけてもらえるお店へ。来店・お問い合わせ・売上の増加につながる集客をサポートします。</p>
                             </div>
                         </div>
                     </div>
@@ -304,16 +335,17 @@
             <div class="swiper-pagination"></div>
             </div>
 
-            <div class="center-btn-container" style="text-align: center; margin-top: 40px;">
+            <div class="center-btn-container reveal" style="text-align: center; margin-top: 40px;">
                 <a href="services.html" class="btn btn-primary">詳しい事業内容はこちら</a>
             </div>
         </div>
     </section>
 
     <!-- News Section -->
-    <section id="news" class="section news">
+    <section id="news" class="section news news-home">
         <div class="container">
-            <div class="section-header center">
+            <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">03</span>
                 <span class="section-subtitle">Latest Information</span>
                 <h2 class="section-title">最新ニュース</h2>
                 <p class="section-desc" style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); line-height: 2; margin-top: 20px;">
@@ -321,9 +353,9 @@
                 </p>
             </div>
 
-            <div class="news-list">
+            <div class="news-list reveal">
                 <!-- Item 8 -->
-                <article class="news-item">
+                <article class="news-item reveal">
                     <time datetime="2026-02-14">2026.02.14</time>
                     <div class="news-info">
                         <h3 class="news-title">
@@ -338,7 +370,7 @@
                 </article>
 
                 <!-- Item 7 -->
-                <article class="news-item">
+                <article class="news-item reveal">
                     <time datetime="2025-12-24">2025.12.24</time>
                     <div class="news-info">
                         <h3 class="news-title">
@@ -352,7 +384,7 @@
                 </article>
 
                 <!-- Item 6 -->
-                <article class="news-item">
+                <article class="news-item reveal">
                     <time datetime="2025-12-03">2025.12.03</time>
                     <div class="news-info">
                         <h3 class="news-title">
@@ -366,33 +398,51 @@
                 </article>
             </div>
 
-            <div class="center-btn-container" style="text-align: center; margin-top: 40px;">
+            <div class="center-btn-container reveal" style="text-align: center; margin-top: 40px;">
                 <a href="news.html" class="btn btn-primary">過去のニュースはこちら</a>
+            </div>
+
+            <!-- 装飾: 次セクションへ信号が流れるネットワーク・スレッド -->
+            <div class="section-thread reveal" aria-hidden="true">
+                <span class="thread-line"></span>
+                <span class="thread-dot td-1"></span>
+                <span class="thread-dot td-2"></span>
+                <span class="thread-dot td-3"></span>
             </div>
         </div>
         </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section contact">
+    <section id="contact" class="section contact contact-cta">
+        <!-- 装飾: 浮遊する光点 -->
+        <div class="cta-particles" aria-hidden="true">
+            <span class="cp cp-1"></span>
+            <span class="cp cp-2"></span>
+            <span class="cp cp-3"></span>
+            <span class="cp cp-4"></span>
+        </div>
         <div class="container">
-            <div class="section-header center">
+            <div class="section-header center reveal">
+                <span class="sec-index" aria-hidden="true">04</span>
                 <span class="section-subtitle">Contact Us</span>
                 <h2 class="section-title">お問い合わせ</h2>
-                <p class="section-desc" style="font-size: 1.5rem; font-weight: 700; color: var(--text-main); line-height: 2; margin-top: 20px;">
+                <p class="section-desc">
                     Z世代・α世代への伝え方や、体験づくりに悩んでいませんか。<br>
                     まずはお気軽にご相談ください。
                 </p>
             </div>
 
-            <div class="center-btn-container" style="text-align: center; margin-top: 40px;">
+            <div class="center-btn-container reveal" style="text-align: center; margin-top: 40px;">
                 <a href="/contact" class="btn btn-primary">まずは相談する</a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer reveal">
+        <!-- 装飾: 最下部のご褒美 — 巨大FUNEX透かしのカーテンリビール -->
+        <span class="footer-watermark" aria-hidden="true">FUNEX</span>
         <div class="container footer-grid">
             <div class="footer-brand">
                 <a href="/">
@@ -419,10 +469,10 @@
                 <h4>Services</h4>
                 <ul>
                     <li><a href="services.html#service-game">ゲーム制作／メタバース</a></li>
-                    <li><a href="services.html#service-event">オフラインイベント</a></li>
                     <li><a href="services.html#service-web">Web制作</a></li>
                     <li><a href="services.html#service-sns">SNSサポート</a></li>
-                    <li><a href="services.html#service-ai">生成AI活用サポート</a></li>
+                    <li><a href="services.html#service-ai">生成AI伴走支援</a></li>
+                    <li><a href="services.html#service-meo">MEO対策</a></li>
                 </ul>
             </div>
         </div>

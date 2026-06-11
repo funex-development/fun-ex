@@ -130,6 +130,31 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // メールアドレスの形式チェック（簡易・長さ上限254）
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.length > 254 || !emailPattern.test(email)) {
+      return NextResponse.json(
+        { message: "メールアドレスの形式が正しくありません" },
+        { status: 400 }
+      );
+    }
+
+    // 各入力フィールドの最大長チェック（巨大ペイロードによる悪用・送信コスト増を防止）
+    const fieldLimits: { value: string | undefined; label: string; max: number }[] = [
+      { value: name, label: "お名前", max: 100 },
+      { value: company, label: "会社名", max: 100 },
+      { value: phone, label: "電話番号", max: 30 },
+      { value: message, label: "お問い合わせ内容", max: 5000 },
+    ];
+    for (const field of fieldLimits) {
+      if (field.value && field.value.length > field.max) {
+        return NextResponse.json(
+          { message: `${field.label}は${field.max}文字以内で入力してください` },
+          { status: 400 }
+        );
+      }
+    }
+
     // Cloudflare Turnstile検証
     const turnstileVerifyUrl = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
     const turnstileResponse = await fetch(turnstileVerifyUrl, {
