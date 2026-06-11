@@ -108,6 +108,31 @@ function animate() {
 }
 
 // Touch support to mimic mouse interaction
+// タッチでもマウスと同じ反発インタラクションを行う。
+// passive: true で preventDefault しないため、ページのスクロールは一切妨げない。
+function updateTouchPosition(e) {
+    const touch = e.touches[0];
+    if (!touch) return;
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = touch.clientX - rect.left;
+    mouse.y = touch.clientY - rect.top;
+}
+
+function endTouch(e) {
+    // 全ての指が離れたら反発の基準点を消す（最後のタッチ位置に反発が残り続けるのを防ぐ）
+    if (e.touches.length === 0) {
+        mouse.x = null;
+        mouse.y = null;
+    } else {
+        updateTouchPosition(e);
+    }
+}
+
+window.addEventListener('touchstart', updateTouchPosition, { passive: true });
+window.addEventListener('touchmove', updateTouchPosition, { passive: true });
+window.addEventListener('touchend', endTouch);
+window.addEventListener('touchcancel', endTouch);
+
 
 
 let prevWidth = 0;

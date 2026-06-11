@@ -155,7 +155,9 @@ export default function ContactPage() {
   };
 
   return (
-    <>
+    // subpage: サブページ共通トンマナ（クリーム背景＋ブランド3色の光ブロブ）。
+    // bodyはルートlayout管理のためラッパーdivに付与（subpage.css側でfixed描画）
+    <div className="subpage">
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js"
         onLoad={handleTurnstileLoad}
@@ -166,6 +168,13 @@ export default function ContactPage() {
 
       {/* Page Header */}
       <section className="page-header">
+        {/* 装飾: 浮遊する光の粒 */}
+        <div className="ph-particles" aria-hidden="true">
+          <span className="php php-1"></span>
+          <span className="php php-2"></span>
+          <span className="php php-3"></span>
+          <span className="php php-4"></span>
+        </div>
         <div className="container">
           <h1 className="page-title">Contact</h1>
           <p className="page-subtitle">お問い合わせ</p>
@@ -517,6 +526,6 @@ export default function ContactPage() {
           }, { passive: true });
         `}
       </Script>
-    </>
+    </div>
   );
 }

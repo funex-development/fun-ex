@@ -382,6 +382,14 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 
 ## 対応履歴
 
+### 2026-06-11 — ヒーロー粒子エフェクトのモバイルタッチ対応（hero-effect.js）
+- **背景**: PCではマウスで粒子が反発するが、モバイルではタッチに無反応との指摘。原因は `hero-effect.js` が `mousemove` のみ監視（しかも幅768px未満は意図的に return）で、「Touch support to mimic mouse interaction」コメントの下が**未実装の空**だったこと。
+- **実装**: `touchstart`/`touchmove` でタッチ座標を既存の `mouse.x/y`（canvas相対）に変換し、PCと同じ反発ロジックに接続。`{ passive: true }` 明示で preventDefault せず**ページスクロールは一切妨げない**。`touchend`/`touchcancel` は全指が離れたら null リセット（最後のタッチ位置に反発が残留するのを防止）、指が残っていれば座標を更新。
+- **設計判断**: `mousemove` 側の768pxガードは**残置**。タップ後に発火する合成マウスイベントが touchend のリセットを上書きするのを防ぐ役割を兼ねるため。
+- **検証**: node --check 構文OK・CRLF維持（LF混在0）。localhost:3001 実ページで合成 TouchEvent をディスパッチし、touchstart/touchmove で `mouse` 座標が追従・touchend で null リセットを確認。コンソールエラーなし。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/hero-effect.js`
+
 ### 2026-06-11 — Font Awesome（未使用）の全削除とお問い合わせAPIの入力検証強化
 - **背景**: サイト全体を「最適化／レスポンシブ／セキュリティ」の3観点で点検した結果、効果が大きく低コストな2点に着手（残りの指摘は据え置き）。
 - **Font Awesome 撤去（最適化）**: アイコンは全てインラインSVG化済みで `fa-`/`<i>` の実使用が0件のため、render-blocking な CDN CSS を全6箇所から削除。`public/{index,about,services,news,privacy}.html` の `<!-- Icons -->`＋`<link>`、`app/layout.tsx` の Font Awesome `<link>` と不要になった cdnjs への `preconnect`。**見た目は不変**、全ページの critical path から外部往復1本が消える。

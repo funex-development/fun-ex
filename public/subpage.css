@@ -519,3 +519,143 @@
         font-size: 1.5rem;
     }
 }
+
+/* ============================================================
+   サブページ共通トンマナ「ブランドの光」（2026-06-11）
+   トップページのクリーム基調＋ブランド3色（ティール/コーラル/
+   イエロー）の淡い光をサブページへ継承する。
+   - 背景: 極薄クリーム＋光ブロブ（18秒周期でゆっくり浮遊）
+   - page-header: 浮遊する光の粒（HTML側で .ph-particles を配置）
+   - スクロールリビールは既存 .reveal 機構（script.js）を流用
+   ============================================================ */
+
+/* --- 背景: 極薄クリーム＋ブランド3色の光ブロブ ---
+   静的HTMLは <body class="subpage">、/contact はラッパー
+   <div class="subpage"> に付与する。ラッパー利用時に要素背景が
+   負のz-indexの疑似要素を隠さないよう、ベース色も fixed レイヤー
+   側に含めて1枚で描画する */
+.subpage::before {
+    content: '';
+    position: fixed;
+    /* アニメーションの移動量（±40px/30px）で端が見えないよう拡張 */
+    inset: -140px;
+    z-index: -1;
+    pointer-events: none;
+    background-color: #fffdf9;
+    background-image:
+        radial-gradient(circle at 85% 12%, rgba(78, 205, 196, 0.20), transparent 34%),
+        radial-gradient(circle at 8% 58%, rgba(255, 107, 107, 0.15), transparent 30%),
+        radial-gradient(circle at 74% 92%, rgba(255, 217, 61, 0.16), transparent 28%);
+    animation: subpageBlobFloat 18s ease-in-out infinite alternate;
+}
+
+@keyframes subpageBlobFloat {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(40px, -30px, 0); }
+}
+
+/* --- page-header: 浮遊する光の粒 ---
+   page-header は position:relative / overflow:hidden 済み。
+   タイトル類（z-index:1）が粒の手前に来る */
+.ph-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.php {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.32);
+}
+
+.php-1 { top: 30%; left: 10%; width: 52px; height: 52px; filter: blur(2px); animation: phFloatA 6s ease-in-out infinite; }
+.php-2 { top: 55%; left: 84%; width: 28px; height: 28px; background: rgba(255, 255, 255, 0.42); animation: phFloatB 7s ease-in-out 0.8s infinite; }
+.php-3 { top: 36%; left: 68%; width: 14px; height: 14px; background: rgba(255, 255, 255, 0.55); animation: phFloatA 5s ease-in-out 1.5s infinite; }
+.php-4 { top: 70%; left: 26%; width: 34px; height: 34px; filter: blur(1px); animation: phFloatB 6.5s ease-in-out 0.4s infinite; }
+
+@keyframes phFloatA {
+    0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.5; }
+    50%      { transform: translate3d(14px, -18px, 0); opacity: 0.95; }
+}
+
+@keyframes phFloatB {
+    0%, 100% { transform: translate3d(0, 0, 0); opacity: 0.85; }
+    50%      { transform: translate3d(-16px, 14px, 0); opacity: 0.4; }
+}
+
+/* --- MVVラベルにブランド色（about.html） --- */
+.mission-block .mvv-label {
+    background: rgba(78, 205, 196, 0.16);
+    color: #0c7c74;
+}
+
+.vision-block .mvv-label {
+    background: rgba(255, 107, 107, 0.13);
+    color: #c4423d;
+}
+
+/* --- 会社概要テーブルにティールのアクセント --- */
+.profile-table-wrapper {
+    border-left: 4px solid #4ecdc4;
+}
+
+/* --- ニュース一覧のカード化 ---
+   トップページ（.news-home）と同じ見た目に統一する。
+   旧スタイル（白い大枠リスト＋行ホバーの translateX）を打ち消し、
+   白カード＋ブランド3色ローテーションの左ボーダーへ */
+.news-page-section .news-list {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+
+.news-page-section .news-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #4ecdc4;
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.04);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 左バーをブランド3色でローテーション（1,4,7…=ティールが基本色） */
+.news-page-section .news-item:nth-child(3n+2) { border-left-color: #ff6b6b; }
+.news-page-section .news-item:nth-child(3n)   { border-left-color: #f5a623; }
+
+.news-page-section .news-item:last-child {
+    margin-bottom: 0;
+}
+
+.news-page-section .news-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.08);
+    /* 旧 .news-item:hover の padding-left:10px を打ち消して固定 */
+    padding-left: 28px;
+}
+
+@media (max-width: 768px) {
+    .news-page-section .news-item {
+        padding: 18px 20px;
+    }
+
+    .news-page-section .news-item:hover {
+        padding-left: 20px;
+    }
+}
+
+/* --- アクセシビリティ: 動きを減らす設定への対応 ---
+   （リビールの無効化は style.css 側の既存対応に含まれる） */
+@media (prefers-reduced-motion: reduce) {
+    .subpage::before,
+    .php {
+        animation: none;
+    }
+
+    .news-page-section .news-item:hover {
+        transform: none;
+    }
+}
