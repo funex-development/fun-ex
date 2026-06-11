@@ -382,6 +382,50 @@ Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>
 
 ## 対応履歴
 
+### 2026-06-11 — Font Awesome（未使用）の全削除とお問い合わせAPIの入力検証強化
+- **背景**: サイト全体を「最適化／レスポンシブ／セキュリティ」の3観点で点検した結果、効果が大きく低コストな2点に着手（残りの指摘は据え置き）。
+- **Font Awesome 撤去（最適化）**: アイコンは全てインラインSVG化済みで `fa-`/`<i>` の実使用が0件のため、render-blocking な CDN CSS を全6箇所から削除。`public/{index,about,services,news,privacy}.html` の `<!-- Icons -->`＋`<link>`、`app/layout.tsx` の Font Awesome `<link>` と不要になった cdnjs への `preconnect`。**見た目は不変**、全ページの critical path から外部往復1本が消える。
+- **お問い合わせAPIの入力検証（セキュリティ）**: `app/api/contact/route.ts` にメール形式チェック（簡易正規表現＋254字上限）と各フィールドの最大長（氏名/会社名100・電話30・本文5000字）を追加。巨大ペイロード悪用と、任意の第三者宛への確認メール送信（踏み台化）を防止。`app/contact/page.tsx` の各入力欄に同値の `maxLength` を付与しUXを整合。
+- **検証**: `npm run build` 成功（型チェック通過・6ページ生成）。Font Awesome 残存0を grep 確認。
+- **技術知見（再発防止）**: 改行コードがファイルで混在（HTML=LF / `layout.tsx`・`route.ts`=CRLF / `page.tsx`=LF）。検証付きの使い捨て Node スクリプトで改行を壊さず原子的に処理した（Edit/grep の不安定対策・既知の運用）。
+- 関連: `public/index.html`, `public/about.html`, `public/services.html`, `public/news.html`, `public/privacy.html`, `app/layout.tsx`, `app/api/contact/route.ts`, `app/contact/page.tsx`
+
+### 2026-06-11 — 生成AIセクションのSVGを「融合版：ホライズン×オービタルコア」に刷新（service-ai.svg）
+- **public/assets/service-ai.svg を全面差し替え**（約42KB）。旧「ニューラルネットワーク」デザインは「もっとおしゃれで近未来的に」の要望で候補3案（A:オービタルコア/B:データホライズン/C:サーキットネクサス）→派手強化版（A+/B+）→**ユーザー指定の融合（B+の世界＋A+のコアをAIロゴとして搭載）**で確定。採用路線「大人かっこいい・単色系（漆黒×アイスブルー）・明度差で奥行き」は維持。
+- **構成**: オーロラ3本が漂う夜空＋流星＋スパークル星／パースグリッドの床＋光の柱15本（床面鏡映つき）＋スキャンバンド3本＋上昇粒子9個／中央に多層回転リング・二重レーダースイープ・ベゼルコメット・六角フレーム・エネルギー放電・軌道粒子5個をまとった**オービタルコア**（9秒周期で浮遊）。
+- **床の鏡映（ユーザー要望で強化）**: コア一式を `<defs>` の `<g id="f-core">` に共通化し、本体と床下の上下ミラー（`scale(0.55 -0.55)`・y=500基準）の両方から `<use>` 参照。**SMILアニメが本体と反射で完全同期**。反射はマスクで距離フェード（0.8→0.3→0）＋走査線風の途切れ3本、グループopacity 0.4。
+- **技術知見**: `<defs>` 内の `<g>` にSMILを入れて `<use>` で複数参照するとアニメ同期した複製が作れる（Chromium確認済み）。`.ai-motion` のreduced-motion非表示はuseのシャドウツリーにも効く。従来の制約（`<img>`読込・Webフォント不可・大判ぼかし禁止・SMIL可）はすべて遵守。
+- **public/services.html**: 生成AIセクションの `alt` を新デザイン説明に更新（この1行のみ。同ファイルの他の未コミット変更とは別作業）。
+- **候補・検証資材**: `../_ai_svg_candidates/`（リポジトリ外）に全候補SVG＋比較ビューア index.html を保全。旧デザインは git（a5fa388）から復元可能。
+- **検証**: XML整形式チェック＋localhost:3000/services.html 実ページでChrome MCPスクショ確認済み。
+- **未デプロイ**: Git commit & push → Vercel 反映が必要。
+- 関連: `public/assets/service-ai.svg`, `public/services.html`, `../_ai_svg_candidates/`
+
+### 2026-06-11 — 事業内容ページ「YouTube運営」のビジュアルをSVG化（service-youtube.svg）
+- **背景**: youtube-ops.png/webp の写真画像を、姉妹作（service-ai / service-meo）と同系統のアニメSVGに刷新。ユーザー要望「おしゃれでYouTube感のあるSVG」。採用確定路線「大人かっこいい・単色系・明度差で奥行き」を踏襲。
+- **public/assets/service-youtube.svg（新規・約45KB）**: 漆黒スタジオ×レッド単色系（#ff0033〜#7a1020 の明度4階調）の「Cinema Player」。中央の発光する再生ボタン＋プログレスバー/シークノブ＋編集タイムライン＋チャンネル登録ボタン/登録者カウンタ＋急上昇グラフ＋高評価バッジで「企画・撮影・編集・分析改善」の運営文脈を1枚に圧縮。3案コンペ（cinema-player / creator-studio / broadcast-signal）×2審査員のワークフローで選定し、審査指摘（ノブの基準cx欠落・stdDeviation 8 ブラーのグラデ置換・セーフエリア余裕・コーナーHUDラベル追加）を反映。**YouTube商標（公式ロゴ形状・ワードマーク）は不使用**、黒×赤×白パレットと汎用プレイヤーUIで表現。
+- **技術知見（重要・再発防止）**: SMILの値リスト先頭値は「静止フレーム」の描画値になる（非表示タブ等でSMILクロックが0のまま固まると先頭値で固定描画される。実測で確認）。ループ境界のスナップバック隠しのフェードを opacity values="0;…" で始めると静止フレームから要素が消える → **フェード窓を周期途中（keyTimes 0.84〜0.91）に置き、巻き戻りもその窓内で行い、t=0 は表示状態＋中間進行値にする**設計で解決。検証は SVG を直接開いて `svg.setCurrentTime(t)`＋getComputedStyle で各位相を決定論的に確認するのが有効（スクショの撮影タイミングでは判定不能）。
+- **reduced-motion**: CSSアニメ停止＋ .yt-motion 非表示に加え、SMIL進行系（プログレス/ノブ/再生ヘッド/ベル）は `.yt-fallback`（通常時 display:none、reduce時 inline）の静止コピーに切替える二層方式。再生ボタンの脈動はSMILからCSS（.yt-scale）に移してreduce時に完全静止。
+- **public/services.html**: YouTube運営の `<picture>`(youtube-ops) を service-youtube.svg の `<img>` に差し替え、ラッパーに `.service-youtube-visual` を付与。alt はデザイン内容の詳細説明に更新。
+- **public/subpage.css**: `.service-youtube-visual`（漆黒背景 #0a0a10＋赤グロー枠）を ai/meo と同形式で追加。
+- **残置**: youtube-ops.png/webp（assets/ と public/ 直下の両方）はファイル削除禁止ルールに従い残置（参照は無くなった）。
+- **検証**: XML整形式・id一意（yt- prefix）・url参照整合・stdDeviation最大4・setCurrentTime全位相検証（ノブとバーが全点で cx=412+width 同期、ループ境界 opacity/幅とも連続）・localhost:3000 の実ページで表示確認済み。
+- **後片付け**: 検証用スクラッチ `../_yt_svg_eval/`（候補3案＋ホストHTML）は削除済み。落選案（creator-studio: 成長ダッシュボード / broadcast-signal: 放送波モノグラム）は保全していない（審査採点は 候補1: 88.5 / 候補3: 87 / 候補2: 82.5 点。必要なら本エントリのコンセプト記述から再生成可能）。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/assets/service-youtube.svg`, `public/services.html`, `public/subpage.css`
+
+### 2026-06-11 — トップページの「斜め加工」を解除（まっすぐ化）
+- **背景**: 事業内容（Services）セクションの上下が斜めにスライスされ、英字マーキー帯も傾いていて「ページが斜めに見える」とのユーザー指摘。「まっすぐでいい」との要望で斜め演出を解除（前項 Particle Continuum の装飾の一部を取り下げる形）。
+- **public/style.css の変更（3箇所）**:
+  - `.services::before`（上端の白い斜めウェッジ／`clip-path: polygon(0 0, 100% 0, 0 100%)`）→ `display: none`
+  - `.services::after`（下端の白い斜めウェッジ／上端と逆向き）→ `display: none`
+  - `.home .svc-marquee`（`FUN EXPERIENCES / WEB / SNS / AI` の帯）→ `transform: rotate(-2deg)` を `transform: none` に（**マーキーの横スクロール自体は維持、傾きのみ解除**）
+- **据え置き**: `.home .services` の `overflow-x: clip`（旧・傾き対策コメント付きだが無害のため残置）、About の `--tilt` 接続線・シャインの `skewX` スイープ等の装飾は対象外（ページの傾きとは無関係）。ハンバーガーのX字 `rotate(45deg)` も別物で不変。
+- **作業知見（再発防止）**: このセッションは Edit/grep/sed/Read が断続的に空・不整合な結果を返す不安定状態だった（「ハンバーガー `.btn .bar` に `rotate(-2deg)` がある」は誤読で実在しない）。`fs.readFileSync`（Node）と Write は安定。**CRLF 改行**のため複数行マッチは `\r?\n` 必須。最終的な置換は使い捨て Node スクリプトで原子的に実施し、`clip-path: polygon`=0・`rotate(-2deg)`=0 を Node で検証済み。
+- **未確認**: ブラウザ実機の見た目はスクショ環境不安定のため未検証（CSS自体は検証済み）。閲覧時は **Ctrl+F5** で CSS キャッシュをクリアする必要あり。
+- **未デプロイ**: Git push → Vercel 反映が必要。
+- 関連: `public/style.css`
+
 ### 2026-06-10〜11 — トップページリッチ化第2弾「Particle Continuum」（コミット f34929b）
 - **コンセプト**: ヒーローのcanvas粒子ネットワーク（ドット・接続線・#ff6b6b/#4ecdc4/#ffd93d）を**サイト唯一の装飾言語**として全セクションへ展開。3デザイナー案＋2審査員のワークフローで決定。設計書 `docs/superpowers/specs/2026-06-10-particle-continuum-design.md`（採用10項目・却下項目・再提案禁止リストあり）。
 - **スコープ方式**: `index.html` の body に `class="home"` を付与し、新ルールは全て `.home` 配下（style.css は全5ページ共有のため）。装飾DOMは全て `aria-hidden="true"`。アニメは transform/opacity のみ。

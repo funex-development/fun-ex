@@ -95,19 +95,10 @@ export default function RootLayout({
   return (
     <html lang="ja" className={`${notoSansJP.variable} ${outfit.variable}`}>
       <head>
-        {/* Font Awesome CDN への接続を事前開始（DNS/TLSを前倒し） */}
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossOrigin="anonymous" />
-
         {/* 静的HTMLページと共通のCSS（public/配下）を<head>で読み込み、レンダブロックとCLSを回避 */}
         <link rel="stylesheet" href="/style.css" />
         <link rel="stylesheet" href="/mvv.css" />
         <link rel="stylesheet" href="/subpage.css" />
-
-        {/* Font Awesome（アイコンフォント） */}
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
       </head>
       <body>
         {children}

@@ -1,393 +1,717 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg viewBox="0 0 1600 900" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" role="img"
-    aria-labelledby="ai-viz-title ai-viz-desc" preserveAspectRatio="xMidYMid slice">
-    <title id="ai-viz-title">生成AI活用イメージ</title>
-    <desc id="ai-viz-desc">漆黒の空間に氷青色の精緻なニューラルネットワークが広がり、中央のAIモノグラムが鋭く輝くシックで先進的なビジュアル</desc>
+    aria-labelledby="f-viz-title f-viz-desc" preserveAspectRatio="xMidYMid slice">
+    <title id="f-viz-title">生成AI活用イメージ（融合版：ホライズン×オービタルコア）</title>
+    <desc id="f-viz-desc">オーロラが揺らめく夜空の下、光のパースグリッドが地平線へ延び、多層リングとレーダースイープをまとったAIオービタルコアが浮遊する。鏡面の床にはコア全体が映り込み、波紋が広がる幻想的で未来的なビジュアル</desc>
     <style>
-        /* 動きを減らす設定のユーザー向け：駆け巡る光・波紋を非表示にして静的に保つ
-           （SMILはCSSでは停止できないため、動く要素自体を隠す方式） */
+        /* 動きを減らす設定のユーザー向け：走る光・粒子・波紋・スイープを非表示にして静的に保つ */
         @media (prefers-reduced-motion: reduce) {
             .ai-motion { display: none !important; }
         }
     </style>
     <defs>
-        <!-- 背景：漆黒に近い深紺。中央がわずかに明るい -->
-        <radialGradient id="ai-bg" cx="50%" cy="46%" r="80%">
+        <!-- 背景：漆黒に近い深紺 -->
+        <radialGradient id="f-bg" cx="50%" cy="40%" r="85%">
             <stop offset="0%" stop-color="#0b1326" />
             <stop offset="55%" stop-color="#050a18" />
             <stop offset="100%" stop-color="#02030a" />
         </radialGradient>
-        <!-- 奥行きの光（単色系・ごく控えめ） -->
-        <radialGradient id="ai-depth-glow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#1e40af" stop-opacity="0.35" />
-            <stop offset="60%" stop-color="#1e40af" stop-opacity="0.1" />
-            <stop offset="100%" stop-color="#1e40af" stop-opacity="0" />
-        </radialGradient>
-        <radialGradient id="ai-depth-teal" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#0e7490" stop-opacity="0.28" />
-            <stop offset="60%" stop-color="#0e7490" stop-opacity="0.08" />
+        <!-- 奥行きの光（空・控えめ） -->
+        <radialGradient id="f-depth-teal" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0e7490" stop-opacity="0.2" />
+            <stop offset="60%" stop-color="#0e7490" stop-opacity="0.06" />
             <stop offset="100%" stop-color="#0e7490" stop-opacity="0" />
         </radialGradient>
-        <!-- 精緻なグリッド -->
-        <pattern id="ai-grid" width="100" height="100" patternUnits="userSpaceOnUse">
-            <path d="M 100 0 L 0 0 0 100" fill="none" stroke="#13244d"
-                stroke-opacity="0.5" stroke-width="0.75" />
-        </pattern>
-        <!-- 中央コアの光だまり -->
-        <radialGradient id="ai-core-halo" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.32" />
-            <stop offset="50%" stop-color="#0ea5e9" stop-opacity="0.1" />
+        <radialGradient id="f-depth-blue" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1e40af" stop-opacity="0.24" />
+            <stop offset="60%" stop-color="#1e40af" stop-opacity="0.08" />
+            <stop offset="100%" stop-color="#1e40af" stop-opacity="0" />
+        </radialGradient>
+        <!-- オーロラ（氷青〜シアンの単色系で揺らめく夜光） -->
+        <radialGradient id="f-aurora-cyan" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#22d3ee" stop-opacity="0.2" />
+            <stop offset="60%" stop-color="#22d3ee" stop-opacity="0.07" />
+            <stop offset="100%" stop-color="#22d3ee" stop-opacity="0" />
+        </radialGradient>
+        <radialGradient id="f-aurora-blue" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.18" />
+            <stop offset="60%" stop-color="#0ea5e9" stop-opacity="0.06" />
             <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0" />
         </radialGradient>
-        <!-- ノードのハロー（シェル別に明度を変えて奥行きを出す） -->
-        <radialGradient id="ai-halo-near" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#bae6fd" stop-opacity="0.55" />
-            <stop offset="45%" stop-color="#38bdf8" stop-opacity="0.16" />
+        <radialGradient id="f-aurora-teal" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0e7490" stop-opacity="0.16" />
+            <stop offset="60%" stop-color="#0e7490" stop-opacity="0.05" />
+            <stop offset="100%" stop-color="#0e7490" stop-opacity="0" />
+        </radialGradient>
+        <!-- 地平線の発光（デジタルの夜明け） -->
+        <radialGradient id="f-dawn" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.42" />
+            <stop offset="60%" stop-color="#0ea5e9" stop-opacity="0.13" />
+            <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0" />
+        </radialGradient>
+        <!-- 地平線のライン（中央が明るい） -->
+        <linearGradient id="f-horizon" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#38bdf8" stop-opacity="0" />
+            <stop offset="30%" stop-color="#38bdf8" stop-opacity="0.55" />
+            <stop offset="50%" stop-color="#e8f6ff" stop-opacity="1" />
+            <stop offset="70%" stop-color="#38bdf8" stop-opacity="0.55" />
+            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+        </linearGradient>
+        <!-- 光の柱（下が明るく上へ消える） -->
+        <linearGradient id="f-pillar" x1="0" y1="1" x2="0" y2="0">
+            <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.8" />
+            <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0" />
+        </linearGradient>
+        <!-- 光の柱の床面鏡映（上が明るく下へ消える） -->
+        <linearGradient id="f-pillar-refl" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.24" />
+            <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0" />
+        </linearGradient>
+        <!-- コアから床へ落ちる光のビーム -->
+        <linearGradient id="f-beam" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.6" />
+            <stop offset="100%" stop-color="#7dd3fc" stop-opacity="0.1" />
+        </linearGradient>
+        <!-- 床の着地光 -->
+        <radialGradient id="f-land" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.5" />
             <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
         </radialGradient>
-        <radialGradient id="ai-halo-mid" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#93c5fd" stop-opacity="0.45" />
-            <stop offset="45%" stop-color="#3b82f6" stop-opacity="0.12" />
-            <stop offset="100%" stop-color="#3b82f6" stop-opacity="0" />
+        <!-- コアの光だまり -->
+        <radialGradient id="f-core-halo" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.4" />
+            <stop offset="50%" stop-color="#0ea5e9" stop-opacity="0.12" />
+            <stop offset="100%" stop-color="#0ea5e9" stop-opacity="0" />
         </radialGradient>
-        <radialGradient id="ai-halo-far" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.35" />
-            <stop offset="45%" stop-color="#2563eb" stop-opacity="0.1" />
-            <stop offset="100%" stop-color="#2563eb" stop-opacity="0" />
-        </radialGradient>
-        <!-- 信号パルス粒子（白熱コア＋氷青の尾） -->
-        <radialGradient id="ai-pulse-ice" cx="50%" cy="50%" r="50%">
+        <!-- 軌道を巡る光粒子（白熱コア＋氷青の尾） -->
+        <radialGradient id="f-pulse" cx="50%" cy="50%" r="50%">
             <stop offset="0%" stop-color="#ffffff" />
             <stop offset="35%" stop-color="#bae6fd" stop-opacity="0.9" />
             <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
         </radialGradient>
+        <!-- レーダースイープ：先端側が明るく、後方へ消える -->
+        <linearGradient id="f-sweep" gradientUnits="userSpaceOnUse" x1="1031" y1="174" x2="800" y2="90">
+            <stop offset="0%" stop-color="#7dd3fc" stop-opacity="0.34" />
+            <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.1" />
+            <stop offset="100%" stop-color="#38bdf8" stop-opacity="0" />
+        </linearGradient>
+        <!-- レンズフレア風の水平ストリーク -->
+        <linearGradient id="f-flare" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#bae6fd" stop-opacity="0" />
+            <stop offset="50%" stop-color="#e8f6ff" stop-opacity="0.5" />
+            <stop offset="100%" stop-color="#bae6fd" stop-opacity="0" />
+        </linearGradient>
         <!-- AIモノグラム：メタリックなアイスブルー。光沢が静かに流れる -->
-        <linearGradient id="ai-mono-grad" gradientUnits="userSpaceOnUse"
+        <linearGradient id="f-mono-grad" gradientUnits="userSpaceOnUse"
             x1="608" y1="590" x2="988" y2="310">
             <stop offset="0%" stop-color="#38bdf8" />
             <stop offset="45%" stop-color="#e8f6ff">
-                <animate attributeName="offset" values="0.3;0.6;0.3" dur="12s"
+                <animate attributeName="offset" values="0.3;0.6;0.3" dur="9s"
                     repeatCount="indefinite" calcMode="spline"
                     keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
             </stop>
             <stop offset="100%" stop-color="#7dd3fc" />
         </linearGradient>
-        <!-- ハロー層用の静的グラデーション（ぼかし結果をブラウザがキャッシュできる） -->
-        <linearGradient id="ai-mono-grad-static" gradientUnits="userSpaceOnUse"
+        <linearGradient id="f-mono-grad-static" gradientUnits="userSpaceOnUse"
             x1="608" y1="590" x2="988" y2="310">
             <stop offset="0%" stop-color="#0ea5e9" />
             <stop offset="50%" stop-color="#7dd3fc" />
             <stop offset="100%" stop-color="#38bdf8" />
         </linearGradient>
-        <!-- 周辺減光（強めに落としてシネマティックに） -->
-        <radialGradient id="ai-vignette" cx="50%" cy="46%" r="75%">
+        <!-- 鏡映のフェード（地平線から遠ざかるほど消える） -->
+        <linearGradient id="f-refl-grad" gradientUnits="userSpaceOnUse"
+            x1="0" y1="505" x2="0" y2="800">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.8" />
+            <stop offset="55%" stop-color="#ffffff" stop-opacity="0.3" />
+            <stop offset="100%" stop-color="#ffffff" stop-opacity="0" />
+        </linearGradient>
+        <mask id="f-refl-mask">
+            <rect x="490" y="500" width="620" height="310" fill="url(#f-refl-grad)" />
+            <!-- 反射の途切れ（鏡面の走査線風の暗いスジ） -->
+            <rect x="490" y="566" width="620" height="3" fill="#000000" opacity="0.5" />
+            <rect x="490" y="622" width="620" height="4" fill="#000000" opacity="0.45" />
+            <rect x="490" y="694" width="620" height="5" fill="#000000" opacity="0.4" />
+        </mask>
+        <!-- 周辺減光 -->
+        <radialGradient id="f-vignette" cx="50%" cy="46%" r="75%">
             <stop offset="0%" stop-color="#010208" stop-opacity="0" />
             <stop offset="60%" stop-color="#010208" stop-opacity="0" />
             <stop offset="100%" stop-color="#010208" stop-opacity="0.75" />
         </radialGradient>
         <!-- モノグラムのハロー用ぼかし（小領域・静的色なので軽い） -->
-        <filter id="ai-blur-wide" x="-60%" y="-60%" width="220%" height="220%">
+        <filter id="f-blur" x="-60%" y="-60%" width="220%" height="220%">
             <feGaussianBlur stdDeviation="13" />
         </filter>
-        <!-- フィルムグレイン（暗部のバンディング防止・質感付与） -->
-        <filter id="ai-grain">
+        <!-- フィルムグレイン -->
+        <filter id="f-grain">
             <feTurbulence type="fractalNoise" baseFrequency="0.9"
                 numOctaves="1" stitchTiles="stitch" />
         </filter>
         <!-- AIモノグラム（細線・幾何学パス。フォント環境に依存しない） -->
-        <g id="ai-mono" fill="none"
-            stroke-linecap="square" stroke-linejoin="miter">
+        <g id="f-mono" fill="none" stroke-linecap="square" stroke-linejoin="miter">
             <path d="M 608 590 L 738 310 L 868 590" />
             <path d="M 654 492 L 822 492" />
             <path d="M 958 310 L 958 590" />
             <path d="M 928 310 L 988 310" />
             <path d="M 928 590 L 988 590" />
         </g>
+
+        <!-- ============ オービタルコア一式（本体と床鏡映で共用。中心(800,450)のローカル座標系） ============ -->
+        <g id="f-core">
+            <!-- 極座標の基準円（ヘアライン） -->
+            <g fill="none" stroke="#2e4a73">
+                <circle cx="800" cy="450" r="300" stroke-width="0.9" opacity="0.26" />
+                <circle cx="800" cy="450" r="210" stroke-width="0.9" opacity="0.24" />
+            </g>
+            <!-- ベゼル目盛り -->
+            <circle cx="800" cy="450" r="372" fill="none" stroke="#2e4a73"
+                stroke-width="12" stroke-dasharray="2.2 30.263" opacity="0.55" />
+            <circle cx="800" cy="450" r="372" fill="none" stroke="#38bdf8"
+                stroke-width="20" stroke-dasharray="3.6 191.17" opacity="0.6" />
+            <!-- ベゼルを駆けるコメット -->
+            <circle class="ai-motion" cx="800" cy="450" r="372" fill="none" stroke="#bae6fd"
+                stroke-width="2.8" stroke-linecap="round" stroke-dasharray="70 2267.3"
+                stroke-dashoffset="2337.3" opacity="0.85">
+                <animate attributeName="stroke-dashoffset" values="2337.3;0" dur="8s"
+                    repeatCount="indefinite" />
+            </circle>
+
+            <!-- 二重レーダースイープ -->
+            <g class="ai-motion">
+                <animateTransform attributeName="transform" type="rotate"
+                    from="0 800 450" to="360 800 450" dur="10s" repeatCount="indefinite" />
+                <path d="M 800 450 L 800 90 A 360 360 0 0 1 1031 174 Z" fill="url(#f-sweep)" />
+                <path d="M 800 450 L 1031 174" stroke="#7dd3fc" stroke-width="1.8"
+                    stroke-opacity="0.55" fill="none" />
+                <g transform="rotate(180 800 450)" opacity="0.55">
+                    <path d="M 800 450 L 800 90 A 360 360 0 0 1 1031 174 Z" fill="url(#f-sweep)" />
+                    <path d="M 800 450 L 1031 174" stroke="#7dd3fc" stroke-width="1.6"
+                        stroke-opacity="0.45" fill="none" />
+                </g>
+            </g>
+
+            <!-- コアから広がる波紋 -->
+            <g class="ai-motion" fill="none">
+                <circle cx="800" cy="450" r="120" stroke="#38bdf8" stroke-width="1.6" opacity="0">
+                    <animate attributeName="r" values="120;430" dur="5s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.5;0" dur="5s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="800" cy="450" r="120" stroke="#7dd3fc" stroke-width="1.6" opacity="0">
+                    <animate attributeName="r" values="120;430" dur="5s" begin="2.5s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.5;0" dur="5s" begin="2.5s" repeatCount="indefinite" />
+                </circle>
+            </g>
+
+            <!-- エネルギー放電（コアから外周へ閃く細い光条） -->
+            <g class="ai-motion" stroke="#7dd3fc" stroke-width="1.8" fill="none" stroke-linecap="round">
+                <path d="M 890.6 492.3 L 1117.2 597.9" opacity="0">
+                    <animate attributeName="opacity" values="0;0.75;0;0" keyTimes="0;0.05;0.12;1"
+                        dur="6s" begin="0.8s" repeatCount="indefinite" />
+                </path>
+                <path d="M 765.8 544 L 680.3 778.9" opacity="0">
+                    <animate attributeName="opacity" values="0;0.7;0;0" keyTimes="0;0.05;0.12;1"
+                        dur="7s" begin="2.1s" repeatCount="indefinite" />
+                </path>
+                <path d="M 706 415.8 L 471.1 330.3" opacity="0">
+                    <animate attributeName="opacity" values="0;0.75;0;0" keyTimes="0;0.05;0.12;1"
+                        dur="6.5s" begin="3.4s" repeatCount="indefinite" />
+                </path>
+                <path d="M 834.2 356 L 919.7 121.1" opacity="0">
+                    <animate attributeName="opacity" values="0;0.7;0;0" keyTimes="0;0.05;0.12;1"
+                        dur="7.5s" begin="4.7s" repeatCount="indefinite" />
+                </path>
+                <path d="M 894 415.8 L 1128.9 330.3" opacity="0">
+                    <animate attributeName="opacity" values="0;0.65;0;0" keyTimes="0;0.05;0.12;1"
+                        dur="8s" begin="5.9s" repeatCount="indefinite" />
+                </path>
+            </g>
+
+            <!-- 傾いた軌道と巡回する光粒子 -->
+            <g transform="translate(800 450) rotate(-16)" fill="none">
+                <ellipse rx="430" ry="118" stroke="#3e5377" stroke-width="1" opacity="0.5" />
+                <g class="ai-motion">
+                    <circle r="6.5" fill="url(#f-pulse)">
+                        <animateMotion dur="10s" repeatCount="indefinite"
+                            path="M -430 0 a 430 118 0 1 0 860 0 a 430 118 0 1 0 -860 0" />
+                    </circle>
+                    <circle r="5" fill="url(#f-pulse)">
+                        <animateMotion dur="10s" begin="-5s" repeatCount="indefinite"
+                            path="M -430 0 a 430 118 0 1 0 860 0 a 430 118 0 1 0 -860 0" />
+                    </circle>
+                </g>
+            </g>
+            <g transform="translate(800 450) rotate(13)" fill="none">
+                <ellipse rx="468" ry="150" stroke="#3e5377" stroke-width="0.9" opacity="0.4" />
+                <g class="ai-motion">
+                    <circle r="5.5" fill="url(#f-pulse)">
+                        <animateMotion dur="14s" begin="2s" repeatCount="indefinite"
+                            path="M 468 0 a 468 150 0 1 1 -936 0 a 468 150 0 1 1 936 0" />
+                    </circle>
+                    <circle r="4.5" fill="url(#f-pulse)">
+                        <animateMotion dur="14s" begin="-5s" repeatCount="indefinite"
+                            path="M 468 0 a 468 150 0 1 1 -936 0 a 468 150 0 1 1 936 0" />
+                    </circle>
+                </g>
+            </g>
+            <g transform="translate(800 450) rotate(48)" fill="none">
+                <ellipse rx="395" ry="200" stroke="#3e5377" stroke-width="0.8" opacity="0.32" />
+                <g class="ai-motion">
+                    <circle r="5.5" fill="url(#f-pulse)">
+                        <animateMotion dur="12s" begin="1s" repeatCount="indefinite"
+                            path="M -395 0 a 395 200 0 1 0 790 0 a 395 200 0 1 0 -790 0" />
+                    </circle>
+                </g>
+            </g>
+
+            <!-- 多層回転リング -->
+            <g>
+                <animateTransform attributeName="transform" type="rotate"
+                    from="0 800 450" to="360 800 450" dur="40s" repeatCount="indefinite" />
+                <circle cx="800" cy="450" r="300" fill="none" stroke="#7dd3fc"
+                    stroke-width="2.2" stroke-dasharray="168 42 62 42.16" opacity="0.55" />
+            </g>
+            <g>
+                <animateTransform attributeName="transform" type="rotate"
+                    from="360 800 450" to="0 800 450" dur="30s" repeatCount="indefinite" />
+                <circle cx="800" cy="450" r="255" fill="none" stroke="#7dd3fc"
+                    stroke-width="1.6" stroke-dasharray="5 15.02" opacity="0.6" />
+            </g>
+            <g>
+                <animateTransform attributeName="transform" type="rotate"
+                    from="360 800 450" to="0 800 450" dur="16s" repeatCount="indefinite" />
+                <circle cx="800" cy="450" r="246" fill="none" stroke="#38bdf8"
+                    stroke-width="3.4" stroke-linecap="round" stroke-dasharray="300 215.23" opacity="0.7" />
+            </g>
+            <g>
+                <animateTransform attributeName="transform" type="rotate"
+                    from="0 800 450" to="360 800 450" dur="14s" repeatCount="indefinite" />
+                <circle cx="800" cy="450" r="210" fill="none" stroke="#7dd3fc"
+                    stroke-width="5" stroke-linecap="round" stroke-dasharray="330 329.74" opacity="0.95" />
+            </g>
+            <g>
+                <animateTransform attributeName="transform" type="rotate"
+                    from="360 800 450" to="0 800 450" dur="20s" repeatCount="indefinite" />
+                <circle cx="800" cy="450" r="210" fill="none" stroke="#e8f6ff"
+                    stroke-width="2.4" stroke-linecap="round" stroke-dasharray="40 619.74" opacity="0.85" />
+            </g>
+            <g>
+                <animateTransform attributeName="transform" type="rotate"
+                    from="0 800 450" to="360 800 450" dur="12s" repeatCount="indefinite" />
+                <circle cx="800" cy="450" r="150" fill="none" stroke="#bae6fd"
+                    stroke-width="1.6" stroke-dasharray="3 9.083" opacity="0.75" />
+            </g>
+
+            <!-- 六角フレーム -->
+            <g fill="none">
+                <path d="M 985 450 L 892.5 610.2 L 707.5 610.2 L 615 450 L 707.5 289.8 L 892.5 289.8 Z"
+                    stroke="#38bdf8" stroke-width="1.7" opacity="0.75" />
+                <g>
+                    <animateTransform attributeName="transform" type="rotate"
+                        from="0 800 450" to="360 800 450" dur="90s" repeatCount="indefinite" />
+                    <path d="M 973.2 550 L 800 650 L 626.8 550 L 626.8 350 L 800 250 L 973.2 350 Z"
+                        stroke="#2e4a73" stroke-width="1.1" stroke-dasharray="10 8" opacity="0.4" />
+                </g>
+            </g>
+
+            <!-- 中央コアの光だまり -->
+            <circle cx="800" cy="450" r="240" fill="url(#f-core-halo)" opacity="0.9">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="5s"
+                    repeatCount="indefinite" calcMode="spline"
+                    keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+            </circle>
+
+            <!-- AIモノグラム（拡散ハロー層＋シャープ層の二層構え） -->
+            <g transform="translate(800 450) scale(0.7) translate(-798 -450)">
+                <use href="#f-mono" stroke="url(#f-mono-grad-static)" stroke-width="24"
+                    opacity="0.55" filter="url(#f-blur)" />
+                <use href="#f-mono" stroke="url(#f-mono-grad)" stroke-width="13" />
+                <!-- 線上を走るグリント -->
+                <g class="ai-motion" fill="none" stroke="#ffffff" stroke-width="13"
+                    stroke-linecap="round" opacity="0.85">
+                    <path d="M 608 590 L 738 310 L 868 590"
+                        stroke-dasharray="60 1000" stroke-dashoffset="1060">
+                        <animate attributeName="stroke-dashoffset" values="1060;0"
+                            dur="4.5s" repeatCount="indefinite" />
+                    </path>
+                    <path d="M 958 310 L 958 590"
+                        stroke-dasharray="50 550" stroke-dashoffset="600">
+                        <animate attributeName="stroke-dashoffset" values="600;0"
+                            dur="3.5s" begin="1.8s" repeatCount="indefinite" />
+                    </path>
+                </g>
+            </g>
+        </g>
     </defs>
 
-    <!-- ============ 背景レイヤー ============ -->
-    <rect width="1600" height="900" fill="url(#ai-bg)" />
-    <rect width="1600" height="900" fill="url(#ai-grid)" />
+    <!-- ============ 空 ============ -->
+    <rect width="1600" height="900" fill="url(#f-bg)" />
+    <ellipse cx="320" cy="180" rx="520" ry="280" fill="url(#f-depth-teal)" opacity="0.7" />
+    <ellipse cx="1300" cy="240" rx="540" ry="280" fill="url(#f-depth-blue)" opacity="0.7" />
 
-    <!-- 奥行きの光（単色系で静かに呼吸） -->
-    <ellipse cx="340" cy="200" rx="540" ry="300" fill="url(#ai-depth-teal)" opacity="0.7">
-        <animate attributeName="opacity" values="0.55;0.85;0.55" dur="16s"
+    <!-- オーロラ（ゆっくり漂い、明滅する夜光のバンド） -->
+    <ellipse cx="420" cy="170" rx="520" ry="110" fill="url(#f-aurora-cyan)" opacity="0.7">
+        <animate attributeName="opacity" values="0.5;0.9;0.5" dur="14s"
+            repeatCount="indefinite" calcMode="spline"
+            keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+        <animateTransform attributeName="transform" type="translate"
+            values="0 0;42 8;0 0" dur="26s" repeatCount="indefinite"
+            calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+    </ellipse>
+    <ellipse cx="1150" cy="140" rx="560" ry="100" fill="url(#f-aurora-blue)" opacity="0.65">
+        <animate attributeName="opacity" values="0.85;0.5;0.85" dur="17s" begin="2s"
+            repeatCount="indefinite" calcMode="spline"
+            keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+        <animateTransform attributeName="transform" type="translate"
+            values="0 0;-36 10;0 0" dur="30s" begin="3s" repeatCount="indefinite"
+            calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+    </ellipse>
+    <ellipse cx="800" cy="240" rx="700" ry="130" fill="url(#f-aurora-teal)" opacity="0.6">
+        <animate attributeName="opacity" values="0.45;0.8;0.45" dur="21s" begin="5s"
             repeatCount="indefinite" calcMode="spline"
             keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
     </ellipse>
-    <ellipse cx="1320" cy="700" rx="580" ry="320" fill="url(#ai-depth-glow)" opacity="0.7">
-        <animate attributeName="opacity" values="0.8;0.5;0.8" dur="19s"
-            repeatCount="indefinite" calcMode="spline"
-            keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
-    </ellipse>
 
-    <!-- 計器的なアクセント（十字マーク・静的） -->
-    <g stroke="#3e5377" stroke-width="1" opacity="0.55">
-        <path d="M 422 172 H 438 M 430 164 V 180" />
-        <path d="M 1232 152 H 1248 M 1240 144 V 160" />
-        <path d="M 312 712 H 328 M 320 704 V 720" />
-        <path d="M 1322 732 H 1338 M 1330 724 V 740" />
-    </g>
-
-    <!-- かすかな星（数を絞り、ゆっくり） -->
+    <!-- かすかな星 -->
     <g fill="#cbd5e1">
         <circle cx="180" cy="120" r="1.3" opacity="0.35">
             <animate attributeName="opacity" values="0.15;0.45;0.15" dur="7s" repeatCount="indefinite" />
         </circle>
-        <circle cx="1090" cy="70" r="1.2" opacity="0.3">
+        <circle cx="520" cy="70" r="1.2" opacity="0.3">
             <animate attributeName="opacity" values="0.4;0.12;0.4" dur="8s" begin="2s" repeatCount="indefinite" />
         </circle>
-        <circle cx="1490" cy="250" r="1.4" opacity="0.35">
-            <animate attributeName="opacity" values="0.15;0.4;0.15" dur="9s" begin="1s" repeatCount="indefinite" />
+        <circle cx="700" cy="120" r="1" opacity="0.3">
+            <animate attributeName="opacity" values="0.12;0.4;0.12" dur="6.5s" begin="1.5s" repeatCount="indefinite" />
         </circle>
-        <circle cx="120" cy="560" r="1.2" opacity="0.3">
-            <animate attributeName="opacity" values="0.38;0.12;0.38" dur="8.5s" begin="3s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="880" cy="850" r="1.3" opacity="0.3">
+        <circle cx="1090" cy="100" r="1.3" opacity="0.3">
             <animate attributeName="opacity" values="0.12;0.4;0.12" dur="7.5s" begin="0.5s" repeatCount="indefinite" />
         </circle>
+        <circle cx="1470" cy="200" r="1.4" opacity="0.35">
+            <animate attributeName="opacity" values="0.15;0.4;0.15" dur="9s" begin="1s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="250" cy="330" r="1.1" opacity="0.3">
+            <animate attributeName="opacity" values="0.38;0.12;0.38" dur="8.5s" begin="3s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="930" cy="60" r="1.1" opacity="0.3">
+            <animate attributeName="opacity" values="0.35;0.1;0.35" dur="7s" begin="4.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1340" cy="380" r="1.1" opacity="0.3">
+            <animate attributeName="opacity" values="0.12;0.38;0.12" dur="8s" begin="4s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="80" cy="280" r="1.2" opacity="0.3">
+            <animate attributeName="opacity" values="0.1;0.38;0.1" dur="9.5s" begin="2.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1560" cy="90" r="1.1" opacity="0.3">
+            <animate attributeName="opacity" values="0.36;0.1;0.36" dur="8.2s" begin="1.8s" repeatCount="indefinite" />
+        </circle>
     </g>
-
-    <!-- ============ ニューラルネットワーク：エッジ ============ -->
-    <!-- 外周ほど暗く細く＝被写界深度。色相は変えず明度だけで層を分ける -->
-
-    <!-- 第1シェルのリング配線（モノグラムを囲む八角形） -->
-    <g fill="none">
-        <path d="M 1070 450 L 991 312 L 800 255 L 609 312 L 530 450 L 609 588 L 800 645 L 991 588 Z"
-            stroke="#0ea5e9" stroke-width="5" stroke-opacity="0.1" />
-        <path d="M 1070 450 L 991 312 L 800 255 L 609 312 L 530 450 L 609 588 L 800 645 L 991 588 Z"
-            stroke="#9bdcfd" stroke-width="1.6" stroke-opacity="0.55" />
-    </g>
-
-    <!-- 第1シェル → 第2シェル（19本） -->
-    <g fill="none">
-        <path d="M 1070 450 L 1264 365 M 1070 450 L 1264 535 M 991 312 L 1264 365 M 991 312 L 1139 217 M 991 312 L 924 131 M 800 255 L 924 131 M 800 255 L 676 131 M 609 312 L 461 217 M 609 312 L 676 131 M 609 312 L 336 365 M 530 450 L 336 365 M 530 450 L 336 535 M 609 588 L 461 683 M 609 588 L 336 535 M 609 588 L 676 769 M 800 645 L 676 769 M 800 645 L 924 769 M 991 588 L 1139 683 M 991 588 L 1264 535"
-            stroke="#0ea5e9" stroke-width="5" stroke-opacity="0.07" />
-        <path d="M 1070 450 L 1264 365 M 1070 450 L 1264 535 M 991 312 L 1264 365 M 991 312 L 1139 217 M 991 312 L 924 131 M 800 255 L 924 131 M 800 255 L 676 131 M 609 312 L 461 217 M 609 312 L 676 131 M 609 312 L 336 365 M 530 450 L 336 365 M 530 450 L 336 535 M 609 588 L 461 683 M 609 588 L 336 535 M 609 588 L 676 769 M 800 645 L 676 769 M 800 645 L 924 769 M 991 588 L 1139 683 M 991 588 L 1264 535"
-            stroke="#7dd3fc" stroke-width="1.3" stroke-opacity="0.38" />
-    </g>
-
-    <!-- 第2シェル → 第3シェル（16本） -->
-    <g fill="none">
-        <path d="M 1264 365 L 1489 370 M 1264 535 L 1489 370 M 1139 217 L 1250 98 M 924 131 L 1250 98 M 676 131 L 350 98 M 461 217 L 350 98 M 336 365 L 111 370 M 336 535 L 111 370 M 336 535 L 111 530 M 461 683 L 111 530 M 461 683 L 350 802 M 676 769 L 350 802 M 924 769 L 1250 802 M 1139 683 L 1250 802 M 1264 535 L 1489 530 M 1264 365 L 1489 530"
-            stroke="#1d4ed8" stroke-width="5" stroke-opacity="0.07" />
-        <path d="M 1264 365 L 1489 370 M 1264 535 L 1489 370 M 1139 217 L 1250 98 M 924 131 L 1250 98 M 676 131 L 350 98 M 461 217 L 350 98 M 336 365 L 111 370 M 336 535 L 111 370 M 336 535 L 111 530 M 461 683 L 111 530 M 461 683 L 350 802 M 676 769 L 350 802 M 924 769 L 1250 802 M 1139 683 L 1250 802 M 1264 535 L 1489 530 M 1264 365 L 1489 530"
-            stroke="#60a5fa" stroke-width="1.1" stroke-opacity="0.28" />
-    </g>
-
-    <!-- 発火エッジ：白い光がたまに走る（頻度を抑えて品よく） -->
-    <g class="ai-motion" fill="none" stroke-linecap="round" stroke-width="2">
-        <path d="M 991 312 L 1070 450" stroke="#e8f6ff" stroke-opacity="0.75"
-            stroke-dasharray="55 600" stroke-dashoffset="655">
-            <animate attributeName="stroke-dashoffset" values="655;0" dur="4.5s"
-                repeatCount="indefinite" />
+    <!-- 十字に瞬くスパークル星 -->
+    <g stroke="#bae6fd" stroke-width="1.2" fill="none" stroke-linecap="round">
+        <path d="M 380 102 V 118 M 372 110 H 388" opacity="0.4">
+            <animate attributeName="opacity" values="0.15;0.7;0.15" dur="5s" repeatCount="indefinite" />
         </path>
-        <path d="M 609 312 L 336 365" stroke="#bae6fd" stroke-opacity="0.7"
-            stroke-dasharray="65 700" stroke-dashoffset="765">
-            <animate attributeName="stroke-dashoffset" values="765;0" dur="5.5s"
-                begin="1.6s" repeatCount="indefinite" />
+        <path d="M 1240 83 V 97 M 1233 90 H 1247" opacity="0.4">
+            <animate attributeName="opacity" values="0.6;0.15;0.6" dur="6s" begin="1.5s" repeatCount="indefinite" />
         </path>
-        <path d="M 924 131 L 1250 98" stroke="#e8f6ff" stroke-opacity="0.65"
-            stroke-dasharray="70 760" stroke-dashoffset="830">
-            <animate attributeName="stroke-dashoffset" values="830;0" dur="6s"
-                begin="3.2s" repeatCount="indefinite" />
-        </path>
-        <path d="M 336 535 L 111 530" stroke="#bae6fd" stroke-opacity="0.65"
-            stroke-dasharray="55 620" stroke-dashoffset="675">
-            <animate attributeName="stroke-dashoffset" values="675;0" dur="5s"
-                begin="4.4s" repeatCount="indefinite" />
-        </path>
-        <path d="M 991 588 L 1139 683" stroke="#e8f6ff" stroke-opacity="0.7"
-            stroke-dasharray="50 560" stroke-dashoffset="610">
-            <animate attributeName="stroke-dashoffset" values="610;0" dur="5.2s"
-                begin="2.4s" repeatCount="indefinite" />
+        <path d="M 1180 285 V 295 M 1175 290 H 1185" opacity="0.3">
+            <animate attributeName="opacity" values="0.1;0.55;0.1" dur="7s" begin="3s" repeatCount="indefinite" />
         </path>
     </g>
 
-    <!-- ============ ニューラルネットワーク：ノード ============ -->
-    <!-- 第1シェル（最も明るい・脈動はごく浅く） -->
-    <g>
-        <g fill="url(#ai-halo-near)">
-            <circle cx="1070" cy="450" r="16" /><circle cx="991" cy="312" r="16" />
-            <circle cx="800" cy="255" r="16" /><circle cx="609" cy="312" r="16" />
-            <circle cx="530" cy="450" r="16" /><circle cx="609" cy="588" r="16" />
-            <circle cx="800" cy="645" r="16" /><circle cx="991" cy="588" r="16" />
-        </g>
-        <g fill="#dbf2ff">
-            <circle cx="1070" cy="450" r="4.5">
-                <animate attributeName="r" values="4;5.5;4" dur="3.6s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="991" cy="312" r="4.5">
-                <animate attributeName="r" values="5.5;4;5.5" dur="4s" begin="0.5s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="800" cy="255" r="4.5">
-                <animate attributeName="r" values="4;5.5;4" dur="3.8s" begin="1s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="609" cy="312" r="4.5">
-                <animate attributeName="r" values="5.5;4;5.5" dur="4.2s" begin="1.5s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="530" cy="450" r="4.5">
-                <animate attributeName="r" values="4;5.5;4" dur="3.7s" begin="2s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="609" cy="588" r="4.5">
-                <animate attributeName="r" values="5.5;4;5.5" dur="4.1s" begin="2.5s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="800" cy="645" r="4.5">
-                <animate attributeName="r" values="4;5.5;4" dur="3.9s" begin="3s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="991" cy="588" r="4.5">
-                <animate attributeName="r" values="5.5;4;5.5" dur="3.6s" begin="3.5s" repeatCount="indefinite" />
-            </circle>
-        </g>
+    <!-- 流星（たまに走る細い光跡） -->
+    <g class="ai-motion" stroke="#bae6fd" stroke-width="1.5" stroke-linecap="round">
+        <path d="M 0 0 L 70 0" opacity="0">
+            <animateMotion dur="10s" repeatCount="indefinite" rotate="auto"
+                path="M 220 80 L 540 230" />
+            <animate attributeName="opacity" values="0;0;0.8;0;0" keyTimes="0;0.5;0.57;0.67;1"
+                dur="10s" repeatCount="indefinite" />
+        </path>
+        <path d="M 0 0 L 60 0" opacity="0">
+            <animateMotion dur="12s" begin="5s" repeatCount="indefinite" rotate="auto"
+                path="M 1500 140 L 1180 60" />
+            <animate attributeName="opacity" values="0;0;0.7;0;0" keyTimes="0;0.42;0.49;0.59;1"
+                dur="12s" begin="5s" repeatCount="indefinite" />
+        </path>
     </g>
 
-    <!-- 第2シェル（中明度。一部はリング型ノードで精密機械感を出す） -->
-    <g>
-        <g fill="url(#ai-halo-mid)">
-            <circle cx="1264" cy="365" r="13" /><circle cx="1139" cy="217" r="13" />
-            <circle cx="924" cy="131" r="13" /><circle cx="676" cy="131" r="13" />
-            <circle cx="461" cy="217" r="13" /><circle cx="336" cy="365" r="13" />
-            <circle cx="336" cy="535" r="13" /><circle cx="461" cy="683" r="13" />
-            <circle cx="676" cy="769" r="13" /><circle cx="924" cy="769" r="13" />
-            <circle cx="1139" cy="683" r="13" /><circle cx="1264" cy="535" r="13" />
-        </g>
-        <!-- リング型（中空）ノード -->
-        <g fill="none" stroke="#93c5fd" stroke-width="1.5">
-            <circle cx="1264" cy="365" r="5.5" />
-            <circle cx="676" cy="131" r="5.5" />
-            <circle cx="336" cy="535" r="5.5" />
-            <circle cx="924" cy="769" r="5.5" />
-        </g>
-        <!-- 塗りノード -->
-        <g fill="#a8cffc">
-            <circle cx="1139" cy="217" r="3.8">
-                <animate attributeName="r" values="3.4;4.6;3.4" dur="4.4s" begin="0.4s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="924" cy="131" r="3.8">
-                <animate attributeName="r" values="4.6;3.4;4.6" dur="4s" begin="0.9s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="461" cy="217" r="3.8">
-                <animate attributeName="r" values="3.4;4.6;3.4" dur="4.2s" begin="1.4s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="336" cy="365" r="3.8">
-                <animate attributeName="r" values="4.6;3.4;4.6" dur="3.9s" begin="1.9s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="461" cy="683" r="3.8">
-                <animate attributeName="r" values="3.4;4.6;3.4" dur="4.3s" begin="2.4s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="676" cy="769" r="3.8">
-                <animate attributeName="r" values="4.6;3.4;4.6" dur="4.1s" begin="2.9s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="1139" cy="683" r="3.8">
-                <animate attributeName="r" values="3.4;4.6;3.4" dur="3.8s" begin="3.4s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="1264" cy="535" r="3.8">
-                <animate attributeName="r" values="4.6;3.4;4.6" dur="4.5s" begin="3.9s" repeatCount="indefinite" />
-            </circle>
-        </g>
-    </g>
-
-    <!-- 第3シェル（最も暗い＝遠景） -->
-    <g>
-        <g fill="url(#ai-halo-far)">
-            <circle cx="1489" cy="370" r="11" /><circle cx="1250" cy="98" r="11" />
-            <circle cx="350" cy="98" r="11" /><circle cx="111" cy="370" r="11" />
-            <circle cx="111" cy="530" r="11" /><circle cx="350" cy="802" r="11" />
-            <circle cx="1250" cy="802" r="11" /><circle cx="1489" cy="530" r="11" />
-        </g>
-        <g fill="#6da8e8" opacity="0.85">
-            <circle cx="1489" cy="370" r="3.2" />
-            <circle cx="1250" cy="98" r="3.2" />
-            <circle cx="350" cy="98" r="3.2" />
-            <circle cx="111" cy="370" r="3.2" />
-            <circle cx="111" cy="530" r="3.2" />
-            <circle cx="350" cy="802" r="3.2" />
-            <circle cx="1250" cy="802" r="3.2" />
-            <circle cx="1489" cy="530" r="3.2" />
-        </g>
-    </g>
-
-    <!-- ============ 信号パルス：ゆっくり駆け巡る氷青の光 ============ -->
-    <g class="ai-motion">
-        <circle r="5" fill="url(#ai-pulse-ice)">
-            <animateMotion dur="6s" repeatCount="indefinite"
-                path="M 800 450 L 991 312 L 1139 217 L 1250 98" />
+    <!-- 空を漂う微粒子 -->
+    <g class="ai-motion" fill="#7dd3fc">
+        <circle cx="350" cy="260" r="1.8" opacity="0.35">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;20 -12;0 0" dur="20s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.2;0.5;0.2" dur="10s" repeatCount="indefinite" />
         </circle>
-        <circle r="4.5" fill="url(#ai-pulse-ice)">
-            <animateMotion dur="7s" begin="2.2s" repeatCount="indefinite"
-                path="M 800 450 L 609 312 L 461 217 L 350 98" />
+        <circle cx="490" cy="180" r="1.5" opacity="0.3">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;-16 -10;0 0" dur="24s" begin="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.45;0.15;0.45" dur="12s" begin="2s" repeatCount="indefinite" />
         </circle>
-        <circle r="5" fill="url(#ai-pulse-ice)">
-            <animateMotion dur="6.5s" begin="1.2s" repeatCount="indefinite"
-                path="M 800 450 L 1070 450 L 1264 365 L 1489 370" />
+        <circle cx="1120" cy="160" r="2" opacity="0.35">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;18 -14;0 0" dur="22s" begin="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.2;0.5;0.2" dur="11s" begin="4s" repeatCount="indefinite" />
         </circle>
-        <circle r="4.5" fill="url(#ai-pulse-ice)">
-            <animateMotion dur="7.5s" begin="4s" repeatCount="indefinite"
-                path="M 800 450 L 609 588 L 336 535 L 111 530" />
+        <circle cx="1280" cy="300" r="1.6" opacity="0.3">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;-14 -8;0 0" dur="26s" begin="6s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.4;0.15;0.4" dur="13s" begin="6s" repeatCount="indefinite" />
         </circle>
-        <circle r="4.5" fill="url(#ai-pulse-ice)">
-            <animateMotion dur="7s" begin="3s" repeatCount="indefinite"
-                path="M 1489 530 L 1264 535 L 991 588 L 800 450" />
+        <circle cx="150" cy="210" r="1.5" opacity="0.3">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;14 -10;0 0" dur="18s" begin="1s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.15;0.45;0.15" dur="9s" begin="1s" repeatCount="indefinite" />
         </circle>
     </g>
 
-    <!-- ============ 中央コア ============ -->
-    <!-- コアの光だまり（深い呼吸） -->
-    <circle cx="800" cy="450" r="230" fill="url(#ai-core-halo)" opacity="0.85">
-        <animate attributeName="opacity" values="0.65;1;0.65" dur="8s"
+    <!-- 計器的な十字マーク -->
+    <g stroke="#3e5377" stroke-width="1" opacity="0.55">
+        <path d="M 152 412 H 168 M 160 404 V 420" />
+        <path d="M 1432 332 H 1448 M 1440 324 V 340" />
+    </g>
+
+    <!-- ============ 地平線の発光 ============ -->
+    <ellipse cx="800" cy="500" rx="620" ry="150" fill="url(#f-dawn)" opacity="0.9">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="8s"
             repeatCount="indefinite" calcMode="spline"
             keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
-    </circle>
+    </ellipse>
 
-    <!-- 波紋：静かに広がる -->
+    <!-- ============ パースグリッドの床 ============ -->
+    <g stroke="#1d3f73" stroke-width="1" opacity="0.5" fill="none">
+        <path d="M 800 500 L 800 900" />
+        <path d="M 800 500 L 910 900 M 800 500 L 690 900" />
+        <path d="M 800 500 L 1040 900 M 800 500 L 560 900" />
+        <path d="M 800 500 L 1195 900 M 800 500 L 405 900" />
+        <path d="M 800 500 L 1385 900 M 800 500 L 215 900" />
+        <path d="M 800 500 L 1620 900 M 800 500 L -20 900" />
+        <path d="M 800 500 L 1910 900 M 800 500 L -310 900" />
+        <path d="M 800 500 L 2260 900 M 800 500 L -660 900" />
+    </g>
+    <g stroke="#38bdf8" stroke-width="1.2" opacity="0.3" fill="none">
+        <path d="M 800 500 L 800 900" />
+        <path d="M 800 500 L 910 900 M 800 500 L 690 900" />
+    </g>
+    <g stroke="#1d3f73" fill="none" opacity="0.5">
+        <path d="M 0 506 H 1600" stroke-width="1" />
+        <path d="M 0 514 H 1600" stroke-width="1" />
+        <path d="M 0 525 H 1600" stroke-width="1" />
+        <path d="M 0 539 H 1600" stroke-width="1" />
+        <path d="M 0 557 H 1600" stroke-width="1" />
+        <path d="M 0 580 H 1600" stroke-width="1.1" />
+        <path d="M 0 610 H 1600" stroke-width="1.3" />
+        <path d="M 0 649 H 1600" stroke-width="1.3" />
+        <path d="M 0 700 H 1600" stroke-width="1.4" />
+        <path d="M 0 766 H 1600" stroke-width="1.7" />
+        <path d="M 0 851 H 1600" stroke-width="1.7" />
+    </g>
+    <g stroke="#38bdf8" fill="none" opacity="0.3">
+        <path d="M 0 506 H 1600" stroke-width="1" />
+        <path d="M 0 514 H 1600" stroke-width="1" />
+        <path d="M 0 525 H 1600" stroke-width="1" />
+    </g>
+
+    <!-- 地平線（グロー下地＋シャープライン） -->
+    <rect x="0" y="497" width="1600" height="6" fill="url(#f-horizon)" opacity="0.25" />
+    <rect x="0" y="499" width="1600" height="2" fill="url(#f-horizon)" />
+
+    <!-- ============ 光の柱（遠景のデータシティ）＋床面鏡映 ============ -->
+    <g opacity="0.75">
+        <rect x="248" y="330" width="5" height="170" fill="url(#f-pillar)">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="5.5s" begin="0.4s" repeatCount="indefinite" />
+        </rect>
+        <rect x="294" y="436" width="4" height="64" fill="url(#f-pillar)" />
+        <rect x="370" y="382" width="4" height="118" fill="url(#f-pillar)">
+            <animate attributeName="opacity" values="0.55;0.95;0.55" dur="5s" repeatCount="indefinite" />
+        </rect>
+        <rect x="450" y="448" width="3" height="52" fill="url(#f-pillar)" />
+        <rect x="534" y="404" width="4" height="96" fill="url(#f-pillar)" />
+        <rect x="616" y="362" width="4" height="138" fill="url(#f-pillar)">
+            <animate attributeName="opacity" values="0.9;0.5;0.9" dur="6s" begin="1.4s" repeatCount="indefinite" />
+        </rect>
+        <rect x="686" y="430" width="3" height="70" fill="url(#f-pillar)" />
+        <rect x="910" y="376" width="4" height="124" fill="url(#f-pillar)">
+            <animate attributeName="opacity" values="0.6;1;0.6" dur="5.5s" begin="0.8s" repeatCount="indefinite" />
+        </rect>
+        <rect x="958" y="398" width="3" height="102" fill="url(#f-pillar)" />
+        <rect x="984" y="434" width="3" height="66" fill="url(#f-pillar)" />
+        <rect x="1062" y="392" width="4" height="108" fill="url(#f-pillar)" />
+        <rect x="1146" y="444" width="3" height="56" fill="url(#f-pillar)" />
+        <rect x="1230" y="402" width="4" height="98" fill="url(#f-pillar)">
+            <animate attributeName="opacity" values="0.95;0.55;0.95" dur="6.5s" begin="2.2s" repeatCount="indefinite" />
+        </rect>
+        <rect x="1318" y="428" width="4" height="72" fill="url(#f-pillar)" />
+        <rect x="1388" y="350" width="5" height="150" fill="url(#f-pillar)">
+            <animate attributeName="opacity" values="0.55;0.95;0.55" dur="6s" begin="3s" repeatCount="indefinite" />
+        </rect>
+    </g>
+    <g opacity="0.55">
+        <rect x="248" y="500" width="5" height="77" fill="url(#f-pillar-refl)" />
+        <rect x="294" y="500" width="4" height="29" fill="url(#f-pillar-refl)" />
+        <rect x="370" y="500" width="4" height="53" fill="url(#f-pillar-refl)" />
+        <rect x="534" y="500" width="4" height="43" fill="url(#f-pillar-refl)" />
+        <rect x="616" y="500" width="4" height="62" fill="url(#f-pillar-refl)" />
+        <rect x="910" y="500" width="4" height="56" fill="url(#f-pillar-refl)" />
+        <rect x="958" y="500" width="3" height="46" fill="url(#f-pillar-refl)" />
+        <rect x="1062" y="500" width="4" height="49" fill="url(#f-pillar-refl)" />
+        <rect x="1230" y="500" width="4" height="44" fill="url(#f-pillar-refl)" />
+        <rect x="1388" y="500" width="5" height="68" fill="url(#f-pillar-refl)" />
+    </g>
+
+    <!-- ============ 床を走るスキャンバンド（3本） ============ -->
+    <g class="ai-motion">
+        <g>
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 370" dur="4.5s" repeatCount="indefinite"
+                calcMode="spline" keySplines="0.3 0 0.7 1" />
+            <path d="M 40 510 H 1560" stroke="#7dd3fc" stroke-width="1.5" fill="none" opacity="0">
+                <animate attributeName="opacity" values="0;0.45;0" keyTimes="0;0.2;1"
+                    dur="4.5s" repeatCount="indefinite" />
+            </path>
+        </g>
+        <g>
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 370" dur="4.5s" begin="1.5s" repeatCount="indefinite"
+                calcMode="spline" keySplines="0.3 0 0.7 1" />
+            <path d="M 40 510 H 1560" stroke="#bae6fd" stroke-width="1.2" fill="none" opacity="0">
+                <animate attributeName="opacity" values="0;0.35;0" keyTimes="0;0.2;1"
+                    dur="4.5s" begin="1.5s" repeatCount="indefinite" />
+            </path>
+        </g>
+        <g>
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 370" dur="4.5s" begin="3s" repeatCount="indefinite"
+                calcMode="spline" keySplines="0.3 0 0.7 1" />
+            <path d="M 40 510 H 1560" stroke="#38bdf8" stroke-width="1.2" fill="none" opacity="0">
+                <animate attributeName="opacity" values="0;0.3;0" keyTimes="0;0.2;1"
+                    dur="4.5s" begin="3s" repeatCount="indefinite" />
+            </path>
+        </g>
+    </g>
+
+    <!-- ============ 上昇するデータ粒子 ============ -->
+    <g class="ai-motion" fill="#bae6fd">
+        <circle cx="560" cy="496" r="2.2" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -210" dur="8s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.7;0" keyTimes="0;0.25;1"
+                dur="8s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="660" cy="496" r="1.8" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -160" dur="7s" begin="2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.6;0" keyTimes="0;0.25;1"
+                dur="7s" begin="2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="905" cy="496" r="2.2" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -240" dur="9s" begin="1s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.7;0" keyTimes="0;0.25;1"
+                dur="9s" begin="1s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1030" cy="496" r="1.8" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -180" dur="7.5s" begin="3.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.6;0" keyTimes="0;0.25;1"
+                dur="7.5s" begin="3.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="760" cy="496" r="1.6" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -150" dur="10s" begin="5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.5;0" keyTimes="0;0.25;1"
+                dur="10s" begin="5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1180" cy="496" r="2" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -200" dur="8.5s" begin="2.5s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.6;0" keyTimes="0;0.25;1"
+                dur="8.5s" begin="2.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="480" cy="496" r="2.4" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -230" dur="8.5s" begin="1.8s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.65;0" keyTimes="0;0.25;1"
+                dur="8.5s" begin="1.8s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="1260" cy="496" r="1.8" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -170" dur="7.2s" begin="4.2s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.55;0" keyTimes="0;0.25;1"
+                dur="7.2s" begin="4.2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="870" cy="496" r="2.6" opacity="0">
+            <animateTransform attributeName="transform" type="translate"
+                values="0 0;0 -260" dur="9.5s" begin="0.4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0;0.7;0" keyTimes="0;0.25;1"
+                dur="9.5s" begin="0.4s" repeatCount="indefinite" />
+        </circle>
+    </g>
+
+    <!-- ============ 床の鏡映（オービタルコア全体が鏡面の床に映り込む） ============ -->
+    <g mask="url(#f-refl-mask)" opacity="0.4">
+        <animateTransform attributeName="transform" type="translate"
+            values="0 0;0 8;0 0" dur="9s" repeatCount="indefinite"
+            calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+        <g transform="translate(800 702) scale(0.55 -0.55) translate(-800 -450)">
+            <use href="#f-core" />
+        </g>
+    </g>
+
+    <!-- 床の着地光 -->
+    <ellipse cx="800" cy="505" rx="190" ry="24" fill="url(#f-land)" opacity="0.85">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="7s"
+            repeatCount="indefinite" calcMode="spline"
+            keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+    </ellipse>
+
+    <!-- 着地点から広がる波紋（パース付きの楕円リング） -->
     <g class="ai-motion" fill="none">
-        <circle cx="800" cy="450" r="120" stroke="#38bdf8" stroke-width="1.2" opacity="0">
-            <animate attributeName="r" values="120;420" dur="6s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.4;0" dur="6s" repeatCount="indefinite" />
-        </circle>
-        <circle cx="800" cy="450" r="120" stroke="#7dd3fc" stroke-width="1.2" opacity="0">
-            <animate attributeName="r" values="120;420" dur="6s" begin="3s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.4;0" dur="6s" begin="3s" repeatCount="indefinite" />
-        </circle>
+        <ellipse cx="800" cy="502" rx="30" ry="4" stroke="#7dd3fc" stroke-width="1.2" opacity="0">
+            <animate attributeName="rx" values="30;320" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="ry" values="4;36" dur="4s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.5;0" dur="4s" repeatCount="indefinite" />
+        </ellipse>
+        <ellipse cx="800" cy="502" rx="30" ry="4" stroke="#38bdf8" stroke-width="1.2" opacity="0">
+            <animate attributeName="rx" values="30;320" dur="4s" begin="1.3s" repeatCount="indefinite" />
+            <animate attributeName="ry" values="4;36" dur="4s" begin="1.3s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.5;0" dur="4s" begin="1.3s" repeatCount="indefinite" />
+        </ellipse>
+        <ellipse cx="800" cy="502" rx="30" ry="4" stroke="#bae6fd" stroke-width="1" opacity="0">
+            <animate attributeName="rx" values="30;320" dur="4s" begin="2.6s" repeatCount="indefinite" />
+            <animate attributeName="ry" values="4;36" dur="4s" begin="2.6s" repeatCount="indefinite" />
+            <animate attributeName="opacity" values="0.45;0" dur="4s" begin="2.6s" repeatCount="indefinite" />
+        </ellipse>
     </g>
 
-    <!-- リング：極細の点線がゆっくり回る＋静的なヘアライン円 -->
-    <circle cx="800" cy="450" r="205" fill="none" stroke="#2e4a73" stroke-width="0.8" opacity="0.3" />
-    <g>
-        <animateTransform attributeName="transform" type="rotate"
-            from="0 800 450" to="360 800 450" dur="40s" repeatCount="indefinite" />
-        <circle cx="800" cy="450" r="178" fill="none" stroke="#38bdf8"
-            stroke-width="1.2" stroke-dasharray="2 11" opacity="0.6" />
-    </g>
-    <g>
-        <animateTransform attributeName="transform" type="rotate"
-            from="360 800 450" to="0 800 450" dur="55s" repeatCount="indefinite" />
-        <ellipse cx="800" cy="450" rx="262" ry="98" fill="none"
-            stroke="#3e5377" stroke-width="0.9" opacity="0.4" />
-    </g>
+    <!-- コアから床へ落ちる光のビーム -->
+    <rect x="796" y="390" width="8" height="110" fill="url(#f-beam)" opacity="0.65">
+        <animate attributeName="opacity" values="0.45;0.85;0.45" dur="4.5s"
+            repeatCount="indefinite" calcMode="spline"
+            keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+    </rect>
 
-    <!-- AIモノグラム（拡散ハロー層＋シャープ層の二層構え） -->
-    <g transform="translate(800 450) scale(0.72) translate(-798 -450)">
-        <use href="#ai-mono" stroke="url(#ai-mono-grad-static)" stroke-width="15"
-            opacity="0.5" filter="url(#ai-blur-wide)" />
-        <use href="#ai-mono" stroke="url(#ai-mono-grad)" stroke-width="8" />
-        <!-- 線上を静かに走るグリント -->
-        <g class="ai-motion" fill="none" stroke="#ffffff" stroke-width="8"
-            stroke-linecap="round" opacity="0.8">
-            <path d="M 608 590 L 738 310 L 868 590"
-                stroke-dasharray="60 1000" stroke-dashoffset="1060">
-                <animate attributeName="stroke-dashoffset" values="1060;0"
-                    dur="7s" repeatCount="indefinite" />
-            </path>
-            <path d="M 958 310 L 958 590"
-                stroke-dasharray="50 550" stroke-dashoffset="600">
-                <animate attributeName="stroke-dashoffset" values="600;0"
-                    dur="5s" begin="2.5s" repeatCount="indefinite" />
-            </path>
+    <!-- ============ 浮遊するオービタルコア（本体） ============ -->
+    <g>
+        <animateTransform attributeName="transform" type="translate"
+            values="0 0;0 -8;0 0" dur="9s" repeatCount="indefinite"
+            calcMode="spline" keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+        <!-- 外側の環境光だまり -->
+        <circle cx="800" cy="298" r="260" fill="url(#f-core-halo)" opacity="0.7">
+            <animate attributeName="opacity" values="0.5;0.85;0.5" dur="6s"
+                repeatCount="indefinite" calcMode="spline"
+                keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+        </circle>
+        <!-- レンズフレア風の水平ストリーク -->
+        <rect x="450" y="297.3" width="700" height="1.4" fill="url(#f-flare)" opacity="0.4">
+            <animate attributeName="opacity" values="0.25;0.55;0.25" dur="7s"
+                repeatCount="indefinite" calcMode="spline"
+                keySplines="0.4 0 0.6 1;0.4 0 0.6 1" />
+        </rect>
+        <!-- コア一式（中心(800,450)系を(800,298)へ55%縮小で配置） -->
+        <g transform="translate(800 298) scale(0.55) translate(-800 -450)">
+            <use href="#f-core" />
         </g>
     </g>
 
     <!-- ============ 仕上げレイヤー ============ -->
-    <rect width="1600" height="900" fill="url(#ai-vignette)" />
-    <rect width="1600" height="900" filter="url(#ai-grain)" opacity="0.04" />
+    <rect width="1600" height="900" fill="url(#f-vignette)" />
+    <rect width="1600" height="900" filter="url(#f-grain)" opacity="0.04" />
 </svg>

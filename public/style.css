@@ -1206,7 +1206,7 @@ button {
     right: 0;
     height: 70px;
     background: #ffffff;
-    clip-path: polygon(0 0, 100% 0, 0 100%);
+    display: none; /* 斜めウェッジを無効化（まっすぐに） */
     pointer-events: none;
 }
 
@@ -1219,7 +1219,7 @@ button {
     right: 0;
     height: 70px;
     background: #ffffff;
-    clip-path: polygon(0 0, 100% 100%, 0 100%);
+    display: none; /* 斜めウェッジを無効化（まっすぐに） */
     pointer-events: none;
 }
 
@@ -1596,7 +1596,7 @@ button {
     right: 0;
     overflow: hidden;
     pointer-events: none;
-    transform: rotate(-2deg);
+    transform: none; /* マーキー帯の傾きを解除（まっすぐに） */
 }
 
 .home .svc-marquee-track {
