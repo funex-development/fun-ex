@@ -35,3 +35,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code / superpowers 作業成果物（brainstorm・作業ログ等）
+.superpowers/
+docs/log/
